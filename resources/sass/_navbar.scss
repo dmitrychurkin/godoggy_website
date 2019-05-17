@@ -106,6 +106,9 @@ $nav-link-height: 59px;
       width: 90%;
       transition: 0.2s all;
     }
+    @media (min-width: 1024px) {
+      display: none;
+    }
   }
   .nav-main {
     transition: 0.3s ease-out;

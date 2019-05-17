@@ -30,9 +30,11 @@
 // const app = new Vue({
 //     el: '#app',
 // });
+import Navbar from './components/navbar';
 
 window.addEventListener('DOMContentLoaded', () => {
-    document.addEventListener('click', ev => {
+    // new Navbar;
+    /*document.addEventListener('click', ev => {
         const { target } = ev;
         if (target.closest('.js-menu')) {
             const navbar = document.querySelector('.js-navbar');
@@ -57,5 +59,26 @@ window.addEventListener('DOMContentLoaded', () => {
                 li.style.height = `${LINK_HEIGHT}px`;
             }
         }
+    });
+    const mql = window.matchMedia('(min-width: 1024px)');
+    mql.addListener(({ matches }) => {
+        const searchForm = document.querySelector('.js-search-form');
+        const upperGroup = document.querySelector('.js-group');
+        const nav = document.querySelector('.js-nav-main');
+        if (matches) {
+            upperGroup.insertBefore(searchForm, upperGroup.firstChild);
+        }else {
+            nav.insertBefore(searchForm, nav.firstChild);
+        }
+
+    });*/
+    new Navbar({
+      menu: '.js-menu',
+      toggle: '.js-toggle',
+      navbar: '.js-navbar',
+      navMain: '.js-nav-main',
+      searchForm: '.js-search-form',
+      group: '.js-group',
+      sub: '.js-sub'
     });
 });

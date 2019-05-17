@@ -86,78 +86,6 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "./resources/js/app.js":
-/*!*****************************!*\
-  !*** ./resources/js/app.js ***!
-  \*****************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
-// require('./bootstrap');
-// window.Vue = require('vue');
-
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
-// const files = require.context('./', true, /\.vue$/i);
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
-// Vue.component('example-component', require('./components/ExampleComponent.vue').default);
-
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
-// const app = new Vue({
-//     el: '#app',
-// });
-window.addEventListener('DOMContentLoaded', function () {
-  document.addEventListener('click', function (ev) {
-    var target = ev.target;
-
-    if (target.closest('.js-menu')) {
-      var navbar = document.querySelector('.js-navbar');
-      var mainNav = navbar.querySelector('.js-nav-main');
-      navbar.classList.toggle('active');
-
-      if (navbar.classList.contains('active')) {
-        mainNav.style.height = "".concat(mainNav.scrollHeight, "px");
-        setTimeout(function () {
-          return mainNav.style.height = 'auto';
-        }, 300);
-      } else {
-        mainNav.style.height = "".concat(mainNav.scrollHeight, "px");
-        setTimeout(function () {
-          return mainNav.style.height = "".concat(0, "px");
-        }, 50);
-      }
-    } else if (target.closest('.js-toggle')) {
-      ev.preventDefault();
-      var li = target.closest('li');
-      var classList = li.classList;
-      var LINK_HEIGHT = 59;
-      classList.toggle('active');
-
-      if (classList.contains('active')) {
-        li.style.height = "".concat(li.offsetHeight + li.querySelector('.js-sub').offsetHeight, "px");
-      } else {
-        li.style.height = "".concat(LINK_HEIGHT, "px");
-      }
-    }
-  });
-});
-
-/***/ }),
-
 /***/ "./resources/sass/app.scss":
 /*!*********************************!*\
   !*** ./resources/sass/app.scss ***!
@@ -169,15 +97,276 @@ window.addEventListener('DOMContentLoaded', function () {
 
 /***/ }),
 
+/***/ "./resources/ts/app.ts":
+/*!*****************************!*\
+  !*** ./resources/ts/app.ts ***!
+  \*****************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+/**
+ * First we will load all of this project's JavaScript dependencies which
+ * includes Vue and other libraries. It is a great starting point when
+ * building robust, powerful web applications using Vue and Laravel.
+ */
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+// require('./bootstrap');
+// window.Vue = require('vue');
+/**
+ * The following block of code may be used to automatically register your
+ * Vue components. It will recursively scan this directory for the Vue
+ * components and automatically register them with their "basename".
+ *
+ * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
+ */
+// const files = require.context('./', true, /\.vue$/i);
+// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
+// Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+/**
+ * Next, we will create a fresh Vue application instance and attach it to
+ * the page. Then, you may begin adding components to this application
+ * or customize the JavaScript scaffolding to fit your unique needs.
+ */
+// const app = new Vue({
+//     el: '#app',
+// });
+var navbar_1 = __importDefault(__webpack_require__(/*! ./components/navbar */ "./resources/ts/components/navbar.ts"));
+window.addEventListener('DOMContentLoaded', function () {
+    // new Navbar;
+    /*document.addEventListener('click', ev => {
+        const { target } = ev;
+        if (target.closest('.js-menu')) {
+            const navbar = document.querySelector('.js-navbar');
+            const mainNav = navbar.querySelector('.js-nav-main');
+            navbar.classList.toggle('active');
+            if (navbar.classList.contains('active')) {
+                mainNav.style.height = `${mainNav.scrollHeight}px`;
+                setTimeout(() => mainNav.style.height = 'auto', 300);
+            } else {
+                mainNav.style.height = `${mainNav.scrollHeight}px`;
+                setTimeout(() => mainNav.style.height = `${0}px`, 50);
+            }
+        } else if (target.closest('.js-toggle')) {
+            ev.preventDefault();
+            const li = target.closest('li');
+            const { classList } = li;
+            const LINK_HEIGHT = 59;
+            classList.toggle('active');
+            if (classList.contains('active')) {
+                li.style.height = `${li.offsetHeight + li.querySelector('.js-sub').offsetHeight}px`;
+            } else {
+                li.style.height = `${LINK_HEIGHT}px`;
+            }
+        }
+    });
+    const mql = window.matchMedia('(min-width: 1024px)');
+    mql.addListener(({ matches }) => {
+        const searchForm = document.querySelector('.js-search-form');
+        const upperGroup = document.querySelector('.js-group');
+        const nav = document.querySelector('.js-nav-main');
+        if (matches) {
+            upperGroup.insertBefore(searchForm, upperGroup.firstChild);
+        }else {
+            nav.insertBefore(searchForm, nav.firstChild);
+        }
+
+    });*/
+    new navbar_1.default({
+        menu: '.js-menu',
+        toggle: '.js-toggle',
+        navbar: '.js-navbar',
+        navMain: '.js-nav-main',
+        searchForm: '.js-search-form',
+        group: '.js-group',
+        sub: '.js-sub'
+    });
+});
+
+
+/***/ }),
+
+/***/ "./resources/ts/components/base.ts":
+/*!*****************************************!*\
+  !*** ./resources/ts/components/base.ts ***!
+  \*****************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var errors_1 = __webpack_require__(/*! ../errors */ "./resources/ts/errors.ts");
+var default_1 = /** @class */ (function () {
+    function default_1() {
+    }
+    default_1.prototype.getComponentElements = function (selectors) {
+        return selectors.map(function (selector) {
+            var maybeHTMLElement = document.querySelector("" + selector);
+            if (!(maybeHTMLElement instanceof HTMLElement)) {
+                throw new errors_1.HTMLElementNotFoundError("Probably you put wrong selector, but must be " + selector);
+            }
+            return maybeHTMLElement;
+        });
+    };
+    return default_1;
+}());
+exports.default = default_1;
+
+
+/***/ }),
+
+/***/ "./resources/ts/components/navbar.ts":
+/*!*******************************************!*\
+  !*** ./resources/ts/components/navbar.ts ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var base_1 = __importDefault(__webpack_require__(/*! ./base */ "./resources/ts/components/base.ts"));
+var Navbar = /** @class */ (function (_super) {
+    __extends(Navbar, _super);
+    function Navbar(_a) {
+        var menu = _a.menu, toggle = _a.toggle, navbar = _a.navbar, navMain = _a.navMain, searchForm = _a.searchForm, group = _a.group, sub = _a.sub;
+        var _this = _super.call(this) || this;
+        _this.subSelector = sub;
+        var _b = _this.getComponentElements([navbar, navMain, searchForm, group]), navbarEl = _b[0], navMainEl = _b[1], searchFormEl = _b[2], groupEl = _b[3];
+        _this.navbar = navbarEl;
+        _this.navMain = navMainEl;
+        _this.searchForm = searchFormEl;
+        _this.group = groupEl;
+        document.addEventListener('click', function (e) {
+            var target = e.target;
+            if (!(target instanceof Element)) {
+                return;
+            }
+            if (target.closest("" + menu)) {
+                _this.toggleMainMenu();
+            }
+            else if (target.closest("" + toggle)) {
+                _this.toggleSubMenu(e, target);
+            }
+        });
+        return _this;
+    }
+    Navbar.prototype.toggleMainMenu = function () {
+        var _a = this, classList = _a.navbar.classList, navMain = _a.navMain;
+        classList.toggle('active');
+        if (classList.contains('active')) {
+            navMain.style.height = navMain.scrollHeight + "px";
+            setTimeout(function () { return navMain.style.height = 'auto'; }, 300);
+        }
+        else {
+            navMain.style.height = navMain.scrollHeight + "px";
+            setTimeout(function () { return navMain.style.height = 0 + "px"; }, 50);
+        }
+    };
+    Navbar.prototype.toggleSubMenu = function (event, target) {
+        event.preventDefault();
+        var li = target.closest('li');
+        if (!(li instanceof HTMLElement)) {
+            return;
+        }
+        var classList = li.classList;
+        classList.toggle('active');
+        if (classList.contains('active')) {
+            var sub = this.getComponentElements([this.subSelector])[0];
+            li.style.height = li.offsetHeight + sub.offsetHeight + "px";
+        }
+        else {
+            li.style.height = Navbar.LINK_HEIGHT + "px";
+        }
+    };
+    Navbar.LINK_HEIGHT = 59;
+    return Navbar;
+}(base_1.default));
+exports.default = Navbar;
+
+
+/***/ }),
+
+/***/ "./resources/ts/errors.ts":
+/*!********************************!*\
+  !*** ./resources/ts/errors.ts ***!
+  \********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var ExtendableError = /** @class */ (function (_super) {
+    __extends(ExtendableError, _super);
+    function ExtendableError(message) {
+        var _this = _super.call(this, message) || this;
+        _this.name = _this.constructor.name;
+        if (typeof Error.captureStackTrace === 'function') {
+            Error.captureStackTrace(_this, _this.constructor);
+        }
+        else {
+            _this.stack = (new Error(message)).stack;
+        }
+        return _this;
+    }
+    return ExtendableError;
+}(Error));
+var HTMLElementNotFoundError = /** @class */ (function (_super) {
+    __extends(HTMLElementNotFoundError, _super);
+    function HTMLElementNotFoundError(message) {
+        return _super.call(this, message) || this;
+    }
+    return HTMLElementNotFoundError;
+}(ExtendableError));
+exports.HTMLElementNotFoundError = HTMLElementNotFoundError;
+
+
+/***/ }),
+
 /***/ 0:
 /*!*************************************************************!*\
-  !*** multi ./resources/js/app.js ./resources/sass/app.scss ***!
+  !*** multi ./resources/ts/app.ts ./resources/sass/app.scss ***!
   \*************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\SERVER\OpenServer\domains\godoggy.com\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\SERVER\OpenServer\domains\godoggy.com\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\godoggy_website\resources\ts\app.ts */"./resources/ts/app.ts");
+module.exports = __webpack_require__(/*! D:\godoggy_website\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

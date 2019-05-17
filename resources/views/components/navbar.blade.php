@@ -3,15 +3,15 @@
     <a class="logo" href="/">
       <span class="logo-text">GoDoggy</span>
     </a>
-    <div class="group-donate">
+    <div class="js-group group-donate">
       <a href="/donate" class="btn">Donate</a>
       <button class="js-menu menu-burger" type="button" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <i></i>
       </button>
     </div>
   </div>
-  <div id="navbarSupportedContent" class="js-nav-main nav-main">
-    <form class="search-form" method="POST" action="/search">
+  <nav id="navbarSupportedContent" class="js-nav-main nav-main">
+    <form class="js-search-form search-form" method="POST" action="/search">
       @csrf
       <input class="ipt" placeholder="Search" name="search" maxlength="128" />
       <button class="btn" type="submit">Submit</button>
@@ -50,7 +50,7 @@
       </li>
       @endforeach
     </ul>
-  </div>
+  </nav>
   <div class="svg-symbols">
     <svg>
       <symbol viewBox="0 0 10 5.469" id="icon-dropdown" xmlns="http://www.w3.org/2000/svg">
