@@ -21,13 +21,13 @@
       <li>
         <a href="{{$nav['main']['link']}}" class="link" aria-haspopup="true">
           <span>{{$nav['main']['name']}}</span>
+          @isset($nav['sub'])
           <div class="js-toggle link-toggle">
-            @isset($nav['sub'])
             <svg class="icon">
               <use href="#icon-dropdown" />
             </svg>
-            @endisset
           </div>
+          @endisset
         </a>
         @isset($nav['sub'])
         <div class="js-sub sub-nav">

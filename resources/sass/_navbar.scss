@@ -114,6 +114,10 @@ $nav-link-height: 59px;
     transition: 0.3s ease-out;
     height: 0;
     overflow: hidden;
+    @media (min-width: 1024px) {
+      height: auto;
+      border-top: 1px solid #e6e6e6;
+    }
   }
   .search-form {
     position: relative;
@@ -132,6 +136,9 @@ $nav-link-height: 59px;
       height: 50px;
       margin-bottom: 1.5em;
       outline: 0;
+      @media (min-width: 1024px) {
+        margin-bottom: unset;
+      }
     }
     .btn {
       background: transparent url(../img/search.svg) no-repeat;
@@ -144,13 +151,19 @@ $nav-link-height: 59px;
       border: none;
       outline: none;
       color: transparent;
+      @media (min-width: 1024px) {
+        top: 3px;
+        right: 14px;
+      }
+    }
+    @media (min-width: 1024px) {
+      padding: 0 15px;
     }
   }
 
   .nav {
     margin-bottom: 0;
     margin-top: 10px;
-    max-height: 400px;
     li {
       transition: 0.3s ease-out;
       height: $nav-link-height;
@@ -167,6 +180,18 @@ $nav-link-height: 59px;
         }
       }
       border-top: 1px solid #000;
+      @media (min-width: 1024px) {
+        border-top: none;
+        &:hover {
+          background-color: rgb(49, 49, 49);
+          .sub-nav {
+            position: absolute;
+            min-width: 200px;
+            width: auto;
+            background-color: #212529;
+          }
+        }
+      }
       svg {
         width: 10px;
         fill: currentColor;
@@ -191,6 +216,9 @@ $nav-link-height: 59px;
           .icon {
             transition: 0.3s;
           }
+          @media (min-width: 1024px) {
+            background-color: transparent;
+          }
         }
       }
       .sub-nav {
@@ -214,7 +242,14 @@ $nav-link-height: 59px;
             }
           }
         }
+        @media (min-width: 1024px) {
+          width: 0;
+        }
       }
+    }
+    @media (min-width: 1024px) {
+      display: flex;
+      margin-top: unset;
     }
   }
 }

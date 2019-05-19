@@ -252,6 +252,7 @@ var Navbar = /** @class */ (function (_super) {
     function Navbar(_a) {
         var menu = _a.menu, toggle = _a.toggle, navbar = _a.navbar, navMain = _a.navMain, searchForm = _a.searchForm, group = _a.group, sub = _a.sub;
         var _this = _super.call(this) || this;
+        _this.isAnimating = false;
         _this.subSelector = sub;
         var _b = _this.getComponentElements([navbar, navMain, searchForm, group]), navbarEl = _b[0], navMainEl = _b[1], searchFormEl = _b[2], groupEl = _b[3];
         _this.navbar = navbarEl;
@@ -270,21 +271,61 @@ var Navbar = /** @class */ (function (_super) {
                 _this.toggleSubMenu(e, target);
             }
         });
+        window.matchMedia("(min-width: " + Navbar.BREAKPOINT + "px)")
+            .addListener(_this.replaceSearch());
         return _this;
     }
+    Navbar.prototype.replaceSearch = function () {
+        var _this = this;
+        var _a = this, group = _a.group, searchForm = _a.searchForm, navMain = _a.navMain;
+        var fn = function (arg) {
+            var matches = (typeof arg === 'object') ? arg.matches : arg;
+            if (matches) {
+                group.insertBefore(searchForm, group.firstChild);
+                _this.navbar.classList.remove('active');
+                navMain.style.height = '';
+                for (var _i = 0, _a = Array.from(_this.navbar.querySelectorAll('.active')); _i < _a.length; _i++) {
+                    var activeEl = _a[_i];
+                    if (activeEl instanceof HTMLElement) {
+                        activeEl.classList.remove('active');
+                        activeEl.style.height = '';
+                    }
+                }
+            }
+            else {
+                navMain.insertBefore(searchForm, navMain.firstChild);
+            }
+        };
+        fn(window.innerWidth >= Navbar.BREAKPOINT);
+        return fn;
+    };
     Navbar.prototype.toggleMainMenu = function () {
+        var _this = this;
+        if (this.isAnimating) {
+            return;
+        }
         var _a = this, classList = _a.navbar.classList, navMain = _a.navMain;
+        this.isAnimating = true;
         classList.toggle('active');
         if (classList.contains('active')) {
             navMain.style.height = navMain.scrollHeight + "px";
-            setTimeout(function () { return navMain.style.height = 'auto'; }, 300);
+            setTimeout(function () {
+                navMain.style.height = 'auto';
+                _this.isAnimating = false;
+            }, 300);
         }
         else {
             navMain.style.height = navMain.scrollHeight + "px";
-            setTimeout(function () { return navMain.style.height = 0 + "px"; }, 50);
+            setTimeout(function () {
+                navMain.style.height = '';
+                _this.isAnimating = false;
+            }, 50);
         }
     };
     Navbar.prototype.toggleSubMenu = function (event, target) {
+        if (window.innerWidth >= Navbar.BREAKPOINT) {
+            return;
+        }
         event.preventDefault();
         var li = target.closest('li');
         if (!(li instanceof HTMLElement)) {
@@ -293,7 +334,10 @@ var Navbar = /** @class */ (function (_super) {
         var classList = li.classList;
         classList.toggle('active');
         if (classList.contains('active')) {
-            var sub = this.getComponentElements([this.subSelector])[0];
+            var sub = li.querySelector(this.subSelector);
+            if (!(sub instanceof HTMLElement)) {
+                return;
+            }
             li.style.height = li.offsetHeight + sub.offsetHeight + "px";
         }
         else {
@@ -301,6 +345,7 @@ var Navbar = /** @class */ (function (_super) {
         }
     };
     Navbar.LINK_HEIGHT = 59;
+    Navbar.BREAKPOINT = 1024;
     return Navbar;
 }(base_1.default));
 exports.default = Navbar;
@@ -365,8 +410,8 @@ exports.HTMLElementNotFoundError = HTMLElementNotFoundError;
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\godoggy_website\resources\ts\app.ts */"./resources/ts/app.ts");
-module.exports = __webpack_require__(/*! D:\godoggy_website\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\SERVER\OpenServer\domains\godoggy.com\resources\ts\app.ts */"./resources/ts/app.ts");
+module.exports = __webpack_require__(/*! C:\SERVER\OpenServer\domains\godoggy.com\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

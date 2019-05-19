@@ -17,13 +17,47 @@ class Landing extends Controller
         $navbar = [
             [
                 'main' => [
-                    'name' => 'How we help',
-                    'link' => '/how-we-help'
+                    'name' => 'Overview',
+                    'link' => '/'
+                ]
+            ],
+            [
+                'main' => [
+                    'name' => 'Accommodation',
+                    'link' => '/accommodation'
                 ],
                 'sub' => [
                     [
-                        'name' => 'Rehoming',
-                        'link' => '/rehome-pet'
+                        'name' => 'Beach Studio',
+                        'link' => '/accommodation/beach-studio'
+                    ],
+                    [
+                        'name' => 'Ocean Studio',
+                        'link' => '/accommodation/ocean-studio'
+                    ],
+                    [
+                        'name' => 'Bay Suite',
+                        'link' => '/accommodation/bay-suite'
+                    ],
+                    [
+                        'name' => 'Beach Villa',
+                        'link' => '/accommodation/beach-villa'
+                    ]
+                ]
+            ],
+            [
+                'main' => [
+                    'name' => 'Dining',
+                    'link' => '/dining'
+                ],
+                'sub' => [
+                    [
+                        'name' => 'Restaurant',
+                        'link' => '/dining/restaurant'
+                    ],
+                    [
+                        'name' => 'Private Dining',
+                        'link' => '/dining/private-dining'
                     ]
                 ]
             ]
