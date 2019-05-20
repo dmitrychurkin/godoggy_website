@@ -1,0 +1,22 @@
+.brand-logo.center.logo {
+    transform: translate(-50px, 50px);
+    &::before {
+        content: '';
+        display: block;
+        background: url(../img/ph.svg) no-repeat;
+        background-size: contain;
+        background-position: 50%;
+        height: 90px;
+    }
+    display: flex;
+    flex-direction: column;
+    font-family: 'Marcellus SC', serif;
+    .logo__title {
+        font-size: 17px;
+        transform: translateY(-30px);
+    }
+    .logo__sub {
+        font-size: 12px;
+        transform: translateY(-77px);
+    }
+}

@@ -7,12 +7,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>GoDoggy | Charitable donations</title>
-
-    <!-- Fonts -->
-    <link href="//fonts.googleapis.com/css?family=Lora|Varela+Round" rel="stylesheet" />
-
-    <!-- Styles -->
+    <title>Hotels in Sri Lanka | Peace Heaven Hotel Sri Lanka Official Site</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="//fonts.googleapis.com/css?family=Marcellus+SC&display=swap|Lora|Varela+Round" rel="stylesheet">
     @stack('styles')
     @stack('scripts')
 </head>

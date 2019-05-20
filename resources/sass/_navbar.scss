@@ -1,4 +1,13 @@
-$logo-size: 55px;
+.navbar {
+  height: 125px;
+  ul {
+    margin-left: 10%;
+    a:hover {
+      background-color: transparent;
+    }
+  }
+}
+/* $logo-size: 55px;
 $nav-link-height: 59px;
 
 .navbar {
@@ -252,4 +261,4 @@ $nav-link-height: 59px;
       margin-top: unset;
     }
   }
-}
+} */

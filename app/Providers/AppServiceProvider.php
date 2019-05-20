@@ -27,5 +27,6 @@ class AppServiceProvider extends ServiceProvider
         Blade::include('includes.styles', 'styles');
         Blade::include('includes.scripts', 'scripts');
         Blade::component('components.navbar', 'navbar');
+        Blade::component('components.logo', 'logo');
     }
 }
