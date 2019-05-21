@@ -30,7 +30,7 @@
 // const app = new Vue({
 //     el: '#app',
 // });
-import Navbar from './components/navbar';
+// import Navbar from './components/navbar';
 
 window.addEventListener('DOMContentLoaded', () => {
     // new Navbar;
@@ -72,13 +72,19 @@ window.addEventListener('DOMContentLoaded', () => {
         }
 
     });*/
-    new Navbar({
-      menu: '.js-menu',
-      toggle: '.js-toggle',
-      navbar: '.js-navbar',
-      navMain: '.js-nav-main',
-      searchForm: '.js-search-form',
-      group: '.js-group',
-      sub: '.js-sub'
+    // new Navbar({
+    //   menu: '.js-menu',
+    //   toggle: '.js-toggle',
+    //   navbar: '.js-navbar',
+    //   navMain: '.js-nav-main',
+    //   searchForm: '.js-search-form',
+    //   group: '.js-group',
+    //   sub: '.js-sub'
+    // });
+
+    M.Sidenav.init(document.querySelectorAll('.sidenav'));
+    M.Collapsible.init(document.querySelectorAll('.collapsible'));
+    M.FloatingActionButton.init(document.querySelectorAll('.fixed-action-btn'), {
+        toolbarEnabled: true
     });
 });

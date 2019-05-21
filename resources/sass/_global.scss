@@ -1,37 +1,10 @@
 body {
   min-width: 300px;
 }
-.container {
-  margin: 0 auto;
-  padding: 0 16px;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
+.sidenav .collapsible-body li a.fw-norm {
+  font-weight: normal
 }
 
-@media (min-width: 576px) {
-  .container {
-    max-width: 540px;
-  }
-}
-.svg-symbols {
-  display: none;
-}
-@media (min-width: 768px) {
-  .container {
-    max-width: 720px;
-  }
-}
-
-@media (min-width: 992px) {
-  .container {
-    max-width: 960px;
-  }
-}
-
-@media (min-width: 1200px) {
-  .container {
-    max-width: 1140px;
-  }
+.sidenav ul.collapsible-accordion .collapsible-body li a {
+  padding: 0 37.5px 0 45px;
 }

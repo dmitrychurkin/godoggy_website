@@ -1,9 +1,14 @@
 .brand-logo.center.logo {
-    transform: translate(-50px, 50px);
+    // transform: translate(-50px, 50px);
+    user-select: none;
+    transform: translate(-50px, 30px) scale(.8);
+    @media (min-width: 601px) {
+        transform: translate(-50px, 34px) scale(.8);
+    }
     &::before {
         content: '';
         display: block;
-        background: url(../img/ph.svg) no-repeat;
+        @include logo((0: 'fff', 1: 'fff', 2: 'fff'));
         background-size: contain;
         background-position: 50%;
         height: 90px;
@@ -13,10 +18,15 @@
     font-family: 'Marcellus SC', serif;
     .logo__title {
         font-size: 17px;
-        transform: translateY(-30px);
+        // transform: translateY(-30px);
+        transform: translateY(-18px);
     }
     .logo__sub {
         font-size: 12px;
-        transform: translateY(-77px);
+        // transform: translateY(-77px);
+        transform: translateY(-56px);
+        @media (min-width: 601px) {
+            transform: translateY(-65px);
+        }
     }
 }
