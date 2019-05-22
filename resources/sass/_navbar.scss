@@ -1,5 +1,6 @@
 .navbar {
-  height: 105px;
+  user-select: none;
+  height: $navbat_height;
   .nav-wrapper {
     max-width: 1366px;
     margin: auto;
@@ -41,24 +42,25 @@
   .fixed-action-btn {
     @include scale;
   }
-  .sidenav {
-    &::before {
-      content: '';
-      display: block;
-      height: 120px;
-      @include logo;
-      background-size: contain;
-      width: 100%;
-      background-position: 50%;
-      background-color: rgb(236, 240, 249);
-    }
-    .sidenav-close {
-      position: absolute;
-      top: 0;
-      right: 0;
-      & > i {
-        margin: 0;
-      }
+}
+
+.sidenav {
+  &::before {
+    content: '';
+    display: block;
+    height: 120px;
+    @include logo;
+    background-size: contain;
+    width: 100%;
+    background-position: 50%;
+    background-color: rgb(236, 240, 249);
+  }
+  .sidenav-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    & > i.material-icons {
+      margin: 0;
     }
   }
 }

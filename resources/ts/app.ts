@@ -87,4 +87,31 @@ window.addEventListener('DOMContentLoaded', () => {
     M.FloatingActionButton.init(document.querySelectorAll('.fixed-action-btn'), {
         toolbarEnabled: true
     });
+
+    const sliders = document.querySelectorAll('.slider');
+
+    const getSliderHeight = (offset= 10) => {
+        const navbar = document.querySelector('.navbar-fixed');
+        let navbarHeight = 105;
+        if (navbar instanceof HTMLElement) {
+            navbarHeight = navbar.offsetHeight;
+        }
+        return window.innerHeight - navbarHeight - 40 - offset;
+    };
+
+    let sliderInstances = M.Slider.init(sliders, {
+        height: getSliderHeight()
+    });
+
+    window.addEventListener('resize', () => {
+        if (window.innerHeight < 400) {
+            return;
+        }
+        sliderInstances.forEach(slider => {
+            slider.destroy();
+        });
+        sliderInstances = M.Slider.init(sliders, {
+            height: getSliderHeight()
+        });
+    });
 });

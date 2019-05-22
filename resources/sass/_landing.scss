@@ -1,0 +1,78 @@
+
+.hand-x {
+	fill: #fff;
+	stroke: #000;
+	stroke-width: 3px;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+}
+.swipe-hint{
+    display: block;
+    @media (min-width: 610px) {
+        display: none;
+    }
+	&.swipe-horizontal{
+		position: relative;
+        width: 60px;
+        top: -123px;
+		svg {
+            background-color: rgba(227, 242, 253, 0.28);
+			position: absolute;
+			display: inline-block;
+			color: black;
+			border-radius: 100%;
+			animation: hint-finger ease-in 2s;
+			animation-iteration-count: infinite;
+			z-index: 100;
+			font-size: 20px;
+			
+		}
+		&:before{
+				position: absolute;
+				content: ' ';
+				
+				right: 8px;
+				top: 0;
+				width: 0;
+				height: 20px;
+				animation: hint-dot ease-in 4s;
+				animation-iteration-count: infinite;
+			}
+	}
+}
+
+.intro {
+    position: absolute;
+    z-index: 10;
+    width: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: translateY(-10%);
+    color: white;
+    height: 100%;
+    font-family: $font-family-varela;
+    animation: slide .5s ease-out .5s forwards;
+    h1 {
+        font-weight: bold;
+        font-size: 23px;
+        margin-bottom: 10px;
+        margin-top: 0;
+    }
+    h3 {
+        margin-top: 0;
+        font-size: 15px;
+    }
+}
+
+
+.slider {
+    user-select: none;
+    .slides {
+        img {
+            filter: brightness(.7);
+        }
+    }
+}

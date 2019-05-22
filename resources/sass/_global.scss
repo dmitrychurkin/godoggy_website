@@ -8,3 +8,17 @@ body {
 .sidenav ul.collapsible-accordion .collapsible-body li a {
   padding: 0 37.5px 0 45px;
 }
+
+.navbar-fixed {
+  height: $navbat_height;
+}
+
+.slider .indicators .indicator-item.active {
+  background-color: #42A5F5;
+}
+
+@media (max-width: 609px) {
+  .navbar-fixed nav {
+    position: unset;
+  }
+}
