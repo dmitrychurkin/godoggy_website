@@ -1,44 +1,47 @@
 
-.hand-x {
-	fill: #fff;
-	stroke: #000;
-	stroke-width: 3px;
-	stroke-linecap: round;
-	stroke-linejoin: round;
-}
-.swipe-hint{
+.swipe-hint {
     display: block;
+    width: 60px;
+    position: relative;
+    top: -123px;
+    visibility: hidden;
+
     @media (min-width: 610px) {
         display: none;
     }
-	&.swipe-horizontal{
-		position: relative;
-        width: 60px;
-        top: -123px;
-		svg {
-            background-color: rgba(227, 242, 253, 0.28);
-			position: absolute;
-			display: inline-block;
-			color: black;
-			border-radius: 100%;
-			animation: hint-finger ease-in 2s;
-			animation-iteration-count: infinite;
-			z-index: 100;
-			font-size: 20px;
-			
-		}
-		&:before{
-				position: absolute;
-				content: ' ';
-				
-				right: 8px;
-				top: 0;
-				width: 0;
-				height: 20px;
-				animation: hint-dot ease-in 4s;
-				animation-iteration-count: infinite;
-			}
-	}
+
+    svg {
+        background-color: rgba(227, 242, 253, 0.28);
+        position: absolute;
+        top: 153px;
+        display: inline-block;
+        color: black;
+        border-radius: 100%;
+        animation: hint-finger ease-in 2s;
+        animation-iteration-count: infinite;
+        z-index: 100;
+        font-size: 20px;
+    }
+
+    .hand-x {
+        fill: #fff;
+        stroke: #000;
+        stroke-width: 3px;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+    }
+
+    &:before {
+        position: absolute;
+        content: ' ';
+        right: 8px;
+        top: 0;
+        width: 0;
+        height: 20px;
+        animation: hint-dot ease-in 4s;
+        animation-iteration-count: infinite;
+    }
+
 }
 
 .intro {
@@ -60,10 +63,90 @@
         font-size: 23px;
         margin-bottom: 10px;
         margin-top: 0;
+        @media (min-width: 500px) {
+            font-size: 35px;
+        }
+        @media (min-width: 700px) {
+            font-size: 45px;
+            margin-bottom: 10px;
+        }
+        @media (min-width: 900px) {
+            font-size: 55px;
+            margin-bottom: 20px;
+        }
+        @media (min-width: 1200px) {
+            font-size: 75px;
+        }
     }
     h3 {
         margin-top: 0;
         font-size: 15px;
+        @media (min-width: 500px) {
+            font-size: 21px;
+        }
+        @media (min-width: 700px) {
+            font-size: 27px;
+        }
+        @media (min-width: 900px) {
+            font-size: 35px;
+        }
+        @media (min-width: 1200px) {
+            font-size: 45px;
+            margin-bottom: 35px;
+        }
+    }
+
+    .btn {
+        height: 32.4px;
+        line-height: 32.4px;
+        font-size: 13px;
+    }
+
+    @media (min-width: 500px) {
+        h1 {
+            font-size: 35px;
+        }
+        h3 {
+            font-size: 21px;
+        }
+        .btn {
+            font-size: 14px;
+            height: 36px;
+            line-height: 36px;
+        }
+    }
+    @media (min-width: 700px) {
+        h1 {
+            font-size: 45px;
+            margin-bottom: 10px;
+        }
+        h3 {
+            font-size: 27px;
+        }
+    }
+    @media (min-width: 900px) {
+        h1 {
+            font-size: 55px;
+            margin-bottom: 20px;
+        }
+        h3 {
+            font-size: 35px;
+        }
+        .btn {
+            height: 54px;
+            line-height: 54px;
+            font-size: 15px;
+            padding: 0 28px;
+        }
+    }
+    @media (min-width: 1200px) {
+        h1 {
+            font-size: 75px;
+        }
+        h3 {
+            font-size: 45px;
+            margin-bottom: 35px;
+        }
     }
 }
 
@@ -74,5 +157,11 @@
         img {
             filter: brightness(.7);
         }
+    }
+}
+
+.tap-target-wrapper.open {
+    .swipe-hint {
+        visibility: visible;
     }
 }

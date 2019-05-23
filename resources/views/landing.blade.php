@@ -9,7 +9,7 @@
 
     <title>Hotels in Sri Lanka | Peace Heaven Hotel Sri Lanka Official Site</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="//fonts.googleapis.com/css?family=Marcellus+SC|Lora|Varela+Round" rel="stylesheet">
+    <link href="//fonts.googleapis.com/css?family=Marcellus+SC|Varela+Round" rel="stylesheet">
     @stack('styles')
     @stack('scripts')
 </head>
@@ -21,7 +21,7 @@
         <div class="intro center-align">
             <h1>Enjoy your stay with us!</h2>
                 <h3>Get maximum out of vacation</h3>
-                <a class="waves-effect waves-light btn-large blue lighten-1">overview</a>
+                <a class="waves-effect waves-light btn blue lighten-1">overview</a>
         </div>
         <ul class="slides">
             <li>
@@ -41,10 +41,15 @@
             </li>
         </ul>
     </div>
-    <div class="swipe-hint swipe-horizontal">
+    <div id="swipe-hint" class="swipe-hint">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
             <path class="hand-x" d="M139.93,113.56l-41.12-6.93V76.08a9.25,9.25,0,0,0-9.25-9.25h0a9.25,9.25,0,0,0-9.25,9.25v57.36L71,122.65c-3.61-3.61-8.44-3.89-13.08,0,0,0-7.24,5.84-3.83,9.25l34,34h42.63a9.25,9.25,0,0,0,9.07-7.43l6.82-34.09A9.28,9.28,0,0,0,139.93,113.56Z"/>
         </svg>
+    </div>
+    <div class="tap-target blue lighten-1" data-target="swipe-hint">
+        <div class="tap-target-content">
+        <h5 class="white-text">Swipe from left edge to open navbar :)</h5>
+        </div>
     </div>
 </body>
 

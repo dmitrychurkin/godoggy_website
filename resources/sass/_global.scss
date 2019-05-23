@@ -22,3 +22,13 @@ body {
     position: unset;
   }
 }
+
+.tap-target, .tap-target-wrapper {
+  @media only screen and (max-width: 600px) {
+    width: 500px;
+    height: 500px;
+  }
+  & * {
+    font-size: 1.3rem;
+  }
+}

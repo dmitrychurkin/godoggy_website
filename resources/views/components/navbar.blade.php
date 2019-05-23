@@ -5,10 +5,10 @@
             @endlogo
             <div class="btn-group btn-group__first">
                 <a href="/facebook">
-                    <i class="icon fab fa-facebook-f"></i>
+                    <i class="fab fa-facebook-f"></i>
                 </a>
                 <a href="/twitter">
-                    <i class="icon fab fa-twitter"></i>
+                    <i class="fab fa-twitter"></i>
                 </a>
                 <a href="/instagram">
                     <i class="fab fa-instagram"></i>
@@ -32,12 +32,12 @@
                 </li>
                 <li class="waves-effect waves-light">
                     <a href="/facebook">
-                        <i class="icon fab fa-facebook-f"></i>
+                        <i class="fab fa-facebook-f"></i>
                     </a>
                 </li>
                 <li class="waves-effect waves-light">
                     <a href="/twitter">
-                        <i class="icon fab fa-twitter"></i>
+                        <i class="fab fa-twitter"></i>
                     </a>
                 </li>
                 <li class="waves-effect waves-light">
@@ -59,7 +59,7 @@
 </div>
 <ul id="slide-nav" class="sidenav">
     <li>
-        <a class="sidenav-close" href="#"><i class="material-icons">close</i></a>
+        <a class="sidenav-close"><i class="material-icons">close</i></a>
     </li>
     <li>
         <a class="waves-effect waves-teal" href="/"><i class="material-icons">home</i>Home</a>

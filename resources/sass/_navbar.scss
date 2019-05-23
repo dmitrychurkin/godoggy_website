@@ -13,13 +13,13 @@
       a:not(:last-child) {
         margin-right: 20px;
       }
-      .icon {
-        line-height: inherit;
-        height: initial;
-      }
       &.btn-group__first {
         min-width: 65px;
         display: none;
+        i {
+          line-height: inherit;
+          height: initial;
+        }
         @media (min-width: 610px) {
           display: block;
         }
@@ -56,6 +56,7 @@
     background-color: rgb(236, 240, 249);
   }
   .sidenav-close {
+    cursor: pointer;
     position: absolute;
     top: 0;
     right: 0;

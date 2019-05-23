@@ -27,5 +27,9 @@
         "typescript": "^3.4.5",
         "vue": "^2.5.17",
         "vue-template-compiler": "^2.6.10"
+    },
+    "dependencies": {
+        "font-awesome": "^4.7.0",
+        "materialize-css": "^1.0.0-rc.2"
     }
 }
