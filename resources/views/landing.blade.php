@@ -17,7 +17,7 @@
 <body>
     @navbar(['navbar' => $navbar])
     @endnavbar
-    <div class="slider">
+    <div id="main-slider" class="slider">
         <div class="intro center-align">
             <h1>Enjoy your stay with us!</h2>
                 <h3>Get maximum out of vacation</h3>
@@ -46,7 +46,7 @@
             <path class="hand-x" d="M139.93,113.56l-41.12-6.93V76.08a9.25,9.25,0,0,0-9.25-9.25h0a9.25,9.25,0,0,0-9.25,9.25v57.36L71,122.65c-3.61-3.61-8.44-3.89-13.08,0,0,0-7.24,5.84-3.83,9.25l34,34h42.63a9.25,9.25,0,0,0,9.07-7.43l6.82-34.09A9.28,9.28,0,0,0,139.93,113.56Z" />
         </svg>
     </div>
-    <div class="tap-target blue lighten-1" data-target="swipe-hint">
+    <div id="tap-target" class="tap-target blue lighten-1" data-target="swipe-hint">
         <div class="tap-target-content">
             <h5 class="white-text">Swipe from left edge to open navbar :)</h5>
         </div>
@@ -91,7 +91,7 @@
         <div class="divider"></div>
         <div class="card grey darken-4">
             <div class="card-action">
-                <a class="waves-effect grey darken-4 waves-light btn-large static btn-flat">learn more</a>
+                <a id="accommodation-link" class="waves-effect grey darken-4 waves-light btn-large static btn-flat">learn more</a>
                 <a class="waves-effect grey darken-4 waves-light btn-large static btn-flat">book now</a>
             </div>
         </div>
@@ -101,7 +101,7 @@
         <div class="section-pattern col s12">
             <i class="material-icons medium blue-text text-lighten-1">local_offer</i>
         </div>
-        <div class="carousel col s12">
+        <div id="offers-carousel" class="carousel col s12">
             <a class="carousel-item">
                 <img src="/images/offer1.jpg">
             </a>

@@ -1,4 +1,4 @@
-<div class="navbar-fixed">
+<div id="app-navbar" class="navbar-fixed">
     <nav class="blue lighten-1 navbar">
         <div class="nav-wrapper valign-wrapper">
             @logo(['show_text'=>true])
@@ -22,7 +22,7 @@
                 <button class="btn-flat btn-outline">book now<i class="material-icons right">library_books</i></button>
             </div>
         </div>
-        <div class="fixed-action-btn toolbar">
+        <div id="fixed-action-btn" class="fixed-action-btn toolbar">
             <a class="btn-floating btn-large static">
                 <i class="large material-icons">add</i>
             </a>
@@ -68,7 +68,7 @@
         <div class="divider"></div>
     </li>
     <li class="no-padding">
-        <ul class="collapsible collapsible-accordion">
+        <ul id="collapsible" class="collapsible collapsible-accordion">
             <li>
                 <a class="collapsible-header waves-effect waves-teal" tabindex="0">
                     <i class="material-icons">add</i>

@@ -12633,71 +12633,71 @@ var materialize_css_1 = __webpack_require__(/*! materialize-css */ "./node_modul
 var detectmobilebrowser_1 = __importDefault(__webpack_require__(/*! ./detectmobilebrowser */ "./resources/ts/lib/detectmobilebrowser.ts"));
 var cookie_1 = __importDefault(__webpack_require__(/*! ./cookie */ "./resources/ts/lib/cookie.ts"));
 function default_1() {
+    var COOKIE_NAME = '__s';
+    var navbar = document.getElementById('app-navbar');
+    var mainSlider = document.getElementById('main-slider');
+    var slideNav = document.getElementById('slide-nav');
+    var collapsible = document.getElementById('collapsible');
+    var fixedActionBtn = document.getElementById('fixed-action-btn');
+    var roomTypes = document.getElementById('room-types');
+    var accommodationLink = document.getElementById('accommodation-link');
+    var offersCarousel = document.getElementById('offers-carousel');
     var getSliderHeight = function (offset) {
         if (offset === void 0) { offset = 10; }
-        var navbar = document.querySelector('.navbar-fixed');
-        var navbarHeight = 105;
-        if (navbar instanceof HTMLElement) {
-            navbarHeight = navbar.offsetHeight;
-        }
-        return window.innerHeight - navbarHeight - 40 - offset;
+        return window.innerHeight - navbar.offsetHeight - 40 - offset;
     };
-    var sliders = document.querySelectorAll('.slider');
-    var sliderInstances = materialize_css_1.Slider.init(sliders, {
-        height: getSliderHeight()
-    });
-    materialize_css_1.Sidenav.init(document.querySelectorAll('.sidenav'));
-    materialize_css_1.Collapsible.init(document.querySelectorAll('.collapsible'));
-    materialize_css_1.FloatingActionButton.init(document.querySelectorAll('.fixed-action-btn'), {
+    var mainSliderInitializer = function (oldInstance) {
+        if (oldInstance) {
+            oldInstance.destroy();
+        }
+        return materialize_css_1.Slider.init(mainSlider, {
+            height: getSliderHeight()
+        });
+    };
+    var mainSliderInstance = mainSliderInitializer();
+    materialize_css_1.Sidenav.init(slideNav);
+    materialize_css_1.Collapsible.init(collapsible);
+    materialize_css_1.FloatingActionButton.init(fixedActionBtn, {
         toolbarEnabled: true
     });
     // show hint if on mobile
-    if (detectmobilebrowser_1.default() && !cookie_1.default.hasItem('__s')) {
-        materialize_css_1.TapTarget.init(document.querySelectorAll('.tap-target'), {
-            onClose: function () { return cookie_1.default.setItem('__s', 1..toString()); }
-        }).forEach(function (target) { return target.open(); });
+    if (detectmobilebrowser_1.default() && !cookie_1.default.hasItem(COOKIE_NAME)) {
+        materialize_css_1.TapTarget.init(document.getElementById('tap-target'), {
+            onClose: function () { return cookie_1.default.setItem(COOKIE_NAME, 1..toString()); }
+        }).open();
     }
     // accommodation section
-    var learnMore = Array.from(document.querySelectorAll('.accommodation .card-action a'))[0];
-    var roomTypes = document.querySelectorAll('#room-types');
-    var accommodationSection = function () {
+    var accommodationSectionTabs = function (oldInstance) {
+        if (oldInstance) {
+            oldInstance.destroy();
+            roomTypes.querySelectorAll('.active').forEach(function (activeEl) { return activeEl.classList.remove('active'); });
+        }
         var tabInst = materialize_css_1.Tabs.init(roomTypes, {
             swipeable: true,
             onShow: function (_a) {
                 var id = _a.id;
-                var index = Array.isArray(tabInst) ? tabInst[0].index : 0;
-                var link = tabContent instanceof HTMLElement && typeof tabContent.children[index] === 'object' ? tabContent.children[index].id : id;
-                learnMore.href = "/accommodation/" + link;
+                var index = tabInst ? tabInst.index : 0;
+                var child = tabContent && tabContent.children[index];
+                accommodationLink.href = "/accommodation/" + (child ? child.id : id);
             }
         });
         var tabContent = document.querySelector('.tabs-content');
-        if (tabContent instanceof HTMLElement) {
-            tabContent.style.height = '';
-        }
+        tabContent.style.height = '';
         return tabInst;
     };
-    var tabInstances = accommodationSection();
+    var accommodationTabInstance = accommodationSectionTabs();
     // carousel offers
-    materialize_css_1.Carousel.init(document.querySelectorAll('.offers .carousel'), {
+    materialize_css_1.Carousel.init(offersCarousel, {
         indicators: true,
         onCycleTo: console.dir
     });
-    // main slider resizer
+    // main resizer
     window.addEventListener('resize', function () {
-        tabInstances.forEach(function (tabInstance) {
-            tabInstance.destroy();
-            document.querySelectorAll('#room-types .active').forEach(function (activeEl) { return activeEl.classList.remove('active'); });
-        });
-        tabInstances = accommodationSection();
+        accommodationTabInstance = accommodationSectionTabs(accommodationTabInstance);
         if (window.innerHeight < 400) {
             return;
         }
-        sliderInstances.forEach(function (slider) {
-            slider.destroy();
-        });
-        sliderInstances = materialize_css_1.Slider.init(sliders, {
-            height: getSliderHeight()
-        });
+        mainSliderInstance = mainSliderInitializer(mainSliderInstance);
     });
 }
 exports.default = default_1;
