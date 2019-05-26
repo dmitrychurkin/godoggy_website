@@ -12542,6 +12542,60 @@ window.addEventListener('DOMContentLoaded', function () {
 
 /***/ }),
 
+/***/ "./resources/ts/lib/cookie.ts":
+/*!************************************!*\
+  !*** ./resources/ts/lib/cookie.ts ***!
+  \************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = {
+    getItem: function (sKey) {
+        return decodeURIComponent(document.cookie.replace(new RegExp("(?:(?:^|.*;)\\s*" + encodeURIComponent(sKey).replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1")) || null;
+    },
+    setItem: function (sKey, sValue, vEnd, sPath, sDomain, bSecure) {
+        if (vEnd === void 0) { vEnd = Infinity; }
+        if (sPath === void 0) { sPath = '/'; }
+        if (sDomain === void 0) { sDomain = ''; }
+        if (bSecure === void 0) { bSecure = false; }
+        if (!sKey || /^(?:expires|max\-age|path|domain|secure)$/i.test(sKey)) {
+            return false;
+        }
+        var sExpires = "";
+        if (vEnd) {
+            switch (true) {
+                case (typeof vEnd === 'number'):
+                    sExpires = vEnd === Infinity ? "; expires=Fri, 31 Dec 9999 23:59:59 GMT" : "; max-age=" + vEnd;
+                    break;
+                case (typeof vEnd === 'string'):
+                    sExpires = "; expires=" + vEnd;
+                    break;
+                default:
+                    sExpires = "; expires=" + vEnd.toUTCString();
+                    break;
+            }
+        }
+        document.cookie = encodeURIComponent(sKey) + "=" + encodeURIComponent(sValue) + sExpires + (sDomain ? "; domain=" + sDomain : "") + (sPath ? "; path=" + sPath : "") + (bSecure ? "; secure" : "");
+        return true;
+    },
+    removeItem: function (sKey, sPath, sDomain) {
+        if (!sKey || !this.hasItem(sKey)) {
+            return false;
+        }
+        document.cookie = encodeURIComponent(sKey) + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT" + (sDomain ? "; domain=" + sDomain : "") + (sPath ? "; path=" + sPath : "");
+        return true;
+    },
+    hasItem: function (sKey) {
+        return (new RegExp("(?:^|;\\s*)" + encodeURIComponent(sKey).replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=")).test(document.cookie);
+    }
+};
+
+
+/***/ }),
+
 /***/ "./resources/ts/lib/detectmobilebrowser.ts":
 /*!*************************************************!*\
   !*** ./resources/ts/lib/detectmobilebrowser.ts ***!
@@ -12577,6 +12631,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var materialize_css_1 = __webpack_require__(/*! materialize-css */ "./node_modules/materialize-css/dist/js/materialize.js");
 var detectmobilebrowser_1 = __importDefault(__webpack_require__(/*! ./detectmobilebrowser */ "./resources/ts/lib/detectmobilebrowser.ts"));
+var cookie_1 = __importDefault(__webpack_require__(/*! ./cookie */ "./resources/ts/lib/cookie.ts"));
 function default_1() {
     var getSliderHeight = function (offset) {
         if (offset === void 0) { offset = 10; }
@@ -12596,10 +12651,44 @@ function default_1() {
     materialize_css_1.FloatingActionButton.init(document.querySelectorAll('.fixed-action-btn'), {
         toolbarEnabled: true
     });
-    if (detectmobilebrowser_1.default()) {
-        materialize_css_1.TapTarget.init(document.querySelectorAll('.tap-target')).forEach(function (target) { return target.open(); });
+    // show hint if on mobile
+    if (detectmobilebrowser_1.default() && !cookie_1.default.hasItem('__s')) {
+        materialize_css_1.TapTarget.init(document.querySelectorAll('.tap-target'), {
+            onClose: function () { return cookie_1.default.setItem('__s', 1..toString()); }
+        }).forEach(function (target) { return target.open(); });
     }
+    // accommodation section
+    var learnMore = Array.from(document.querySelectorAll('.accommodation .card-action a'))[0];
+    var roomTypes = document.querySelectorAll('#room-types');
+    var accommodationSection = function () {
+        var tabInst = materialize_css_1.Tabs.init(roomTypes, {
+            swipeable: true,
+            onShow: function (_a) {
+                var id = _a.id;
+                var index = Array.isArray(tabInst) ? tabInst[0].index : 0;
+                var link = tabContent instanceof HTMLElement && typeof tabContent.children[index] === 'object' ? tabContent.children[index].id : id;
+                learnMore.href = "/accommodation/" + link;
+            }
+        });
+        var tabContent = document.querySelector('.tabs-content');
+        if (tabContent instanceof HTMLElement) {
+            tabContent.style.height = '';
+        }
+        return tabInst;
+    };
+    var tabInstances = accommodationSection();
+    // carousel offers
+    materialize_css_1.Carousel.init(document.querySelectorAll('.offers .carousel'), {
+        indicators: true,
+        onCycleTo: console.dir
+    });
+    // main slider resizer
     window.addEventListener('resize', function () {
+        tabInstances.forEach(function (tabInstance) {
+            tabInstance.destroy();
+            document.querySelectorAll('#room-types .active').forEach(function (activeEl) { return activeEl.classList.remove('active'); });
+        });
+        tabInstances = accommodationSection();
         if (window.innerHeight < 400) {
             return;
         }
@@ -12624,8 +12713,8 @@ exports.default = default_1;
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\godoggy_website\resources\ts\app.ts */"./resources/ts/app.ts");
-module.exports = __webpack_require__(/*! D:\godoggy_website\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\SERVER\OpenServer\domains\godoggy.com\resources\ts\app.ts */"./resources/ts/app.ts");
+module.exports = __webpack_require__(/*! C:\SERVER\OpenServer\domains\godoggy.com\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

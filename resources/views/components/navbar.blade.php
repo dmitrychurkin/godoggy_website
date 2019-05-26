@@ -23,7 +23,7 @@
             </div>
         </div>
         <div class="fixed-action-btn toolbar">
-            <a class="btn-floating btn-large">
+            <a class="btn-floating btn-large static">
                 <i class="large material-icons">add</i>
             </a>
             <ul>
