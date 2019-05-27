@@ -143,6 +143,14 @@
         </div>
     </section>
     <div class="offers__compensator"></div>
+    <div class="service-wrapper">
+        <section class="at-resort section">
+            <div class="section-title col s12">AT THE RESORT</div>
+            <div class="section-pattern col s12">
+                <i class="material-icons medium blue-text text-lighten-1">accessibility_new</i>
+            </div>
+        </section>
+    </div>
     <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5ce96d260379de23"></script>
 </body>
 

@@ -302,7 +302,7 @@ p {
     margin-top: 30px;
     height: 400px;
     .carousel-item {
-      width: 400px;;
+      width: 400px;
       height: 400px;
     }
   }
@@ -354,7 +354,7 @@ p {
       }
     }
     .offers__desc {
-      top: 560px;
+      top: 555px;
     }
   }
 
@@ -367,7 +367,7 @@ p {
       }
     }
     .offers__desc {
-      top: 620px;
+      top: 610px;
     }
   }
 
@@ -393,7 +393,7 @@ p {
       }
     }
     .offers__desc {
-      top: 800px;
+      top: 714px;
     }
   }
 }
@@ -409,4 +409,9 @@ p {
   @media (min-width: 591px) {
     min-height: unset;
   }
+}
+
+.at-resort {
+  margin-top: 0;
+  padding-top: 0;
 }

@@ -10267,7 +10267,7 @@ p {
   }
 
   .offers .offers__desc {
-    top: 560px;
+    top: 555px;
   }
 }
 
@@ -10282,7 +10282,7 @@ p {
   }
 
   .offers .offers__desc {
-    top: 620px;
+    top: 610px;
   }
 }
 
@@ -10312,7 +10312,7 @@ p {
   }
 
   .offers .offers__desc {
-    top: 800px;
+    top: 714px;
   }
 }
 
@@ -10336,5 +10336,14 @@ p {
   .offers__compensator {
     min-height: unset;
   }
+}
+
+.service-wrapper {
+  /* align content from down */
+}
+
+.at-resort {
+  margin-top: 0;
+  padding-top: 0;
 }
 

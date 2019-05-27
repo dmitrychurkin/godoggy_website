@@ -32,6 +32,4 @@
 // });
 import M from './lib/materialize';
 
-window.addEventListener('DOMContentLoaded', () => {
-    M();
-});
+window.addEventListener('DOMContentLoaded', M);

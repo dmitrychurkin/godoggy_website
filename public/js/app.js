@@ -12724,8 +12724,8 @@ exports.default = default_1;
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\godoggy_website\resources\ts\app.ts */"./resources/ts/app.ts");
-module.exports = __webpack_require__(/*! D:\godoggy_website\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\SERVER\OpenServer\domains\godoggy.com\resources\ts\app.ts */"./resources/ts/app.ts");
+module.exports = __webpack_require__(/*! C:\SERVER\OpenServer\domains\godoggy.com\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
