@@ -12642,6 +12642,8 @@ function default_1() {
     var roomTypes = document.getElementById('room-types');
     var accommodationLink = document.getElementById('accommodation-link');
     var offersCarousel = document.getElementById('offers-carousel');
+    var offersCardTitle = document.querySelector('#offers-card .card-title');
+    var offersCardText = document.querySelector('#offers-card .card-text');
     var getSliderHeight = function (offset) {
         if (offset === void 0) { offset = 10; }
         return window.innerHeight - navbar.offsetHeight - 40 - offset;
@@ -12687,13 +12689,22 @@ function default_1() {
     };
     var accommodationTabInstance = accommodationSectionTabs();
     // carousel offers
-    materialize_css_1.Carousel.init(offersCarousel, {
-        indicators: true,
-        onCycleTo: console.dir
-    });
+    var offersSectionCarousel = function (oldInstance) {
+        if (oldInstance) {
+            oldInstance.destroy();
+        }
+        return materialize_css_1.Carousel.init(offersCarousel, {
+            onCycleTo: function (el) {
+                offersCardTitle.innerHTML = el.querySelector('.offer__title').innerHTML;
+                offersCardText.innerHTML = el.querySelector('.offer__desc').innerHTML;
+            }
+        });
+    };
+    var offersSectionCarouselInstance = offersSectionCarousel();
     // main resizer
     window.addEventListener('resize', function () {
         accommodationTabInstance = accommodationSectionTabs(accommodationTabInstance);
+        offersSectionCarouselInstance = offersSectionCarousel(offersSectionCarouselInstance);
         if (window.innerHeight < 400) {
             return;
         }
@@ -12713,8 +12724,8 @@ exports.default = default_1;
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\SERVER\OpenServer\domains\godoggy.com\resources\ts\app.ts */"./resources/ts/app.ts");
-module.exports = __webpack_require__(/*! C:\SERVER\OpenServer\domains\godoggy.com\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\godoggy_website\resources\ts\app.ts */"./resources/ts/app.ts");
+module.exports = __webpack_require__(/*! D:\godoggy_website\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

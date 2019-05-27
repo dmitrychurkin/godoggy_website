@@ -13,6 +13,8 @@ export default function () {
     const roomTypes = document.getElementById('room-types')!;
     const accommodationLink = document.getElementById('accommodation-link') as HTMLAnchorElement;
     const offersCarousel = document.getElementById('offers-carousel')!;
+    const offersCardTitle = document.querySelector('#offers-card .card-title') as HTMLElement;
+    const offersCardText = document.querySelector('#offers-card .card-text') as HTMLElement;
     const getSliderHeight = (offset = 10) => window.innerHeight - navbar.offsetHeight - 40 - offset;
 
     const mainSliderInitializer = (oldInstance?: Slider) => {
@@ -63,15 +65,25 @@ export default function () {
     let accommodationTabInstance = accommodationSectionTabs();
 
     // carousel offers
-    Carousel.init(offersCarousel, {
-        indicators: true,
-        onCycleTo: console.dir
-    });
+    const offersSectionCarousel = (oldInstance?: Carousel) => {
+        if (oldInstance) {
+            oldInstance.destroy();
+        }
+        return Carousel.init(offersCarousel, {
+            onCycleTo: el => {
+                offersCardTitle.innerHTML = (el.querySelector('.offer__title') as HTMLElement).innerHTML;
+                offersCardText.innerHTML = (el.querySelector('.offer__desc') as HTMLElement).innerHTML;
+            }
+        });
+    };
+    let offersSectionCarouselInstance = offersSectionCarousel();
 
     // main resizer
     window.addEventListener('resize', () => {
 
         accommodationTabInstance = accommodationSectionTabs(accommodationTabInstance);
+
+        offersSectionCarouselInstance = offersSectionCarousel(offersSectionCarouselInstance);
 
         if (window.innerHeight < 400) {
             return;

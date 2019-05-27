@@ -103,22 +103,46 @@
         </div>
         <div id="offers-carousel" class="carousel col s12">
             <a class="carousel-item">
+                <div class="offer__title hide">45% Off for HSBC Cardholders</div>
+                <p class="offer__desc hide">Book with your HSBC Credit Cards and get 45% off on Accommodation on Half Board & Full Board basis!</p>
                 <img src="/images/offer1.jpg">
             </a>
             <a class="carousel-item">
+                <div class="offer__title hide">Summer Escapes</div>
+                <p class="offer__desc hide">Escape to Pasikuda this summer and enjoy exclusive discounts at Uga Bay by Uga Escapes!</p>
                 <img src="/images/offer2.jpg">
             </a>
             <a class="carousel-item">
+                <div class="offer__title hide">Rush to Book</div>
+                <p class="offer__desc hide">Take advantage of a Special Discounts up to 40% Off on Accommodation. Offer valid till 30 November 2019!</p>
                 <img src="/images/offer3.jpg">
             </a>
             <a class="carousel-item">
+                <div class="offer__title hide">Super Last Minute Flash Deal</div>
+                <p class="offer__desc hide">Book within 3 Days to arrival and take advantage of a Special 60% Off on Accommodation!</p>
                 <img src="/images/offer4.jpg">
             </a>
             <a class="carousel-item">
+                <div class="offer__title hide">Last Minute Offer</div>
+                <p class="offer__desc hide">Book within 30 Days to arrival and take advantage of a Special 50% Off on Accommodation!</p>
                 <img src="/images/offer5.jpg">
             </a>
         </div>
+        <div class="col s12 offers__desc">
+            <div class="col">
+                <div id="offers-card" class="card white">
+                    <div class="card-content center-align">
+                        <span class="card-title"></span>
+                        <p class="card-text"></p>
+                    </div>
+                    <div class="card-action">
+                        <a class="waves-effect waves-light grey darken-4 btn-large static btn-flat">learn more</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
+    <div class="offers__compensator"></div>
     <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5ce96d260379de23"></script>
 </body>
 

@@ -293,16 +293,120 @@ p {
 }
 
 .offers {
+  user-select: none;
+  position: relative;
   @media (max-width: 609px) {
     margin-top: 45px;
   }
   .carousel {
     margin-top: 30px;
-    $carousel-height: 500px;
-    height: $carousel-height;
+    height: 400px;
     .carousel-item {
-      width: $carousel-height;
-      height: $carousel-height;
+      width: 400px;;
+      height: 400px;
     }
+  }
+  .offers__desc {
+    position: absolute;
+    top: 400px;
+    & > .col {
+      max-width: 790px;
+      margin: auto;
+      float: none;
+      .btn-flat {
+        margin: auto;
+        display: block;
+      }
+    }
+  }
+  @media (min-width: 400px) {
+    .carousel {
+      height: 500px;
+      .carousel-item {
+        width: 500px;
+        height: 500px;
+      }
+    }
+    .offers__desc {
+      top: 450px;
+    }
+  }
+
+  @media (min-width: 700px) {
+    .carousel {
+      height: 600px;
+      .carousel-item {
+        width: 600px;
+        height: 600px;
+      }
+    }
+    .offers__desc {
+      top: 500px;
+    }
+  }
+
+  @media (min-width: 800px) {
+    .carousel {
+      height: 700px;
+      .carousel-item {
+        width: 700px;
+        height: 700px;
+      }
+    }
+    .offers__desc {
+      top: 560px;
+    }
+  }
+
+  @media (min-width: 900px) {
+    .carousel {
+      height: 800px;
+      .carousel-item {
+        width: 800px;
+        height: 800px;
+      }
+    }
+    .offers__desc {
+      top: 620px;
+    }
+  }
+
+  @media (min-width: 1000px) {
+    .carousel {
+      height: 900px;
+      .carousel-item {
+        width: 900px;
+        height: 900px;
+      }
+    }
+    .offers__desc {
+      top: 700px;
+    }
+  }
+
+  @media (min-width: 1100px) {
+    .carousel {
+      height: 1000px;
+      .carousel-item {
+        width: 1000px;
+        height: 1000px;
+      }
+    }
+    .offers__desc {
+      top: 800px;
+    }
+  }
+}
+
+.offers__compensator {
+  min-height: 140px;
+  @media (min-width: 411px) {
+    min-height: 50px;
+  }
+  @media (min-width: 574px) {
+    min-height: 20px;
+  }
+  @media (min-width: 591px) {
+    min-height: unset;
   }
 }

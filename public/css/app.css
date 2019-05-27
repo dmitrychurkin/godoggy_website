@@ -10186,6 +10186,14 @@ p {
   padding: 0 10px;
 }
 
+.offers {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  position: relative;
+}
+
 @media (max-width: 609px) {
   .offers {
     margin-top: 45px;
@@ -10194,11 +10202,139 @@ p {
 
 .offers .carousel {
   margin-top: 30px;
-  height: 500px;
+  height: 400px;
 }
 
 .offers .carousel .carousel-item {
-  width: 500px;
-  height: 500px;
+  width: 400px;
+  height: 400px;
+}
+
+.offers .offers__desc {
+  position: absolute;
+  top: 400px;
+}
+
+.offers .offers__desc > .col {
+  max-width: 790px;
+  margin: auto;
+  float: none;
+}
+
+.offers .offers__desc > .col .btn-flat {
+  margin: auto;
+  display: block;
+}
+
+@media (min-width: 400px) {
+  .offers .carousel {
+    height: 500px;
+  }
+
+  .offers .carousel .carousel-item {
+    width: 500px;
+    height: 500px;
+  }
+
+  .offers .offers__desc {
+    top: 450px;
+  }
+}
+
+@media (min-width: 700px) {
+  .offers .carousel {
+    height: 600px;
+  }
+
+  .offers .carousel .carousel-item {
+    width: 600px;
+    height: 600px;
+  }
+
+  .offers .offers__desc {
+    top: 500px;
+  }
+}
+
+@media (min-width: 800px) {
+  .offers .carousel {
+    height: 700px;
+  }
+
+  .offers .carousel .carousel-item {
+    width: 700px;
+    height: 700px;
+  }
+
+  .offers .offers__desc {
+    top: 560px;
+  }
+}
+
+@media (min-width: 900px) {
+  .offers .carousel {
+    height: 800px;
+  }
+
+  .offers .carousel .carousel-item {
+    width: 800px;
+    height: 800px;
+  }
+
+  .offers .offers__desc {
+    top: 620px;
+  }
+}
+
+@media (min-width: 1000px) {
+  .offers .carousel {
+    height: 900px;
+  }
+
+  .offers .carousel .carousel-item {
+    width: 900px;
+    height: 900px;
+  }
+
+  .offers .offers__desc {
+    top: 700px;
+  }
+}
+
+@media (min-width: 1100px) {
+  .offers .carousel {
+    height: 1000px;
+  }
+
+  .offers .carousel .carousel-item {
+    width: 1000px;
+    height: 1000px;
+  }
+
+  .offers .offers__desc {
+    top: 800px;
+  }
+}
+
+.offers__compensator {
+  min-height: 140px;
+}
+
+@media (min-width: 411px) {
+  .offers__compensator {
+    min-height: 50px;
+  }
+}
+
+@media (min-width: 574px) {
+  .offers__compensator {
+    min-height: 20px;
+  }
+}
+
+@media (min-width: 591px) {
+  .offers__compensator {
+    min-height: unset;
+  }
 }
 
