@@ -12535,9 +12535,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 //     el: '#app',
 // });
 var materialize_1 = __importDefault(__webpack_require__(/*! ./lib/materialize */ "./resources/ts/lib/materialize.ts"));
-window.addEventListener('DOMContentLoaded', function () {
-    materialize_1.default();
-});
+window.addEventListener('DOMContentLoaded', materialize_1.default);
 
 
 /***/ }),
@@ -12724,8 +12722,8 @@ exports.default = default_1;
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\SERVER\OpenServer\domains\godoggy.com\resources\ts\app.ts */"./resources/ts/app.ts");
-module.exports = __webpack_require__(/*! C:\SERVER\OpenServer\domains\godoggy.com\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\godoggy_website\resources\ts\app.ts */"./resources/ts/app.ts");
+module.exports = __webpack_require__(/*! D:\godoggy_website\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

@@ -9616,6 +9616,7 @@ section .section-pattern {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: 30px 0;
 }
 
 section .section-pattern::after,
@@ -10046,6 +10047,10 @@ p {
   text-align: center;
 }
 
+.info .section-pattern {
+  margin-bottom: 60px;
+}
+
 .info ul.info__list {
   list-style: disc;
   margin: 30px auto;
@@ -10212,7 +10217,7 @@ p {
 
 .offers .offers__desc {
   position: absolute;
-  top: 400px;
+  top: 460px;
 }
 
 .offers .offers__desc > .col {
@@ -10237,7 +10242,7 @@ p {
   }
 
   .offers .offers__desc {
-    top: 450px;
+    top: 510px;
   }
 }
 
@@ -10252,7 +10257,7 @@ p {
   }
 
   .offers .offers__desc {
-    top: 500px;
+    top: 560px;
   }
 }
 
@@ -10267,7 +10272,7 @@ p {
   }
 
   .offers .offers__desc {
-    top: 555px;
+    top: 615px;
   }
 }
 
@@ -10282,7 +10287,7 @@ p {
   }
 
   .offers .offers__desc {
-    top: 610px;
+    top: 670px;
   }
 }
 
@@ -10297,7 +10302,7 @@ p {
   }
 
   .offers .offers__desc {
-    top: 700px;
+    top: 760px;
   }
 }
 
@@ -10312,7 +10317,7 @@ p {
   }
 
   .offers .offers__desc {
-    top: 714px;
+    top: 774px;
   }
 }
 
@@ -10338,12 +10343,56 @@ p {
   }
 }
 
-.service-wrapper {
-  /* align content from down */
-}
-
 .at-resort {
   margin-top: 0;
   padding-top: 0;
+}
+
+.at-resort .at-resort__area {
+  display: flex;
+  margin: auto;
+  width: 95%;
+}
+
+.at-resort .at-resort__area .at-resort__left {
+  position: relative;
+  flex: 0.5;
+}
+
+.at-resort .at-resort__area .at-resort__left .card-image {
+  content: "";
+  display: block;
+  background: url(/images/spa.jpg?e6904ce3f56c2dd2615ef48ee7fb8467) no-repeat;
+  background-size: cover;
+  background-position: center;
+  height: 450px;
+}
+
+.at-resort .at-resort__area .at-resort__right {
+  flex: 0.5;
+}
+
+.at-resort .at-resort__area .at-resort__right .at-resort__obj {
+  display: flex;
+  height: 50%;
+}
+
+.at-resort .at-resort__area .at-resort__right .at-resort__obj .card-stacked {
+  flex: 0.5;
+}
+
+.at-resort .at-resort__area .at-resort__right .at-resort__obj:first-child::after,
+.at-resort .at-resort__area .at-resort__right .at-resort__obj:last-child::before {
+  content: "";
+  flex: 0.5;
+  display: block;
+  background-image: url(/images/dinning.jpg?8e946ef28d23735a349787e506e4a233);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.at-resort .at-resort__area .at-resort__right .at-resort__obj:last-child::before {
+  background-image: url(/images/event.jpg?8937639fc01ce5613df2c9fcb45abc71);
 }
 

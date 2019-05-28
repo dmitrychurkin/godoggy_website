@@ -171,7 +171,9 @@ p {
 .info {
   padding: $padding;
   text-align: center;
-
+  .section-pattern {
+    margin-bottom: 60px;
+  }
   ul.info__list {
     list-style: disc;
     margin: $margin-top auto;
@@ -308,7 +310,7 @@ p {
   }
   .offers__desc {
     position: absolute;
-    top: 400px;
+    top: 460px;
     & > .col {
       max-width: 790px;
       margin: auto;
@@ -328,7 +330,7 @@ p {
       }
     }
     .offers__desc {
-      top: 450px;
+      top: 510px;
     }
   }
 
@@ -341,7 +343,7 @@ p {
       }
     }
     .offers__desc {
-      top: 500px;
+      top: 560px;
     }
   }
 
@@ -354,7 +356,7 @@ p {
       }
     }
     .offers__desc {
-      top: 555px;
+      top: 615px;
     }
   }
 
@@ -367,7 +369,7 @@ p {
       }
     }
     .offers__desc {
-      top: 610px;
+      top: 670px;
     }
   }
 
@@ -380,7 +382,7 @@ p {
       }
     }
     .offers__desc {
-      top: 700px;
+      top: 760px;
     }
   }
 
@@ -393,7 +395,7 @@ p {
       }
     }
     .offers__desc {
-      top: 714px;
+      top: 774px;
     }
   }
 }
@@ -414,4 +416,43 @@ p {
 .at-resort {
   margin-top: 0;
   padding-top: 0;
+  .at-resort__area {
+    display: flex;
+    margin: auto;
+    width: 95%;
+    .at-resort__left {
+      position: relative;
+      flex: .5;
+      .card-image {
+        content: '';
+        display: block;
+        background: url(../img/spa.jpg) no-repeat;
+        background-size: cover;
+        background-position: center;
+        height: 450px;
+      }
+    }
+    .at-resort__right {
+      flex: .5;
+      .at-resort__obj {
+        display: flex;
+        height: 50%;
+        .card-stacked {
+          flex: .5;
+        }
+        &:first-child::after, &:last-child::before {
+          content: '';
+          flex: .5;
+          display: block;
+          background-image: url(../img/dinning.jpg);
+          background-repeat: no-repeat;
+          background-size: cover;
+          background-position: center;
+        }
+        &:last-child::before {
+          background-image: url(../img/event.jpg);
+        }
+      }
+    }
+  }
 }
