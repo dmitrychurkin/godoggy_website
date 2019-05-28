@@ -10493,6 +10493,10 @@ p {
   .at-resort .at-resort__area .at-resort__left .card-image::after {
     flex-direction: row;
   }
+
+  .at-resort .at-resort__area .at-resort__left .card-image::after {
+    border-left: 1px solid #fff;
+  }
 }
 
 .at-resort .at-resort__area .at-resort__left .card-image::before,
@@ -10504,7 +10508,7 @@ p {
 }
 
 .at-resort .at-resort__area .at-resort__left .card-image::after {
-  border-left: 1px solid #fff;
+  border-top: 1px solid #fff;
   background-image: url(/images/spa2.jpg?60699eb28f4101e93f0f5fa2416d7742);
   background-position: 78%;
 }
