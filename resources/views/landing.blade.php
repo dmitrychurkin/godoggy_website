@@ -142,7 +142,6 @@
             </div>
         </div>
     </section>
-    <div class="offers__compensator"></div>
     <div class="service-wrapper">
         <section class="at-resort section">
             <div class="section-title">AT THE RESORT</div>
@@ -152,34 +151,37 @@
 
             <div class="at-resort__area card">
                 <div class="at-resort__left">
-                    <div class="card-image">
-                        <span class="card-title">Spa</span>
-                    </div>
+                    <div class="card-image"></div>
                     <div class="card-content">
+                        <div class="card-title"><i class="material-icons large">spa</i><span>spa</span></div>
                         <p>Ease into a world of pleasure at our divine spa.</p>
                     </div>
                     <div class="card-action center-align">
-                        <a class="waves-effect waves-light grey darken-4 btn btn-flat" href="javascruot:void(0)">learn more</a>
+                        <a class="waves-effect waves-light grey darken-4 btn btn-flat">learn more</a>
                     </div>
                 </div>
                 <div class="at-resort__right">
                     <div class="at-resort__obj">
+                        <div class="card-image"></div>
                         <div class="card-stacked">
                             <div class="card-content">
+                                <div class="card-title"><i class="material-icons large">local_dining</i><span>dinning</span></div>
                                 <p>Well stocked with international and local choices to delight you.</p>
                             </div>
-                            <div class="card-action">
-                                <a href="#">This is a link</a>
+                            <div class="card-action right-align">
+                                <a class="waves-effect waves-light grey darken-4 btn btn-flat">learn more</a>
                             </div>
                         </div>
                     </div>
                     <div class="at-resort__obj">
+                        <div class="card-image"></div>
                         <div class="card-stacked">
                             <div class="card-content">
+                                <div class="card-title"><i class="material-icons large">cake</i><span>event</span></div>
                                 <p>Sri Lanka’s most inspirational venue for weddings, meetings and conferences</p>
                             </div>
-                            <div class="card-action">
-                                <a href="#">This is a link</a>
+                            <div class="card-action left-align">
+                                <a class="waves-effect waves-light grey darken-4 btn btn-flat">learn more</a>
                             </div>
                         </div>
                     </div>
@@ -187,7 +189,6 @@
             </div>
         </section>
     </div>
-    <!-- TO DO: align space between sections -->
     <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5ce96d260379de23"></script>
 </body>
 

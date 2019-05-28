@@ -5104,15 +5104,39 @@ small {
 }
 
 .card.small .card-image,
+.card.small .at-resort .at-resort__area .at-resort__left .card-image::before,
+.at-resort .at-resort__area .at-resort__left .card.small .card-image::before,
+.card.small .at-resort .at-resort__area .at-resort__left .card-image::after,
+.at-resort .at-resort__area .at-resort__left .card.small .card-image::after,
 .card.medium .card-image,
-.card.large .card-image {
+.card.medium .at-resort .at-resort__area .at-resort__left .card-image::before,
+.at-resort .at-resort__area .at-resort__left .card.medium .card-image::before,
+.card.medium .at-resort .at-resort__area .at-resort__left .card-image::after,
+.at-resort .at-resort__area .at-resort__left .card.medium .card-image::after,
+.card.large .card-image,
+.card.large .at-resort .at-resort__area .at-resort__left .card-image::before,
+.at-resort .at-resort__area .at-resort__left .card.large .card-image::before,
+.card.large .at-resort .at-resort__area .at-resort__left .card-image::after,
+.at-resort .at-resort__area .at-resort__left .card.large .card-image::after {
   max-height: 60%;
   overflow: hidden;
 }
 
 .card.small .card-image + .card-content,
+.card.small .at-resort .at-resort__area .at-resort__left .card-image::before + .card-content,
+.at-resort .at-resort__area .at-resort__left .card.small .card-image::before + .card-content,
+.card.small .at-resort .at-resort__area .at-resort__left .card-image::after + .card-content,
+.at-resort .at-resort__area .at-resort__left .card.small .card-image::after + .card-content,
 .card.medium .card-image + .card-content,
-.card.large .card-image + .card-content {
+.card.medium .at-resort .at-resort__area .at-resort__left .card-image::before + .card-content,
+.at-resort .at-resort__area .at-resort__left .card.medium .card-image::before + .card-content,
+.card.medium .at-resort .at-resort__area .at-resort__left .card-image::after + .card-content,
+.at-resort .at-resort__area .at-resort__left .card.medium .card-image::after + .card-content,
+.card.large .card-image + .card-content,
+.card.large .at-resort .at-resort__area .at-resort__left .card-image::before + .card-content,
+.at-resort .at-resort__area .at-resort__left .card.large .card-image::before + .card-content,
+.card.large .at-resort .at-resort__area .at-resort__left .card-image::after + .card-content,
+.at-resort .at-resort__area .at-resort__left .card.large .card-image::after + .card-content {
   max-height: 40%;
 }
 
@@ -5149,24 +5173,56 @@ small {
 }
 
 .card.horizontal.small .card-image,
+.card.horizontal.small .at-resort .at-resort__area .at-resort__left .card-image::before,
+.at-resort .at-resort__area .at-resort__left .card.horizontal.small .card-image::before,
+.card.horizontal.small .at-resort .at-resort__area .at-resort__left .card-image::after,
+.at-resort .at-resort__area .at-resort__left .card.horizontal.small .card-image::after,
 .card.horizontal.medium .card-image,
-.card.horizontal.large .card-image {
+.card.horizontal.medium .at-resort .at-resort__area .at-resort__left .card-image::before,
+.at-resort .at-resort__area .at-resort__left .card.horizontal.medium .card-image::before,
+.card.horizontal.medium .at-resort .at-resort__area .at-resort__left .card-image::after,
+.at-resort .at-resort__area .at-resort__left .card.horizontal.medium .card-image::after,
+.card.horizontal.large .card-image,
+.card.horizontal.large .at-resort .at-resort__area .at-resort__left .card-image::before,
+.at-resort .at-resort__area .at-resort__left .card.horizontal.large .card-image::before,
+.card.horizontal.large .at-resort .at-resort__area .at-resort__left .card-image::after,
+.at-resort .at-resort__area .at-resort__left .card.horizontal.large .card-image::after {
   height: 100%;
   max-height: none;
   overflow: visible;
 }
 
 .card.horizontal.small .card-image img,
+.card.horizontal.small .at-resort .at-resort__area .at-resort__left .card-image::before img,
+.at-resort .at-resort__area .at-resort__left .card.horizontal.small .card-image::before img,
+.card.horizontal.small .at-resort .at-resort__area .at-resort__left .card-image::after img,
+.at-resort .at-resort__area .at-resort__left .card.horizontal.small .card-image::after img,
 .card.horizontal.medium .card-image img,
-.card.horizontal.large .card-image img {
+.card.horizontal.medium .at-resort .at-resort__area .at-resort__left .card-image::before img,
+.at-resort .at-resort__area .at-resort__left .card.horizontal.medium .card-image::before img,
+.card.horizontal.medium .at-resort .at-resort__area .at-resort__left .card-image::after img,
+.at-resort .at-resort__area .at-resort__left .card.horizontal.medium .card-image::after img,
+.card.horizontal.large .card-image img,
+.card.horizontal.large .at-resort .at-resort__area .at-resort__left .card-image::before img,
+.at-resort .at-resort__area .at-resort__left .card.horizontal.large .card-image::before img,
+.card.horizontal.large .at-resort .at-resort__area .at-resort__left .card-image::after img,
+.at-resort .at-resort__area .at-resort__left .card.horizontal.large .card-image::after img {
   height: 100%;
 }
 
-.card.horizontal .card-image {
+.card.horizontal .card-image,
+.card.horizontal .at-resort .at-resort__area .at-resort__left .card-image::before,
+.at-resort .at-resort__area .at-resort__left .card.horizontal .card-image::before,
+.card.horizontal .at-resort .at-resort__area .at-resort__left .card-image::after,
+.at-resort .at-resort__area .at-resort__left .card.horizontal .card-image::after {
   max-width: 50%;
 }
 
-.card.horizontal .card-image img {
+.card.horizontal .card-image img,
+.card.horizontal .at-resort .at-resort__area .at-resort__left .card-image::before img,
+.at-resort .at-resort__area .at-resort__left .card.horizontal .card-image::before img,
+.card.horizontal .at-resort .at-resort__area .at-resort__left .card-image::after img,
+.at-resort .at-resort__area .at-resort__left .card.horizontal .card-image::after img {
   border-radius: 2px 0 0 2px;
   max-width: 100%;
   width: auto;
@@ -5192,11 +5248,19 @@ small {
   padding-bottom: 64px;
 }
 
-.card .card-image {
+.card .card-image,
+.card .at-resort .at-resort__area .at-resort__left .card-image::before,
+.at-resort .at-resort__area .at-resort__left .card .card-image::before,
+.card .at-resort .at-resort__area .at-resort__left .card-image::after,
+.at-resort .at-resort__area .at-resort__left .card .card-image::after {
   position: relative;
 }
 
-.card .card-image img {
+.card .card-image img,
+.card .at-resort .at-resort__area .at-resort__left .card-image::before img,
+.at-resort .at-resort__area .at-resort__left .card .card-image::before img,
+.card .at-resort .at-resort__area .at-resort__left .card-image::after img,
+.at-resort .at-resort__area .at-resort__left .card .card-image::after img {
   display: block;
   border-radius: 2px 2px 0 0;
   position: relative;
@@ -5207,7 +5271,11 @@ small {
   width: 100%;
 }
 
-.card .card-image .card-title {
+.card .card-image .card-title,
+.card .at-resort .at-resort__area .at-resort__left .card-image::before .card-title,
+.at-resort .at-resort__area .at-resort__left .card .card-image::before .card-title,
+.card .at-resort .at-resort__area .at-resort__left .card-image::after .card-title,
+.at-resort .at-resort__area .at-resort__left .card .card-image::after .card-title {
   color: #fff;
   position: absolute;
   bottom: 0;
@@ -10044,6 +10112,8 @@ p {
 
 .info {
   padding: 0 0.75rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
   text-align: center;
 }
 
@@ -10062,6 +10132,10 @@ p {
   .info ul.info__list {
     margin-left: auto;
   }
+}
+
+.accommodation {
+  margin-bottom: 0;
 }
 
 .accommodation .tabs {
@@ -10178,7 +10252,7 @@ p {
 }
 
 .accommodation .card {
-  margin-top: 0;
+  margin: 0;
 }
 
 .accommodation .card .card-action {
@@ -10197,12 +10271,6 @@ p {
       -ms-user-select: none;
           user-select: none;
   position: relative;
-}
-
-@media (max-width: 609px) {
-  .offers {
-    margin-top: 45px;
-  }
 }
 
 .offers .carousel {
@@ -10321,25 +10389,50 @@ p {
   }
 }
 
-.offers__compensator {
-  min-height: 140px;
+.service-wrapper {
+  -webkit-transform: translateY(200px);
+          transform: translateY(200px);
 }
 
-@media (min-width: 411px) {
-  .offers__compensator {
-    min-height: 50px;
+@media (min-width: 400px) {
+  .service-wrapper {
+    -webkit-transform: translateY(150px);
+            transform: translateY(150px);
   }
 }
 
-@media (min-width: 574px) {
-  .offers__compensator {
-    min-height: 20px;
+@media (min-width: 500px) {
+  .service-wrapper {
+    -webkit-transform: translateY(100px);
+            transform: translateY(100px);
   }
 }
 
-@media (min-width: 591px) {
-  .offers__compensator {
-    min-height: unset;
+@media (min-width: 700px) {
+  .service-wrapper {
+    -webkit-transform: translateY(50px);
+            transform: translateY(50px);
+  }
+}
+
+@media (min-width: 800px) {
+  .service-wrapper {
+    -webkit-transform: translateY(-50px);
+            transform: translateY(-50px);
+  }
+}
+
+@media (min-width: 900px) {
+  .service-wrapper {
+    -webkit-transform: translateY(-100px);
+            transform: translateY(-100px);
+  }
+}
+
+@media (min-width: 1000px) {
+  .service-wrapper {
+    -webkit-transform: translateY(-150px);
+            transform: translateY(-150px);
   }
 }
 
@@ -10350,8 +10443,36 @@ p {
 
 .at-resort .at-resort__area {
   display: flex;
+  flex-flow: column nowrap;
   margin: auto;
+  margin-top: 60px;
   width: 95%;
+  text-align: center;
+}
+
+@media (min-width: 900px) {
+  .at-resort .at-resort__area {
+    flex-direction: row;
+  }
+}
+
+.at-resort .at-resort__area .card-image,
+.at-resort .at-resort__area .at-resort__left .card-image::before,
+.at-resort .at-resort__area .at-resort__left .card-image::after {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  height: 450px;
+}
+
+.at-resort .at-resort__area .card-title {
+  margin-top: 20px;
+  display: flex;
+  height: 95px;
+  justify-content: space-between;
+  flex-flow: column nowrap;
+  font-size: 24px;
+  text-transform: uppercase;
 }
 
 .at-resort .at-resort__area .at-resort__left {
@@ -10359,13 +10480,33 @@ p {
   flex: 0.5;
 }
 
-.at-resort .at-resort__area .at-resort__left .card-image {
+.at-resort .at-resort__area .at-resort__left .card-image,
+.at-resort .at-resort__area .at-resort__left .card-image::before,
+.at-resort .at-resort__area .at-resort__left .card-image::after {
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+@media (min-width: 550px) {
+  .at-resort .at-resort__area .at-resort__left .card-image,
+  .at-resort .at-resort__area .at-resort__left .card-image::before,
+  .at-resort .at-resort__area .at-resort__left .card-image::after {
+    flex-direction: row;
+  }
+}
+
+.at-resort .at-resort__area .at-resort__left .card-image::before,
+.at-resort .at-resort__area .at-resort__left .card-image::after {
+  flex: 0.5;
   content: "";
   display: block;
-  background: url(/images/spa.jpg?e6904ce3f56c2dd2615ef48ee7fb8467) no-repeat;
-  background-size: cover;
-  background-position: center;
-  height: 450px;
+  background-image: url(/images/spa1.jpg?f0bc4b72bb13edb1130bd0811258c6b1);
+}
+
+.at-resort .at-resort__area .at-resort__left .card-image::after {
+  border-left: 1px solid #fff;
+  background-image: url(/images/spa2.jpg?60699eb28f4101e93f0f5fa2416d7742);
+  background-position: 78%;
 }
 
 .at-resort .at-resort__area .at-resort__right {
@@ -10374,6 +10515,7 @@ p {
 
 .at-resort .at-resort__area .at-resort__right .at-resort__obj {
   display: flex;
+  flex-wrap: nowrap;
   height: 50%;
 }
 
@@ -10381,18 +10523,43 @@ p {
   flex: 0.5;
 }
 
-.at-resort .at-resort__area .at-resort__right .at-resort__obj:first-child::after,
-.at-resort .at-resort__area .at-resort__right .at-resort__obj:last-child::before {
-  content: "";
-  flex: 0.5;
-  display: block;
-  background-image: url(/images/dinning.jpg?8e946ef28d23735a349787e506e4a233);
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
+.at-resort .at-resort__area .at-resort__right .at-resort__obj:first-child,
+.at-resort .at-resort__area .at-resort__right .at-resort__obj:last-child {
+  text-align: right;
+  flex-direction: row-reverse;
 }
 
-.at-resort .at-resort__area .at-resort__right .at-resort__obj:last-child::before {
+.at-resort .at-resort__area .at-resort__right .at-resort__obj:first-child .card-image,
+.at-resort .at-resort__area .at-resort__right .at-resort__obj:first-child .at-resort__left .card-image::before,
+.at-resort .at-resort__area .at-resort__left .at-resort__right .at-resort__obj:first-child .card-image::before,
+.at-resort .at-resort__area .at-resort__right .at-resort__obj:first-child .at-resort__left .card-image::after,
+.at-resort .at-resort__area .at-resort__left .at-resort__right .at-resort__obj:first-child .card-image::after,
+.at-resort .at-resort__area .at-resort__right .at-resort__obj:last-child .card-image,
+.at-resort .at-resort__area .at-resort__right .at-resort__obj:last-child .at-resort__left .card-image::before,
+.at-resort .at-resort__area .at-resort__left .at-resort__right .at-resort__obj:last-child .card-image::before,
+.at-resort .at-resort__area .at-resort__right .at-resort__obj:last-child .at-resort__left .card-image::after,
+.at-resort .at-resort__area .at-resort__left .at-resort__right .at-resort__obj:last-child .card-image::after {
+  flex: 0.5;
+  background-image: url(/images/dinning.jpg?8e946ef28d23735a349787e506e4a233);
+  height: initial;
+}
+
+.at-resort .at-resort__area .at-resort__right .at-resort__obj:last-child {
+  text-align: left;
+  flex-direction: row;
+}
+
+.at-resort .at-resort__area .at-resort__right .at-resort__obj:last-child .card-image,
+.at-resort .at-resort__area .at-resort__right .at-resort__obj:last-child .at-resort__left .card-image::before,
+.at-resort .at-resort__area .at-resort__left .at-resort__right .at-resort__obj:last-child .card-image::before,
+.at-resort .at-resort__area .at-resort__right .at-resort__obj:last-child .at-resort__left .card-image::after,
+.at-resort .at-resort__area .at-resort__left .at-resort__right .at-resort__obj:last-child .card-image::after {
   background-image: url(/images/event.jpg?8937639fc01ce5613df2c9fcb45abc71);
+}
+
+.at-resort .at-resort__area .at-resort__right .at-resort__obj:last-child .card-stacked {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-end;
 }
 
