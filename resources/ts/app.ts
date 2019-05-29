@@ -31,5 +31,6 @@
 //     el: '#app',
 // });
 import M from './lib/materialize';
+import './lib/map';
 
 window.addEventListener('DOMContentLoaded', M);

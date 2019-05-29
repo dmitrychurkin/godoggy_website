@@ -160,13 +160,13 @@ p {
     margin-bottom: 60px;
   }
   ul.info__list {
+    display: inline-block;
     list-style: disc;
     margin: $margin-top auto;
     margin-left: 30px;
     @media (min-width: 450px) {
       margin-left: auto;
     }
-    max-width: 300px;
   }
 }
 
@@ -397,17 +397,14 @@ p {
 }
 
 .at-resort {
+  user-select: none;
   margin-top: 0;
   padding-top: 0;
-  .at-resort__area {
-    display: flex;
-    flex-flow: column nowrap;
+  .card-area {
+    flex-direction: column;
     @media (min-width: 900px) {
       flex-direction: row;
     }
-    margin: auto;
-    margin-top: 60px;
-    width: 95%;
     text-align: center;
     .card-image {
       background-repeat: no-repeat;
@@ -484,5 +481,116 @@ p {
         }
       }
     }
+  }
+}
+
+.map {
+  user-select: none;
+  padding: 1rem 0;
+  text-align: center;
+  & > .map__t {
+    display: none;
+  }
+  .map__t {
+    height: 200px;
+    .logo {
+      @extend .logo;
+      transform: translate(0px, -14px);
+      width: 75px;
+      margin: 0 auto;
+      height: 118px;
+      &::before {
+        @include logo;
+        background-position: 72%;
+        background-size: 77%;
+      }
+      span {
+        transform: translateY(-14px);
+        color: #127ac1;
+      }
+    }
+    .map__c {
+      position: relative;
+      top: -26px;
+    }
+  }
+  #map {
+    height: 500px;
+    @media (min-width: 610px) {
+      height: 600px;
+    }
+  }
+}
+
+.benefits {
+  user-select: none;
+  padding: 1rem $padding;
+  padding-bottom: 1rem;
+  text-align: center;
+  .benefits__sub {
+    margin-top: 60px;
+    font-size: 18px;
+  }
+  .benefits__list {
+    display: inline-block;
+    li {
+      display: flex;
+      line-height: 36px;
+      span {
+        margin-left: 20px;
+        text-align: left;
+      }
+    }
+  }
+  .benefits__items {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-flow: column nowrap;
+    @media (min-width: 1200px) {
+      flex-direction: row;
+    }
+    li {
+      @extend .benefits__items;
+      justify-content: center;
+      text-transform: uppercase;
+      margin-top: 35px;
+      text-align: center;
+      &:first-child {
+        margin-top: unset;
+      }
+      span {
+        margin-left: 10px;
+        margin-right: 10px;
+        font-weight: bold;
+        font-size: 22px;
+      }
+      @media (min-width: 1200px) {
+        text-align: left;
+        margin-top: unset;
+      }
+    }
+  }
+}
+
+.signature {
+  padding: $padding;
+  font-family: "Marcellus SC", serif;
+  .signature__t {
+    font-size: 30px;
+    font-weight: bold;
+  }
+  .signature__w {
+    font-size: 19px;
+  }
+  &::after {
+    content: "";
+    display: block;
+    width: 19%;
+    min-width: 200px;
+    margin: auto;
+    height: 100px;
+    background: url(/images/Ms.Dharani_Sivam.png?d440f10…) no-repeat;
+    background-size: contain;
   }
 }

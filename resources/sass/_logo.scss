@@ -1,4 +1,4 @@
-.brand-logo.center.logo {
+.logo {
     // transform: translate(-50px, 50px);
     user-select: none;
     transform: translate(-50px, 30px) scale(.8);
@@ -29,4 +29,8 @@
             transform: translateY(-65px);
         }
     }
+}
+
+.brand-logo.center.logo {
+    @extend .logo
 }

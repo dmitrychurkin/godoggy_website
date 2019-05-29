@@ -149,7 +149,7 @@
                 <i class="material-icons medium blue-text text-lighten-1">accessibility_new</i>
             </div>
 
-            <div class="at-resort__area card">
+            <div class="card-area card">
                 <div class="at-resort__left">
                     <div class="card-image"></div>
                     <div class="card-content">
@@ -188,8 +188,90 @@
                 </div>
             </div>
         </section>
+        <section class="map">
+            <div id="map__t" class="map__t">
+                <div class="logo">
+                    <span>peace heaven</span>
+                    <span>sri lanka</span>
+                </div>
+                <div class="map__c">
+                    <b>Peace Heaven Sri Lanka</b>
+                    Kotugoda Road, Raddolugamma, Sri Lanka<br>
+                    <b>
+                        Tel : <a href='tel:+94771234567'>+94771234567</a><br>
+                        Fax : +94771234567<br>
+                        <a href='mailto:test@test.com'>test@test.com</a>
+                    </b>
+                </div>
+            </div>
+            <div id="map"></div>
+        </section>
+        <section class="benefits section">
+            <div class="section-title">BENEFITS OF BOOKING WITH US</div>
+            <div class="section-pattern">
+                <i class="material-icons medium blue-text text-lighten-1">card_giftcard</i>
+            </div>
+            <div class="benefits__sub">
+                When you book your stay directly through our official website you will receive:
+            </div>
+            <ul class="benefits__list">
+                <li>
+                    <i class="material-icons">done</i>
+                    <span>Flexible cancellation on all offers.</span>
+                </li>
+                <li>
+                    <i class="material-icons">done</i>
+                    <span>Private offers when signed up.</span>
+                </li>
+                <li>
+                    <i class="material-icons">done</i>
+                    <span>Honeymoon package.</span>
+                </li>
+                <li>
+                    <i class="material-icons">done</i>
+                    <span>Room upgrades subject to availability.</span>
+                </li>
+            </ul>
+            <div class="card-panel blue lighten-1 white-text">
+                <ul class="benefits__items">
+                    <li>
+                        <i class="material-icons medium">thumb_up</i>
+                        <span>BEST RATE GUARANTEE</span>
+                    </li>
+                    <li>
+                        <i class="material-icons medium">wifi</i>
+                        <span>FREE WI-FI</span>
+                    </li>
+                    <li>
+                        <i class="material-icons medium">loyalty</i>
+                        <span>EXCLUSIVE OFFERS UP TO 50% OFF</span>
+                    </li>
+                    <li>
+                        <i class="material-icons medium">cancel_presentation</i>
+                        <span>FREE CANCELLATION</span>
+                    </li>
+                </ul>
+            </div>
+        </section>
+        <section class="signature section center-align">
+            <div class="signature__t  blue-text text-accent-4">PEACE HEAVEN HOTEL IN SRI LANKA</div>
+            <p class="signature__w brown-text text-lighten-3">Welcome to Peace Heaven Hotel where personalized pampering meets exotic island living! Our distinctive hotels in Badulla, Sri Lanka offer new discoveries & authentic experiences in this slice of pure paradise, with holidays that are tailor made just for YOU.</p>
+        </section>
     </div>
+    <!-- <div class="box">
+        <div id="TA_selfserveprop436" class="TA_selfserveprop">
+            <ul id="A1xLfDuxixLA" class="TA_links wRQpZbJp">
+                <li id="jCUcOB" class="KdgL77wUX9Yp"><a target="_blank" href="https://www.tripadvisor.com/"><img src="https://www.tripadvisor.com/img/cdsi/img2/branding/150_logo-11900-2.png" alt="TripAdvisor" /></a></li>
+            </ul>
+        </div>
+        <script src="https://www.jscache.com/wejs?wtype=selfserveprop&amp;uniq=436&amp;locationId=3682420&amp;lang=en_US&amp;rating=true&amp;nreviews=0&amp;writereviewlink=false&amp;popIdx=true&amp;iswide=false&amp;border=false&amp;display_version=2"></script>
+    </div>
+    <script>
+        // var displaycount = 2
+    </script> -->
+
     <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5ce96d260379de23"></script>
+    <script async defer src="//maps.googleapis.com/maps/api/js?key=AIzaSyDOyCTE3idYqwiofr2B-_C0A1y6KXEUOac&amp;callback=initMap"></script>
 </body>
 
 </html>

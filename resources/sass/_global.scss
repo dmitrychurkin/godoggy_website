@@ -120,3 +120,11 @@ section {
     color: #ffd8a6;
   }
 }
+
+.card-area {
+  display: flex;
+  flex-wrap: nowrap;
+  margin: auto;
+  margin-top: 60px;
+  width: 95%;
+}
