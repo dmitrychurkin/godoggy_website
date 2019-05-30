@@ -34,6 +34,16 @@ $cyan: #6cb2eb;
   @return unquote('"#{ $fa-var }"');
 }
 
+@mixin padding-horizontal {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
+@mixin padding-vertical {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
 @mixin logo(
   $color-map: (
     0: "1bbdca",

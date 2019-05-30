@@ -9935,6 +9935,70 @@ section .section-pattern .material-icons {
   margin: 0;
 }
 
+.footer {
+  overflow: hidden;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.footer * {
+  color: #fff;
+}
+
+.footer .footer__wrapper {
+  max-width: 1366px;
+  width: 100%;
+  margin: auto;
+  padding: 0 30px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.footer ul:nth-child(2) li {
+  display: flex;
+  justify-content: space-between;
+}
+
+.footer ul:nth-child(2) li span:nth-child(1) {
+  width: 30px;
+}
+
+.footer ul:nth-child(2) li span:nth-child(2) {
+  width: 30px;
+  text-align: center;
+}
+
+.footer ul:nth-child(2) li span:nth-child(3) {
+  text-align: right;
+  width: 96px;
+}
+
+.footer .footer__logo .logo {
+  -webkit-transform: none;
+          transform: none;
+}
+
+.footer .footer__logo .logo .logo__sub,
+.footer .footer__logo .logo .logo__title {
+  -webkit-transform: none;
+          transform: none;
+}
+
+.footer .footer-copyright * {
+  color: #b7b7b7;
+}
+
+.footer .footer-copyright ul {
+  margin: 0;
+  display: flex;
+  justify-content: space-between;
+  min-width: 400px;
+}
+
+body {
+  max-height: 0;
+}
+
 p {
   max-width: 790px;
   margin: 30px auto;
@@ -10131,7 +10195,8 @@ p {
 }
 
 .info {
-  padding: 0 0.75rem;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
   padding-top: 1rem;
   padding-bottom: 1rem;
   text-align: center;
@@ -10588,10 +10653,7 @@ p {
 }
 
 .map {
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
+  position: relative;
   padding: 1rem 0;
   text-align: center;
 }
@@ -10635,7 +10697,59 @@ p {
 
 @media (min-width: 610px) {
   .map #map {
-    height: 600px;
+    height: 644px;
+  }
+}
+
+.map .map__direction {
+  position: absolute;
+  bottom: 10px;
+  right: 50%;
+  -webkit-transform: translateX(50%);
+          transform: translateX(50%);
+  width: 300px;
+  z-index: 1;
+  background-color: transparent;
+  box-shadow: none;
+}
+
+@media (min-width: 1000px) {
+  .map .map__direction {
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+    background-color: #fff;
+    -webkit-transform: none;
+            transform: none;
+    right: 10px;
+    top: 30px;
+    bottom: unset;
+  }
+}
+
+.map .map__direction .card-content {
+  display: none;
+}
+
+@media (min-width: 1000px) {
+  .map .map__direction .card-content {
+    display: block;
+  }
+
+  .map .map__direction .card-content .divider {
+    margin-top: 10px;
+  }
+}
+
+.map .map__direction .card-content .card-title:not(:first-child) {
+  margin-top: 10px;
+}
+
+.map .map__direction .card-action {
+  border-top: none;
+}
+
+@media (min-width: 1000px) {
+  .map .map__direction .card-action {
+    border-top: 1px solid rgba(160, 160, 160, 0.2);
   }
 }
 
@@ -10644,8 +10758,9 @@ p {
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
-  padding: 1rem 0 0.75rem;
-  padding-bottom: 1rem;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  padding-bottom: unset;
   text-align: center;
 }
 
@@ -10668,8 +10783,8 @@ p {
   text-align: left;
 }
 
-.benefits .benefits__items,
-.benefits .benefits__items li {
+.benefits__items,
+.benefits__items li {
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -10677,24 +10792,24 @@ p {
 }
 
 @media (min-width: 1200px) {
-  .benefits .benefits__items,
-  .benefits .benefits__items li {
+  .benefits__items,
+  .benefits__items li {
     flex-direction: row;
   }
 }
 
-.benefits .benefits__items li {
+.benefits__items li {
   justify-content: center;
   text-transform: uppercase;
   margin-top: 35px;
   text-align: center;
 }
 
-.benefits .benefits__items li:first-child {
+.benefits__items li:first-child {
   margin-top: unset;
 }
 
-.benefits .benefits__items li span {
+.benefits__items li span {
   margin-left: 10px;
   margin-right: 10px;
   font-weight: bold;
@@ -10702,14 +10817,33 @@ p {
 }
 
 @media (min-width: 1200px) {
-  .benefits .benefits__items li {
+  .benefits__items li {
     text-align: left;
     margin-top: unset;
   }
 }
 
+.review {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
+.review .cert {
+  margin-top: 60px;
+  text-align: center;
+}
+
+.review .cert img {
+  max-width: 300px;
+}
+
 .signature {
-  padding: 0 0.75rem;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
   font-family: "Marcellus SC", serif;
 }
 

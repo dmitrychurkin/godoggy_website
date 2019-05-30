@@ -204,6 +204,33 @@
                     </b>
                 </div>
             </div>
+            <div class="map__direction card">
+                <div class="card-content">
+                    <span class="card-title">ADDRESS</span>
+                    <p class="blue-text text-lighten-1">Peace Heaven Sri Lanka</p>
+                    <p>Kotugoda Road,</p>
+                    <p>Raddolugamma,</p>
+                    <p>Sri Lanka</p>
+                    <div class="divider"></div>
+                    <span class="card-title">HOTEL</span>
+                    <a href="tel:+94771234567">+94 77 1234567</a>
+                    <div class="divider"></div>
+                    <span class="card-title">RESERVATIONS</span>
+                    <a href="tel:+94115671000">+94 11 5671000</a>
+                    <div class="divider"></div>
+                    <span class="card-title">FAX</span>
+                    <p>+94 11 5671000</p>
+                    <div class="divider"></div>
+                    <span class="card-title">EMAIL</span>
+                    <a href="mailto:test@test.com">test@test.com</a>
+                </div>
+                <div class="card-action">
+                    <a class="waves-effect waves-light grey darken-4 btn btn-flat" href="//www.google.com/maps/dir/?api=1&destination=47.109426,37.648601" target="_blank">
+                        get directions
+                        <i class="material-icons right">directions</i>
+                    </a>
+                </div>
+            </div>
             <div id="map"></div>
         </section>
         <section class="benefits section">
@@ -232,31 +259,44 @@
                     <span>Room upgrades subject to availability.</span>
                 </li>
             </ul>
-            <div class="card-panel blue lighten-1 white-text">
-                <ul class="benefits__items">
-                    <li>
-                        <i class="material-icons medium">thumb_up</i>
-                        <span>BEST RATE GUARANTEE</span>
-                    </li>
-                    <li>
-                        <i class="material-icons medium">wifi</i>
-                        <span>FREE WI-FI</span>
-                    </li>
-                    <li>
-                        <i class="material-icons medium">loyalty</i>
-                        <span>EXCLUSIVE OFFERS UP TO 50% OFF</span>
-                    </li>
-                    <li>
-                        <i class="material-icons medium">cancel_presentation</i>
-                        <span>FREE CANCELLATION</span>
-                    </li>
-                </ul>
+        </section>
+        <div class="card-panel blue lighten-1 white-text">
+            <ul class="benefits__items">
+                <li>
+                    <i class="material-icons medium">thumb_up</i>
+                    <span>BEST RATE GUARANTEE</span>
+                </li>
+                <li>
+                    <i class="material-icons medium">wifi</i>
+                    <span>FREE WI-FI</span>
+                </li>
+                <li>
+                    <i class="material-icons medium">loyalty</i>
+                    <span>EXCLUSIVE OFFERS UP TO 50% OFF</span>
+                </li>
+                <li>
+                    <i class="material-icons medium">cancel_presentation</i>
+                    <span>FREE CANCELLATION</span>
+                </li>
+            </ul>
+        </div>
+        <section class="review section">
+            <div class="section-title">CERTIFICATIONS & REVIEWS</div>
+            <div class="section-pattern">
+                <i class="material-icons medium blue-text text-lighten-1">local_activity</i>
+            </div>
+            <div class="cert">
+                <img src="/images/award_2018.png">
+                <img src="/images/award_2019.png">
+                <img src="/images/certificate_of_exelence_2019.png">
             </div>
         </section>
         <section class="signature section center-align">
             <div class="signature__t  blue-text text-accent-4">PEACE HEAVEN HOTEL IN SRI LANKA</div>
             <p class="signature__w brown-text text-lighten-3">Welcome to Peace Heaven Hotel where personalized pampering meets exotic island living! Our distinctive hotels in Badulla, Sri Lanka offer new discoveries & authentic experiences in this slice of pure paradise, with holidays that are tailor made just for YOU.</p>
         </section>
+        @footer
+        @endfooter
     </div>
     <!-- <div class="box">
         <div id="TA_selfserveprop436" class="TA_selfserveprop">
