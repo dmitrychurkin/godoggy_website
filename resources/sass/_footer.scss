@@ -12,25 +12,47 @@
         margin: auto;
         padding: 0 30px;
         display: flex;
-        justify-content: space-between;
+        flex-flow: column nowrap;
+        justify-content: center;
+        align-items: center;
     }
-    ul:nth-child(2) {
-        li {
-            display: flex;
-            justify-content: space-between;
-            span:nth-child(1) {
-                width: 30px;
-            }
-            span:nth-child(2) {
-                width: 30px;
+    & > .footer__wrapper {
+        @media (min-width: 610px) {
+            flex-direction: row;
+            justify-content: space-around;
+        }
+        ul {
+            width: 180px;
+            &:first-child {
                 text-align: center;
+                @media (min-width: 610px) {
+                    text-align: left;
+                }
             }
-            span:nth-child(3) {
-                text-align: right;
-                width: 96px;
+            &:nth-child(2) {
+                @media (min-width: 610px) {
+                    order: 1;
+                }
+                li {
+                    display: flex;
+                    justify-content: space-between;
+                    span:nth-child(1) {
+                        width: 30px;
+                    }
+                    span:nth-child(2) {
+                        width: 30px;
+                        text-align: center;
+                    }
+                    span:nth-child(3) {
+                        text-align: right;
+                        width: 96px;
+                    }
+                }
             }
         }
     }
+    
+    
     .footer__logo {
         .logo {
             transform: none;
@@ -40,14 +62,21 @@
         }
     }
     .footer-copyright {
+        font-size: 9px;
         * {
             color: #b7b7b7;
         }
-        ul {
-            margin: 0;
-            display: flex;
-            justify-content: space-between;
-            min-width: 400px;
+        .footer__wrapper {
+            @include padding-horizontal;
+            ul {
+                margin: 0;
+                display: flex;
+                justify-content: center;
+                width: 100%;
+                & li:not(:last-child) {
+                    margin-right: 10px;
+                }
+            }
         }
     }
 }

@@ -2,7 +2,7 @@ import { Sidenav, Slider, Collapsible, FloatingActionButton, TapTarget, Tabs, Ca
 import isMobile from './detectmobilebrowser';
 import Cookie from './cookie';
 
-export default function () {
+export default () => {
 
     const COOKIE_NAME = '__s';
     const navbar = document.getElementById('app-navbar')!;

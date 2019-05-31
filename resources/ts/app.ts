@@ -31,6 +31,10 @@
 //     el: '#app',
 // });
 import M from './lib/materialize';
+import f from './lib/fixes';
 import './lib/map';
 
-window.addEventListener('DOMContentLoaded', M);
+window.addEventListener('DOMContentLoaded', () => {
+    M();
+    f();
+});

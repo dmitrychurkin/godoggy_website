@@ -32,20 +32,6 @@
             @logo(['show_text'=>true])
             @endlogo
         </div>
-        <ul class="links">
-            <li><a href="javascript:void(0)">Overview</a></li>
-            <li><a href="javascript:void(0)">Dinning</a></li>
-            <li><a href="javascript:void(0)">Leisure</a></li>
-            <li><a href="javascript:void(0)">Special Offers</a></li>
-            <li><a href="javascript:void(0)">Gallery</a></li>
-        </ul>
-        <ul class="links">
-            <li><a href="javascript:void(0)">Accommodation</a></li>
-            <li><a href="javascript:void(0)">Spa</a></li>
-            <li><a href="javascript:void(0)">Weddings & Events</a></li>
-            <li><a href="javascript:void(0)">Location</a></li>
-            <li><a href="javascript:void(0)">Contact Us</a></li>
-        </ul>
     </div>
     <div class="footer-copyright">
         <div class="footer__wrapper">
@@ -53,9 +39,9 @@
                 © Copyright <span id="copyright-year"></span> - Peace Heaven Pvt Ltd. All Rights Reserved
             </span>
             <ul>
-                <li><a href="javascript:void(0)">Terms and Conditions</a></li>
-                <li><a href="javascript:void(0)">Privacy Policy</a></li>
-                <li><a href="javascript:void(0)">Site Map</a></li>
+                <li><a href="/terms-and-conditions">Terms and Conditions</a></li>
+                <li><a href="/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/site-map">Site Map</a></li>
             </ul>
             <span>
                 Developed with <span class="pink-text">❤</span> for my Sister

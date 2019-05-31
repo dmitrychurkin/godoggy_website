@@ -128,7 +128,7 @@
                 <img src="/images/offer5.jpg">
             </a>
         </div>
-        <div class="col s12 offers__desc">
+        <div id="offers__desc" class="col s12 offers__desc">
             <div class="col">
                 <div id="offers-card" class="card white">
                     <div class="card-content center-align">
@@ -142,7 +142,7 @@
             </div>
         </div>
     </section>
-    <div class="service-wrapper">
+    <div id="service-wrapper" class="service-wrapper">
         <section class="at-resort section">
             <div class="section-title">AT THE RESORT</div>
             <div class="section-pattern">
@@ -309,6 +309,13 @@
     <script>
         // var displaycount = 2
     </script> -->
+
+    <!-- 
+        TODO: 
+        1. add section experience and leisure (ugabay)
+        2. other projects -> example design https://www.oakrayhotels.com/ (OAK RAY HOTELS IN SRI LANKA section) https://colorlib.com/preview/theme/charilife/index.html
+        3. gallery (instagram feed?)
+    -->
 
     <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5ce96d260379de23"></script>
     <script async defer src="//maps.googleapis.com/maps/api/js?key=AIzaSyDOyCTE3idYqwiofr2B-_C0A1y6KXEUOac&amp;callback=initMap"></script>

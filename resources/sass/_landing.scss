@@ -1,7 +1,3 @@
-body {
-  max-height: 0;
-}
-
 p {
   max-width: 790px;
   margin: $margin-top auto;
@@ -378,25 +374,8 @@ p {
 }
 
 .service-wrapper {
-  transform: translateY(200px);
-  @media (min-width: 400px) {
-    transform: translateY(150px);
-  }
-  @media (min-width: 500px) {
-    transform: translateY(100px);
-  }
-  @media (min-width: 700px) {
-    transform: translateY(50px);
-  }
-  @media (min-width: 800px) {
-    transform: translateY(-50px);
-  }
-  @media (min-width: 900px) {
-    transform: translateY(-100px);
-  }
-  @media (min-width: 1000px) {
-    transform: translateY(-150px);
-  }
+  width: 100%;
+  position: absolute;
 }
 
 .at-resort {
