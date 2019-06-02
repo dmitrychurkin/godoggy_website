@@ -169,6 +169,13 @@ p {
   }
 }
 
+.facilities {
+  @include padding-horizontal;
+  .section-pattern {
+    margin-bottom: 60px;
+  }
+}
+
 .accommodation {
   margin-bottom: 0;
   .tabs__container {
@@ -382,6 +389,10 @@ p {
   user-select: none;
   margin-top: 0;
   padding-top: 0;
+  .section-title,
+  .section-pattern {
+    @include padding-horizontal;
+  }
   .card-area {
     flex-direction: column;
     @media (min-width: 900px) {
@@ -512,7 +523,7 @@ p {
     background-color: transparent;
     box-shadow: none;
     @media (min-width: 1000px) {
-      box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
+      box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
       background-color: #fff;
       transform: none;
       right: 10px;
@@ -534,8 +545,36 @@ p {
     .card-action {
       border-top: none;
       @media (min-width: 1000px) {
-        border-top: 1px solid rgba(160,160,160,0.2);
+        border-top: 1px solid rgba(160, 160, 160, 0.2);
       }
+    }
+  }
+}
+
+.leisure,
+.other {
+  @include padding-horizontal;
+  .section-pattern {
+    margin-bottom: 60px;
+  }
+  .collapsible {
+    max-width: 1366px;
+    width: 70%;
+    min-width: 300px;
+    margin: auto;
+    .collapsible-header {
+      justify-content: center;
+    }
+  }
+}
+
+.other {
+  .card {
+    width: 30%;
+    min-width: 300px;
+    margin: auto;
+    .activator {
+      width: 100%;
     }
   }
 }
@@ -566,29 +605,37 @@ p {
   display: flex;
   align-items: center;
   justify-content: space-around;
-  flex-flow: column nowrap;
-  @media (min-width: 1200px) {
-    flex-direction: row;
-  }
+  flex-wrap: wrap;
+  // flex-flow: column nowrap;
+  // @media (min-width: 1200px) {
+  //   flex-direction: row;
+  // }
   li {
-    @extend .benefits__items;
+    // @extend .benefits__items;
+    display: flex;
+    flex-wrap: nowrap;
     justify-content: center;
+    align-items: center;
     text-transform: uppercase;
-    margin-top: 35px;
+    // margin-top: 35px;
+    margin-top: 20px;
+    margin-bottom: 20px;
     text-align: center;
-    &:first-child {
-      margin-top: unset;
-    }
+    // &:first-child {
+    //   margin-top: unset;
+    // }
     span {
+      text-align: left;
       margin-left: 10px;
       margin-right: 10px;
       font-weight: bold;
       font-size: 22px;
+      // min-width: 200px;
     }
-    @media (min-width: 1200px) {
-      text-align: left;
-      margin-top: unset;
-    }
+    // @media (min-width: 1200px) {
+    //   text-align: left;
+    //   margin-top: unset;
+    // }
   }
 }
 

@@ -67,6 +67,49 @@
             <a class="waves-effect waves-light grey darken-4 btn btn-flat">learn more</a>
         </div>
     </section>
+    <section class="facilities section">
+        <div class="section-title">HOTEL FACILITIES</div>
+        <div class="section-pattern">
+            <i class="material-icons medium blue-text text-lighten-1">stars</i>
+        </div>
+        <p class="center-align">Although far from the hustle of modernity, every up-to-date convenience is yours at hand. Cable TV, internet and IDD phones and of course business services if you wish to keep in touch with the corporate world.</p>
+    </section>
+    <div class="card-panel blue lighten-1 white-text">
+        <ul class="benefits__items">
+            <li>
+                <i class="material-icons medium">wifi</i>
+                <span>FREE WI-FI</span>
+            </li>
+            <li>
+                <i class="material-icons medium">tv</i>
+                <span>CABLE TV</span>
+            </li>
+            <li>
+                <i class="material-icons medium">fastfood</i>
+                <span>FOOD & BEVERAGES</span>
+            </li>
+            <li>
+                <i class="material-icons medium">pool</i>
+                <span>SWIMMING POOL</span>
+            </li>
+            <li>
+                <i class="material-icons medium">fitness_center</i>
+                <span>FITNESS CENTER</span>
+            </li>
+            <li>
+                <i class="material-icons medium">queue_music</i>
+                <span>ENTERTAINTMENTS</span>
+            </li>
+            <li>
+                <i class="material-icons medium">directions_bike</i>
+                <span>SPORTS & RECREATIONS</span>
+            </li>
+            <li>
+                <i class="material-icons medium">spa</i>
+                <span>SPA</span>
+            </li>
+        </ul>
+    </div>
     <section class="accommodation section row">
         <div class="section-title col s12">ACCOMMODATION</div>
         <div class="section-pattern col s12">
@@ -233,6 +276,83 @@
             </div>
             <div id="map"></div>
         </section>
+        <section class="leisure section">
+            <div class="section-title">EXPERIENCE & LEISURE</div>
+            <div class="section-pattern">
+                <i class="material-icons medium blue-text text-lighten-1">category</i>
+            </div>
+            <p class="center-align">Uga Bay is surrounded by history and culture, with quaint fishing villages, bustling local markets, and famous Hindu temples waiting to be explored. Grab a bike from the hotel and make your way to some of the east coast’s most memorable attractions. The charming town of Batticaloa, the remains of an early 18th Century Dutch Fort, and the celebrated archaeological sites of Polonnaruwa are all close by.</p>
+            <ul class="collapsible popout">
+                <li>
+                    <div class="collapsible-header"><i class="material-icons">terrain</i>TOURS & ATTRACTIONS</div>
+                    <div class="collapsible-body">
+                        <a class="chip" href="/leisure/passikuda-bay">
+                            <img src="images/experience1.jpg" alt="Passikuda Bay">
+                            Passikuda Bay
+                        </a>
+                        <a class="chip" href="/leisure/batticloa-tour">
+                            <img src="images/experience2.jpg" alt="Batticloa Tour">
+                            Batticloa Tour
+                        </a>
+                        <a class="chip" href="/leisure/minneria-tour">
+                            <img src="images/experience4.jpg" alt="Minneria Tour">
+                            Minneria Tour
+                        </a>
+                        <a class="chip" href="/leisure/snorkelling">
+                            <img src="images/experience5.jpg" alt="Snorkelling">
+                            Snorkelling
+                        </a>
+                        <a class="chip" href="/leisure/cook-like-a-local">
+                            <img src="images/experience6.jpg" alt="Cook Like a Local">
+                            Cook Like a Local
+                        </a>
+                    </div>
+                </li>
+                <li>
+                    <div class="collapsible-header"><i class="material-icons">child_care</i>FOR KIDS</div>
+                    <div class="collapsible-body">
+                        <a class="chip" href="/leisure/cool-zone-kids-club">
+                            <img src="images/experience3.jpg" alt="Cool Zone Kids Club">
+                            Cool Zone Kids Club
+                        </a>
+                        <a class="chip" href="/leisure/aqua-zone-waterpark">
+                            <img src="images/experience7.jpg" alt="Aqua Zone Waterpark">
+                            Aqua Zone Waterpark
+                        </a>
+                        <a class="chip" href="/leisure/outdoor-activities">
+                            <img src="images/experience8.jpg" alt="Outdoor Activities">
+                            Outdoor Activities
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </section>
+        <section class="other section">
+            <div class="section-title">OTHER PROJECTS</div>
+            <div class="section-pattern">
+                <i class="material-icons medium blue-text text-lighten-1">layers</i>
+            </div>
+            <div class="card sticky-action">
+                <div class="card-image waves-effect waves-block waves-light">
+                    <img class="activator" src="/images/godoggy-poster.png">
+                </div>
+                <div class="card-content">
+                    <span class="card-title activator grey-text text-darken-4">Card Title<i class="material-icons right">more_vert</i></span>
+
+                    <p><a href="#!">This is a link</a></p>
+                </div>
+
+                <div class="card-action">
+                    <a href="#">This is a link</a>
+                    <a href="#">This is a link</a>
+                </div>
+
+                <div class="card-reveal" style="display: none; transform: translateY(0%);">
+                    <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
+                    <p>Here is some more information about this product that is only revealed once clicked on.</p>
+                </div>
+            </div>
+        </section>
         <section class="benefits section">
             <div class="section-title">BENEFITS OF BOOKING WITH US</div>
             <div class="section-pattern">
@@ -265,10 +385,6 @@
                 <li>
                     <i class="material-icons medium">thumb_up</i>
                     <span>BEST RATE GUARANTEE</span>
-                </li>
-                <li>
-                    <i class="material-icons medium">wifi</i>
-                    <span>FREE WI-FI</span>
                 </li>
                 <li>
                     <i class="material-icons medium">loyalty</i>
@@ -315,6 +431,7 @@
         1. add section experience and leisure (ugabay)
         2. other projects -> example design https://www.oakrayhotels.com/ (OAK RAY HOTELS IN SRI LANKA section) https://colorlib.com/preview/theme/charilife/index.html
         3. gallery (instagram feed?)
+        4. see bottom part at https://www.shangri-la.com/en/hambantota/shangrila/
     -->
 
     <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5ce96d260379de23"></script>

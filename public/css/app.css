@@ -9596,6 +9596,10 @@ body {
   margin-top: 30px;
 }
 
+.sidenav li > a {
+  font-weight: bold;
+}
+
 .sidenav ul.collapsible-accordion .collapsible-body li a {
   padding: 0 37.5px 0 45px;
 }
@@ -10257,6 +10261,15 @@ p {
   }
 }
 
+.facilities {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
+.facilities .section-pattern {
+  margin-bottom: 60px;
+}
+
 .accommodation {
   margin-bottom: 0;
 }
@@ -10526,6 +10539,12 @@ p {
   padding-top: 0;
 }
 
+.at-resort .section-title,
+.at-resort .section-pattern {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
 .at-resort .card-area {
   flex-direction: column;
   text-align: center;
@@ -10749,6 +10768,40 @@ p {
   }
 }
 
+.leisure,
+.other {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
+.leisure .section-pattern,
+.other .section-pattern {
+  margin-bottom: 60px;
+}
+
+.leisure .collapsible,
+.other .collapsible {
+  max-width: 1366px;
+  width: 70%;
+  min-width: 300px;
+  margin: auto;
+}
+
+.leisure .collapsible .collapsible-header,
+.other .collapsible .collapsible-header {
+  justify-content: center;
+}
+
+.other .card {
+  width: 30%;
+  min-width: 300px;
+  margin: auto;
+}
+
+.other .card .activator {
+  width: 100%;
+}
+
 .benefits {
   -webkit-user-select: none;
      -moz-user-select: none;
@@ -10779,44 +10832,30 @@ p {
   text-align: left;
 }
 
-.benefits__items,
-.benefits__items li {
+.benefits__items {
   display: flex;
   align-items: center;
   justify-content: space-around;
-  flex-flow: column nowrap;
-}
-
-@media (min-width: 1200px) {
-  .benefits__items,
-  .benefits__items li {
-    flex-direction: row;
-  }
+  flex-wrap: wrap;
 }
 
 .benefits__items li {
+  display: flex;
+  flex-wrap: nowrap;
   justify-content: center;
+  align-items: center;
   text-transform: uppercase;
-  margin-top: 35px;
+  margin-top: 20px;
+  margin-bottom: 20px;
   text-align: center;
 }
 
-.benefits__items li:first-child {
-  margin-top: unset;
-}
-
 .benefits__items li span {
+  text-align: left;
   margin-left: 10px;
   margin-right: 10px;
   font-weight: bold;
   font-size: 22px;
-}
-
-@media (min-width: 1200px) {
-  .benefits__items li {
-    text-align: left;
-    margin-top: unset;
-  }
 }
 
 .review {
