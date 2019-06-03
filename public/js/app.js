@@ -17198,12 +17198,12 @@ window.addEventListener('DOMContentLoaded', function () { return __awaiter(_this
                 materialize_1.default();
                 fixes_1.default();
                 return [4 /*yield*/, photoswipe_1.default([
-                        'https://www.heritancehotels.com/kandalama/wp-content/uploads/sites/18/2019/02/Heritance-Kandalama_Exterior-19.jpg',
-                        'https://www.heritancehotels.com/kandalama/wp-content/uploads/sites/18/2019/02/this-island-life-heritance-kandalama-sri-lanka-24.jpg',
-                        'https://www.heritancehotels.com/kandalama/wp-content/uploads/sites/18/2019/02/Heritance-Kandalama_Accomodation_Deluxe9-2.jpg',
-                        'https://www.heritancehotels.com/kandalama/wp-content/uploads/sites/18/2019/02/Heritance-Kandalama-Interior-7.jpg',
-                        'https://www.heritancehotels.com/kandalama/wp-content/uploads/sites/18/2019/02/MG_8180-Panorama.jpg',
-                        'https://www.heritancehotels.com/kandalama/wp-content/uploads/sites/18/2019/02/this-island-life-heritance-kandalama-sri-lanka-26.jpg'
+                        '/images/gallery-img-1.jpg',
+                        '/images/gallery-img-2.jpg',
+                        '/images/gallery-img-3.jpg',
+                        '/images/gallery-img-4.jpg',
+                        '/images/gallery-img-5.jpg',
+                        '/images/gallery-img-6.jpg'
                     ])];
             case 1:
                 pS = _a.sent();
@@ -17625,8 +17625,8 @@ function loadImages(imageUri) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\godoggy_website\resources\ts\app.ts */"./resources/ts/app.ts");
-module.exports = __webpack_require__(/*! D:\godoggy_website\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\SERVER\OpenServer\domains\godoggy.com\resources\ts\app.ts */"./resources/ts/app.ts");
+module.exports = __webpack_require__(/*! C:\SERVER\OpenServer\domains\godoggy.com\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
