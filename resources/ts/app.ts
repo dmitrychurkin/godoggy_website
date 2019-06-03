@@ -32,9 +32,19 @@
 // });
 import M from './lib/materialize';
 import f from './lib/fixes';
+import photoSwipe from './lib/photoswipe';
 import './lib/map';
 
-window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('DOMContentLoaded', async () => {
     M();
     f();
+    const pS = await photoSwipe([
+        'https://www.heritancehotels.com/kandalama/wp-content/uploads/sites/18/2019/02/Heritance-Kandalama_Exterior-19.jpg',
+        'https://www.heritancehotels.com/kandalama/wp-content/uploads/sites/18/2019/02/this-island-life-heritance-kandalama-sri-lanka-24.jpg',
+        'https://www.heritancehotels.com/kandalama/wp-content/uploads/sites/18/2019/02/Heritance-Kandalama_Accomodation_Deluxe9-2.jpg',
+        'https://www.heritancehotels.com/kandalama/wp-content/uploads/sites/18/2019/02/Heritance-Kandalama-Interior-7.jpg',
+        'https://www.heritancehotels.com/kandalama/wp-content/uploads/sites/18/2019/02/MG_8180-Panorama.jpg',
+        'https://www.heritancehotels.com/kandalama/wp-content/uploads/sites/18/2019/02/this-island-life-heritance-kandalama-sri-lanka-26.jpg'
+    ]);
+    pS.init();
 });

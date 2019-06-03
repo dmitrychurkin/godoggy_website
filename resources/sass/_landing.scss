@@ -570,7 +570,7 @@ p {
 
 .other {
   .card {
-    width: 30%;
+    width: 50%;
     min-width: 300px;
     margin: auto;
     .activator {
@@ -602,10 +602,15 @@ p {
 }
 
 .benefits__items {
+  max-width: 1237px;
+  margin: auto;
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
   flex-wrap: wrap;
+  @media (min-width: 429px) {
+    justify-content: space-around;
+  }
   // flex-flow: column nowrap;
   // @media (min-width: 1200px) {
   //   flex-direction: row;
@@ -670,5 +675,25 @@ p {
     height: 100px;
     background: url(/images/Ms.Dharani_Sivam.png?d440f10…) no-repeat;
     background-size: contain;
+  }
+}
+
+.extra {
+  background-color: #f0f8ff;
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+  font-size: 12px;
+  .check, .pay {
+    margin: 0 20px;
+    div {
+      font-size: 15px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    svg {
+      width: 100%;
+      max-width: 200px;
+    }
   }
 }
