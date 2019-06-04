@@ -9,7 +9,7 @@ const settings: SwiperOptions = {
     breakpointsInverse: true,
     breakpoints: {
         0: {
-          slidesPerView: 1
+            slidesPerView: 1
         },
         500: {
             slidesPerView: 2
@@ -37,6 +37,7 @@ export default async () => {
             const [{ target: { parentNode: { dataset: { index } } } }] = args;
             photoSwipe(imgData, {
                 index: +index,
+                showHideOpacity: true,
                 getThumbBoundsFn: num => {
                     swiper.slideTo(num);
                     const { left, top, width } = (document.querySelector(`.swiper-slide[data-index='${num}']`) as HTMLElement).getBoundingClientRect();
@@ -48,7 +49,7 @@ export default async () => {
                 }
             }).init();
         })
-    }else {
+    } else {
         markWithClassName(`${GALLERY_SELECTOR}__failed`);
     }
 };
@@ -90,7 +91,7 @@ function loadImages(imageUri: Array<string>): Promise<Array<Item>> {
     let resolver: (value?: Array<Item> | undefined) => void;
     const images: Array<Item> = [];
     const checkNotify = () => {
-        if (images.length == imageUri.length && typeof resolver ==='function') {
+        if (images.length == imageUri.length && typeof resolver === 'function') {
             resolver(images);
         }
     };

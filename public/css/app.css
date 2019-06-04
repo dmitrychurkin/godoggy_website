@@ -10794,6 +10794,7 @@ p {
 
 .other .card {
   max-width: 1366px;
+  width: 95%;
   min-width: 300px;
   margin: auto;
 }

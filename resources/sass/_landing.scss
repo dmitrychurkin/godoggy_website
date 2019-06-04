@@ -571,6 +571,7 @@ p {
 .other {
   .card {
     max-width: 1366px;
+    width: 95%;
     min-width: 300px;
     margin: auto;
     .activator {
@@ -611,36 +612,22 @@ p {
   @media (min-width: 429px) {
     justify-content: space-around;
   }
-  // flex-flow: column nowrap;
-  // @media (min-width: 1200px) {
-  //   flex-direction: row;
-  // }
   li {
-    // @extend .benefits__items;
     display: flex;
     flex-wrap: nowrap;
     justify-content: center;
     align-items: center;
     text-transform: uppercase;
-    // margin-top: 35px;
     margin-top: 20px;
     margin-bottom: 20px;
     text-align: center;
-    // &:first-child {
-    //   margin-top: unset;
-    // }
     span {
       text-align: left;
       margin-left: 10px;
       margin-right: 10px;
       font-weight: bold;
       font-size: 22px;
-      // min-width: 200px;
     }
-    // @media (min-width: 1200px) {
-    //   text-align: left;
-    //   margin-top: unset;
-    // }
   }
 }
 
@@ -673,16 +660,17 @@ p {
           font-size: 4em;
           background-color: transparent;
           color: transparent;
-          transition: .5s ease-out;
+          transition: 0.5s ease-out;
           &:hover {
             color: #fff;
-            background-color: rgba(0,0,0,0.5);
+            background-color: rgba(0, 0, 0, 0.5);
           }
         }
       }
     }
   }
-  &.gallery__ready, &.gallery__failed {
+  &.gallery__ready,
+  &.gallery__failed {
     .preloader-wrapper {
       display: none;
     }
@@ -721,7 +709,8 @@ p {
   display: flex;
   justify-content: center;
   font-size: 12px;
-  .check, .pay {
+  .check,
+  .pay {
     margin: 0 20px;
     div {
       font-size: 15px;

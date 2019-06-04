@@ -26108,6 +26108,7 @@ exports.default = (function () { return __awaiter(_this, void 0, void 0, functio
                         var index = args[0].target.parentNode.dataset.index;
                         photoswipe_1.default(imgData, {
                             index: +index,
+                            showHideOpacity: true,
                             getThumbBoundsFn: function (num) {
                                 swiper_2.slideTo(num);
                                 var _a = document.querySelector(".swiper-slide[data-index='" + num + "']").getBoundingClientRect(), left = _a.left, top = _a.top, width = _a.width;
@@ -26291,6 +26292,9 @@ var detectmobilebrowser_1 = __importDefault(__webpack_require__(/*! ./detectmobi
 var cookie_1 = __importDefault(__webpack_require__(/*! ./cookie */ "./resources/ts/lib/cookie.ts"));
 exports.default = (function () {
     var COOKIE_NAME = '__s';
+    var COOKIE_POLICY_CUR = '__cp';
+    var COOKIE_POLICY_SET = '__p';
+    var modals = document.querySelectorAll('.modal');
     var navbar = document.getElementById('app-navbar');
     var mainSlider = document.getElementById('main-slider');
     var slideNav = document.getElementById('slide-nav');
@@ -26319,6 +26323,25 @@ exports.default = (function () {
     materialize_css_1.FloatingActionButton.init(fixedActionBtn, {
         toolbarEnabled: true
     });
+    materialize_css_1.Modal.init(modals);
+    // init toast with cookie policy
+    var currentCookiePolicyVersion = cookie_1.default.getItem(COOKIE_POLICY_CUR);
+    if (!currentCookiePolicyVersion || (currentCookiePolicyVersion !== cookie_1.default.getItem(COOKIE_POLICY_SET))) {
+        setTimeout(function () {
+            var cookieToast = materialize_css_1.toast({
+                html: "<span>Updated Privacy Policy: We have updated our Privacy Policy and Cookies Policy to take into account the European Union General Data Protection Regulation.</span>\n                        <a class=\"btn-flat toast-action\" href=\"privacy/cookie\" target=\"_blank\">more</a>\n                        <button id=\"toast-dismiss-btn\" class=\"btn-flat toast-action\">ok</button>",
+                displayLength: Infinity
+            });
+            var toastDismissBtn = document.getElementById('toast-dismiss-btn');
+            if (toastDismissBtn) {
+                toastDismissBtn.onclick = function () {
+                    var cookiePolicyVersion = cookie_1.default.getItem(COOKIE_POLICY_CUR);
+                    cookie_1.default.setItem(COOKIE_POLICY_SET, cookiePolicyVersion || '1');
+                    cookieToast.dismiss();
+                };
+            }
+        }, 5000);
+    }
     // show hint if on mobile
     if (detectmobilebrowser_1.default() && !cookie_1.default.hasItem(COOKIE_NAME)) {
         materialize_css_1.TapTarget.init(document.getElementById('tap-target'), {
@@ -26402,8 +26425,8 @@ exports.default = (function (items, options) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\godoggy_website\resources\ts\app.ts */"./resources/ts/app.ts");
-module.exports = __webpack_require__(/*! D:\godoggy_website\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\SERVER\OpenServer\domains\godoggy.com\resources\ts\app.ts */"./resources/ts/app.ts");
+module.exports = __webpack_require__(/*! C:\SERVER\OpenServer\domains\godoggy.com\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

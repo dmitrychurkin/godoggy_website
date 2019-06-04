@@ -1,10 +1,13 @@
-import { Sidenav, Slider, Collapsible, FloatingActionButton, TapTarget, Tabs, Carousel } from 'materialize-css';
+import { Sidenav, Slider, Collapsible, FloatingActionButton, TapTarget, Tabs, Carousel, Modal, toast } from 'materialize-css';
 import isMobile from './detectmobilebrowser';
 import Cookie from './cookie';
 
 export default () => {
 
     const COOKIE_NAME = '__s';
+    const COOKIE_POLICY_CUR = '__cp';
+    const COOKIE_POLICY_SET = '__p';
+    const modals = document.querySelectorAll('.modal');
     const navbar = document.getElementById('app-navbar')!;
     const mainSlider = document.getElementById('main-slider')!;
     const slideNav = document.getElementById('slide-nav')!;
@@ -32,6 +35,28 @@ export default () => {
     FloatingActionButton.init(fixedActionBtn, {
         toolbarEnabled: true
     });
+    Modal.init(modals);
+
+    // init toast with cookie policy
+    const currentCookiePolicyVersion = Cookie.getItem(COOKIE_POLICY_CUR);
+    if (!currentCookiePolicyVersion || (currentCookiePolicyVersion !== Cookie.getItem(COOKIE_POLICY_SET))) {
+        setTimeout(() => {
+            const cookieToast = toast({
+                html: `<span>Updated Privacy Policy: We have updated our Privacy Policy and Cookies Policy to take into account the European Union General Data Protection Regulation.</span>
+                        <a class="btn-flat toast-action" href="privacy/cookie" target="_blank">more</a>
+                        <button id="toast-dismiss-btn" class="btn-flat toast-action">ok</button>`,
+                displayLength: Infinity
+            });
+            const toastDismissBtn = document.getElementById('toast-dismiss-btn');
+            if (toastDismissBtn) {
+                toastDismissBtn.onclick = () => {
+                    const cookiePolicyVersion = Cookie.getItem(COOKIE_POLICY_CUR);
+                    Cookie.setItem(COOKIE_POLICY_SET, cookiePolicyVersion || '1');
+                    cookieToast.dismiss();
+                };
+            }
+        }, 5000);
+    }
 
     // show hint if on mobile
     if (isMobile() && !Cookie.hasItem(COOKIE_NAME)) {
