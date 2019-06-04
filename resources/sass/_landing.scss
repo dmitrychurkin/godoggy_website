@@ -570,7 +570,7 @@ p {
 
 .other {
   .card {
-    width: 50%;
+    max-width: 1366px;
     min-width: 300px;
     margin: auto;
     .activator {
@@ -653,6 +653,43 @@ p {
     img {
       max-width: 300px;
     }
+  }
+}
+
+.gallery {
+  &.gallery__ready {
+    .swiper-container {
+      height: 300px;
+      .swiper-slide {
+        cursor: pointer;
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        .fab {
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size: 4em;
+          background-color: transparent;
+          color: transparent;
+          transition: .5s ease-out;
+          &:hover {
+            color: #fff;
+            background-color: rgba(0,0,0,0.5);
+          }
+        }
+      }
+    }
+  }
+  &.gallery__ready, &.gallery__failed {
+    .preloader-wrapper {
+      display: none;
+    }
+  }
+  .preloader-wrapper {
+    margin: auto;
+    display: block;
   }
 }
 

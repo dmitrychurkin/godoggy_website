@@ -31,20 +31,12 @@
 //     el: '#app',
 // });
 import M from './lib/materialize';
-import f from './lib/fixes';
-import photoSwipe from './lib/photoswipe';
+import fixes from './lib/fixes';
+import gallery from './lib/gallery';
 import './lib/map';
 
 window.addEventListener('DOMContentLoaded', async () => {
     M();
-    f();
-    const pS = await photoSwipe([
-        '/images/gallery-img-1.jpg',
-        '/images/gallery-img-2.jpg',
-        '/images/gallery-img-3.jpg',
-        '/images/gallery-img-4.jpg',
-        '/images/gallery-img-5.jpg',
-        '/images/gallery-img-6.jpg'
-    ]);
-    pS.init();
+    fixes();
+    gallery();
 });

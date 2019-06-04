@@ -400,6 +400,24 @@
                 <img src="/images/certificate_of_exelence_2019.png">
             </div>
         </section>
+        <section id="gallery" class="gallery section">
+            <div class="swiper-container">
+                <div class="swiper-wrapper"></div>
+            </div>
+            <div class="preloader-wrapper big active">
+                <div class="spinner-layer spinner-blue-only">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
         <section class="signature section center-align">
             <div class="signature__t  blue-text text-accent-4">PEACE HEAVEN HOTEL IN SRI LANKA</div>
             <p class="signature__w brown-text text-lighten-3">Welcome to Peace Heaven Hotel where personalized pampering meets exotic island living! Our distinctive hotels in Badulla, Sri Lanka offer new discoveries & authentic experiences in this slice of pure paradise, with holidays that are tailor made just for YOU.</p>
