@@ -34,6 +34,7 @@
           margin-right: 20px;
         }
         .btn-outline:last-child {
+          max-width: 138px;
           @include scale(false, 609);
         }
       }

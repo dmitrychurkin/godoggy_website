@@ -1,4 +1,18 @@
-import { Sidenav, Slider, Collapsible, FloatingActionButton, TapTarget, Tabs, Carousel, Modal, toast } from 'materialize-css';
+import {
+    Sidenav,
+    Slider,
+    Collapsible,
+    FloatingActionButton,
+    TapTarget,
+    Tabs,
+    Carousel,
+    Modal,
+    toast,
+    FormSelect,
+    Datepicker,
+    DatepickerOptions,
+    Range
+} from 'materialize-css';
 import isMobile from './detectmobilebrowser';
 import Cookie from './cookie';
 
@@ -7,7 +21,7 @@ export default () => {
     const COOKIE_NAME = '__s';
     const COOKIE_POLICY_CUR = '__cp';
     const COOKIE_POLICY_SET = '__p';
-    const modals = document.querySelectorAll('.modal');
+    const modalBookNow = document.getElementById('modal-book-now')!;
     const navbar = document.getElementById('app-navbar')!;
     const mainSlider = document.getElementById('main-slider')!;
     const slideNav = document.getElementById('slide-nav')!;
@@ -18,6 +32,10 @@ export default () => {
     const offersCarousel = document.getElementById('offers-carousel')!;
     const offersCardTitle = document.querySelector('#offers-card .card-title') as HTMLElement;
     const offersCardText = document.querySelector('#offers-card .card-text') as HTMLElement;
+    const selects = document.querySelectorAll('select');
+    const arrivalPicker = document.getElementById('arrival-picker')!;
+    const departurePicker = document.getElementById('departure-picker')!;
+    const ranges = document.querySelectorAll('[type="range"]');
     const getSliderHeight = (offset = 10) => window.innerHeight - navbar.offsetHeight - 40 - offset;
 
     const mainSliderInitializer = (oldInstance?: Slider) => {
@@ -35,7 +53,40 @@ export default () => {
     FloatingActionButton.init(fixedActionBtn, {
         toolbarEnabled: true
     });
-    Modal.init(modals);
+
+    // book now
+    Modal.init(modalBookNow)
+        // development only
+        .open();
+    FormSelect.init(selects);
+    const today = new Date();
+    const tommorrow = new Date();
+    tommorrow.setDate(today.getDate() + 1);
+    const initDatePicker = (el: HTMLElement, options: Partial<DatepickerOptions>) => Datepicker.init(el, { ...options, ...{ setDefaultDate: true, container: document.body } });
+
+    initDatePicker(arrivalPicker, {
+        minDate: today,
+        defaultDate: today,
+        onClose() {
+            const selectedArrDate = this.date;
+            if (selectedArrDate.getTime() >= departurePickerInstance.date.getTime()) {
+                const nextDay = new Date();
+                nextDay.setDate(selectedArrDate.getDate() + 1);
+                departurePickerInstance.destroy();
+                departurePickerInstance = initDatePicker(departurePicker, {
+                    minDate: nextDay,
+                    defaultDate: nextDay
+                });
+            }
+        }
+    });
+
+    let departurePickerInstance = initDatePicker(departurePicker, {
+        minDate: tommorrow,
+        defaultDate: tommorrow
+    });
+
+    Range.init(ranges);
 
     // init toast with cookie policy
     const currentCookiePolicyVersion = Cookie.getItem(COOKIE_POLICY_CUR);
@@ -43,18 +94,19 @@ export default () => {
         setTimeout(() => {
             const cookieToast = toast({
                 html: `<span>Updated Privacy Policy: We have updated our Privacy Policy and Cookies Policy to take into account the European Union General Data Protection Regulation.</span>
-                        <a class="btn-flat toast-action" href="privacy/cookie" target="_blank">more</a>
+                        <button class="btn-flat toast-action" href="privacy/cookie" target="_blank">more</button>
                         <button id="toast-dismiss-btn" class="btn-flat toast-action">ok</button>`,
-                displayLength: Infinity
+                displayLength: Infinity,
+                classes: 'cookie-policy'
             });
-            const toastDismissBtn = document.getElementById('toast-dismiss-btn');
-            if (toastDismissBtn) {
-                toastDismissBtn.onclick = () => {
-                    const cookiePolicyVersion = Cookie.getItem(COOKIE_POLICY_CUR);
-                    Cookie.setItem(COOKIE_POLICY_SET, cookiePolicyVersion || '1');
-                    cookieToast.dismiss();
-                };
-            }
+            const [moreBtn, toastDismissBtn] = Array.from(document.querySelectorAll('.toast-action'));
+            moreBtn.onclick = () => window.open('/privacy/cookie', '_blank');
+            toastDismissBtn.onclick = () => {
+                const cookiePolicyVersion = Cookie.getItem(COOKIE_POLICY_CUR);
+                Cookie.setItem(COOKIE_POLICY_SET, cookiePolicyVersion || '1');
+                cookieToast.dismiss();
+            };
+
         }, 5000);
     }
 

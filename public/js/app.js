@@ -26283,6 +26283,17 @@ if (typeof window === 'object') {
 
 "use strict";
 
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -26294,7 +26305,7 @@ exports.default = (function () {
     var COOKIE_NAME = '__s';
     var COOKIE_POLICY_CUR = '__cp';
     var COOKIE_POLICY_SET = '__p';
-    var modals = document.querySelectorAll('.modal');
+    var modalBookNow = document.getElementById('modal-book-now');
     var navbar = document.getElementById('app-navbar');
     var mainSlider = document.getElementById('main-slider');
     var slideNav = document.getElementById('slide-nav');
@@ -26305,6 +26316,10 @@ exports.default = (function () {
     var offersCarousel = document.getElementById('offers-carousel');
     var offersCardTitle = document.querySelector('#offers-card .card-title');
     var offersCardText = document.querySelector('#offers-card .card-text');
+    var selects = document.querySelectorAll('select');
+    var arrivalPicker = document.getElementById('arrival-picker');
+    var departurePicker = document.getElementById('departure-picker');
+    var ranges = document.querySelectorAll('[type="range"]');
     var getSliderHeight = function (offset) {
         if (offset === void 0) { offset = 10; }
         return window.innerHeight - navbar.offsetHeight - 40 - offset;
@@ -26323,23 +26338,52 @@ exports.default = (function () {
     materialize_css_1.FloatingActionButton.init(fixedActionBtn, {
         toolbarEnabled: true
     });
-    materialize_css_1.Modal.init(modals);
+    // book now
+    materialize_css_1.Modal.init(modalBookNow)
+        // development only
+        .open();
+    materialize_css_1.FormSelect.init(selects);
+    var today = new Date();
+    var tommorrow = new Date();
+    tommorrow.setDate(today.getDate() + 1);
+    var initDatePicker = function (el, options) { return materialize_css_1.Datepicker.init(el, __assign({}, options, { setDefaultDate: true, container: document.body })); };
+    initDatePicker(arrivalPicker, {
+        minDate: today,
+        defaultDate: today,
+        onClose: function () {
+            var selectedArrDate = this.date;
+            if (selectedArrDate.getTime() >= departurePickerInstance.date.getTime()) {
+                var nextDay = new Date();
+                nextDay.setDate(selectedArrDate.getDate() + 1);
+                departurePickerInstance.destroy();
+                departurePickerInstance = initDatePicker(departurePicker, {
+                    minDate: nextDay,
+                    defaultDate: nextDay
+                });
+            }
+        }
+    });
+    var departurePickerInstance = initDatePicker(departurePicker, {
+        minDate: tommorrow,
+        defaultDate: tommorrow
+    });
+    materialize_css_1.Range.init(ranges);
     // init toast with cookie policy
     var currentCookiePolicyVersion = cookie_1.default.getItem(COOKIE_POLICY_CUR);
     if (!currentCookiePolicyVersion || (currentCookiePolicyVersion !== cookie_1.default.getItem(COOKIE_POLICY_SET))) {
         setTimeout(function () {
             var cookieToast = materialize_css_1.toast({
-                html: "<span>Updated Privacy Policy: We have updated our Privacy Policy and Cookies Policy to take into account the European Union General Data Protection Regulation.</span>\n                        <a class=\"btn-flat toast-action\" href=\"privacy/cookie\" target=\"_blank\">more</a>\n                        <button id=\"toast-dismiss-btn\" class=\"btn-flat toast-action\">ok</button>",
-                displayLength: Infinity
+                html: "<span>Updated Privacy Policy: We have updated our Privacy Policy and Cookies Policy to take into account the European Union General Data Protection Regulation.</span>\n                        <button class=\"btn-flat toast-action\" href=\"privacy/cookie\" target=\"_blank\">more</button>\n                        <button id=\"toast-dismiss-btn\" class=\"btn-flat toast-action\">ok</button>",
+                displayLength: Infinity,
+                classes: 'cookie-policy'
             });
-            var toastDismissBtn = document.getElementById('toast-dismiss-btn');
-            if (toastDismissBtn) {
-                toastDismissBtn.onclick = function () {
-                    var cookiePolicyVersion = cookie_1.default.getItem(COOKIE_POLICY_CUR);
-                    cookie_1.default.setItem(COOKIE_POLICY_SET, cookiePolicyVersion || '1');
-                    cookieToast.dismiss();
-                };
-            }
+            var _a = Array.from(document.querySelectorAll('.toast-action')), moreBtn = _a[0], toastDismissBtn = _a[1];
+            moreBtn.onclick = function () { return window.open('/privacy/cookie', '_blank'); };
+            toastDismissBtn.onclick = function () {
+                var cookiePolicyVersion = cookie_1.default.getItem(COOKIE_POLICY_CUR);
+                cookie_1.default.setItem(COOKIE_POLICY_SET, cookiePolicyVersion || '1');
+                cookieToast.dismiss();
+            };
         }, 5000);
     }
     // show hint if on mobile
@@ -26425,8 +26469,8 @@ exports.default = (function (items, options) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\SERVER\OpenServer\domains\godoggy.com\resources\ts\app.ts */"./resources/ts/app.ts");
-module.exports = __webpack_require__(/*! C:\SERVER\OpenServer\domains\godoggy.com\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\godoggy_website\resources\ts\app.ts */"./resources/ts/app.ts");
+module.exports = __webpack_require__(/*! D:\godoggy_website\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

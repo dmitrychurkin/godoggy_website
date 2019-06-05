@@ -9749,6 +9749,18 @@ section .section-pattern .material-icons {
   width: 95%;
 }
 
+.toast.cookie-policy {
+  font-size: 0.8rem;
+}
+
+.toast.cookie-policy .toast-action {
+  margin-left: 0.5rem;
+}
+
+.toast.cookie-policy .toast-action:not(#toast-dismiss-btn) {
+  margin-left: 0;
+}
+
 .logo,
 .map .map__t .logo,
 .brand-logo.center.logo {
@@ -9892,6 +9904,7 @@ section .section-pattern .material-icons {
 }
 
 .navbar .nav-wrapper .btn-group.btn-group__last .btn-outline:last-child {
+  max-width: 138px;
   transition: -webkit-transform 0.2s;
   transition: transform 0.2s;
   transition: transform 0.2s, -webkit-transform 0.2s;
@@ -11915,5 +11928,9 @@ a.pswp__share--download:hover {
 .swiper-container-wp8-vertical,
 .swiper-container-wp8-vertical > .swiper-wrapper {
   touch-action: pan-x;
+}
+
+.modal .input-field {
+  margin-bottom: 35px;
 }
 

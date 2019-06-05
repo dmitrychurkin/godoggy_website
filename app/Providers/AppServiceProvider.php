@@ -29,5 +29,6 @@ class AppServiceProvider extends ServiceProvider
         Blade::component('components.navbar', 'navbar');
         Blade::component('components.logo', 'logo');
         Blade::component('components.footer', 'footer');
+        Blade::component('components.book-now', 'bookNow');
     }
 }

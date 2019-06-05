@@ -19,7 +19,7 @@
             </div>
             <div class="btn-group btn-group__last valign-wrapper">
                 <a href="#" data-target="slide-nav" class="sidenav-trigger show-on-large"><i class="material-icons">menu</i></a>
-                <button data-target="modal1" class="btn-flat btn-outline modal-trigger">book now<i class="material-icons right">library_books</i></button>
+                <button data-target="modal-book-now" class="btn-flat btn-outline modal-trigger"><span>book now</span><i class="material-icons right">library_books</i></button>
             </div>
         </div>
         <div id="fixed-action-btn" class="fixed-action-btn toolbar">

@@ -637,17 +637,9 @@
         ✓ 4. see bottom part at https://www.shangri-la.com/en/hambantota/shangrila/
         5. open weather widget https://www.shangri-la.com/en/hambantota/shangrila/
         6. continue with book now modal
-        7. nav bar place button book now on right, instead of social btns
     -->
-    <div id="modal1" class="modal">
-        <div class="modal-content">
-            <h4>Modal Header</h4>
-            <p>A bunch of text</p>
-        </div>
-        <div class="modal-footer">
-            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
-        </div>
-    </div>
+    @bookNow
+    @endbookNow
     <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="pswp__bg"></div>
         <div class="pswp__scroll-wrap">
