@@ -2,4 +2,29 @@
     .input-field {
         margin-bottom: 35px;
     }
+    .rooms {
+        .note {
+            font-size: 10px;
+        }
+        .rooms__cons {
+            @include padding-horizontal;
+            padding-top: 5px;
+            margin: 10px 0;
+            .rooms__cons_head {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                .btn-flat {
+                    max-width: 50px;
+                }
+            }
+            &.first {
+                .rooms__cons_head {
+                    .btn-flat {
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
 }

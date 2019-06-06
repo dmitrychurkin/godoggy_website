@@ -11934,3 +11934,28 @@ a.pswp__share--download:hover {
   margin-bottom: 35px;
 }
 
+.modal .rooms .note {
+  font-size: 10px;
+}
+
+.modal .rooms .rooms__cons {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  padding-top: 5px;
+  margin: 10px 0;
+}
+
+.modal .rooms .rooms__cons .rooms__cons_head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal .rooms .rooms__cons .rooms__cons_head .btn-flat {
+  max-width: 50px;
+}
+
+.modal .rooms .rooms__cons.first .rooms__cons_head .btn-flat {
+  display: none;
+}
+

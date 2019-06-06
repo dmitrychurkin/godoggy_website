@@ -87,6 +87,13 @@ export default () => {
     });
 
     Range.init(ranges);
+    const rooms = [];
+    const addRoom = () => {
+        rooms.push({
+            // adultsRange: document.querySelector()
+            // TODO: finish here
+        });
+    };
 
     // init toast with cookie policy
     const currentCookiePolicyVersion = Cookie.getItem(COOKIE_POLICY_CUR);

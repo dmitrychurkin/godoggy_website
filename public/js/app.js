@@ -26368,6 +26368,13 @@ exports.default = (function () {
         defaultDate: tommorrow
     });
     materialize_css_1.Range.init(ranges);
+    var rooms = [];
+    var addRoom = function () {
+        rooms.push({
+        // adultsRange: document.querySelector()
+        // TODO: finish here
+        });
+    };
     // init toast with cookie policy
     var currentCookiePolicyVersion = cookie_1.default.getItem(COOKIE_POLICY_CUR);
     if (!currentCookiePolicyVersion || (currentCookiePolicyVersion !== cookie_1.default.getItem(COOKIE_POLICY_SET))) {
