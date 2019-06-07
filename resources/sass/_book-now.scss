@@ -6,22 +6,24 @@
         .note {
             font-size: 10px;
         }
-        .rooms__cons {
-            @include padding-horizontal;
-            padding-top: 5px;
-            margin: 10px 0;
-            .rooms__cons_head {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                .btn-flat {
-                    max-width: 50px;
+        .rooms__count {
+            .rooms__cons {
+                &:first-child {
+                    .rooms__cons_head {
+                        .btn-flat {
+                            display: none;
+                        }
+                    }
                 }
-            }
-            &.first {
+                @include padding-horizontal;
+                padding-top: 5px;
+                margin: 10px 0;
                 .rooms__cons_head {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
                     .btn-flat {
-                        display: none;
+                        max-width: 50px;
                     }
                 }
             }

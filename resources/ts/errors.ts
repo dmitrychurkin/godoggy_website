@@ -1,3 +1,4 @@
+// unused
 class ExtendableError extends Error {
   constructor(message: string) {
     super(message);
@@ -7,11 +8,5 @@ class ExtendableError extends Error {
     } else {
       this.stack = (new Error(message)).stack;
     }
-  }
-}
-
-export class HTMLElementNotFoundError extends ExtendableError {
-  constructor(message: string) {
-    super(message);
   }
 }

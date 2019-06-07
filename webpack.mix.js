@@ -11,7 +11,7 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.ts('resources/ts/app.ts', 'public/js')
+mix.ts('resources/ts/modules/landing/index.ts', 'public/js/landing.js')
     .sass('resources/sass/app.scss', 'public/css');
 
 if (mix.inProduction()) {

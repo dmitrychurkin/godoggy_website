@@ -1,3 +1,3 @@
 @push('scripts')
-<script src="{{ mix('/js/app.js') }}"></script>
+<script src="{{ mix('/js/landing.js') }}"></script>
 @endpush

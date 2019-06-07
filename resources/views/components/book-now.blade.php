@@ -282,36 +282,38 @@
             </div>
             <div class="rooms">
                 <h6>Rooms selection</h6>
-                <div class="note">Please note: max. 4 guests per room</div>
+                <div class="note">Please note: max. <span id="total-guest-count">4</span> guests per room</div>
                 <div class="note">Child policy:<br>
                     below 3 years FOC<br>
                     3 - 11.99 years - 50% on meals<br>
                     12 years and above - considered adult
                 </div>
-                <div class="rooms__cons first teal lighten-5">
-                    <div class="rooms__cons_head">
-                        <div>Room 1</div>
-                        <a class="waves-effect waves-green btn-flat"><i class="material-icons">remove_circle</i></a>
+                <div class="rooms__count">
+                    <div class="rooms__cons teal lighten-5">
+                        <div class="rooms__cons_head">
+                            <div>Room <span class="room__counter">1</span></div>
+                            <a class="waves-effect waves-green btn-flat"><i class="material-icons">remove_circle</i></a>
+                        </div>
+                        <p class="input-field">
+                            <select name="room[0][category]">
+                                <option value="0">Beach Studio</option>
+                                <option value="1">Ocean Studio</option>
+                                <option value="2">Bay Suite</option>
+                                <option value="3">Beach Villa</option>
+                            </select>
+                            <label>Room category</label>
+                        </p>
+                        <p class="range-field">
+                            <input type="range" value="1" min="1" max="4" />
+                            <label>Adults <span class="adult__count">1</span></label>
+                        </p>
+                        <p class="range-field">
+                            <input type="range" value="0" min="0" max="3" />
+                            <label>Child <span class="child__count">0</span></label>
+                        </p>
                     </div>
-                    <p class="input-field">
-                        <select name="room[0][category]">
-                            <option value="0">Beach Studio</option>
-                            <option value="1">Ocean Studio</option>
-                            <option value="2">Bay Suite</option>
-                            <option value="3">Beach Villa</option>
-                        </select>
-                        <label>Room category</label>
-                    </p>
-                    <p class="range-field">
-                        <input type="range" name="room[0][adults]" value="1" min="0" max="4" />
-                        <label>Adults 1</label>
-                    </p>
-                    <p class="range-field">
-                        <input type="range" name="room[0][child]" value="0" min="0" max="3" />
-                        <label>Child 0</label>
-                    </p>
                 </div>
-                <a class="waves-effect waves-light btn-small"><i class="material-icons left">add_box</i>add room</a>
+                <a id="add-room" class="waves-effect waves-light btn-small"><i class="material-icons left">add_box</i>add room</a>
             </div>
         </form>
     </div>

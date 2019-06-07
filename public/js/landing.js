@@ -25816,100 +25816,250 @@ module.exports = g;
 
 /***/ }),
 
-/***/ "./resources/ts/app.ts":
-/*!*****************************!*\
-  !*** ./resources/ts/app.ts ***!
-  \*****************************/
+/***/ "./resources/ts/modules/commons/components/book-now-modal.ts":
+/*!*******************************************************************!*\
+  !*** ./resources/ts/modules/commons/components/book-now-modal.ts ***!
+  \*******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
 };
-var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
-// require('./bootstrap');
-// window.Vue = require('vue');
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
-// const files = require.context('./', true, /\.vue$/i);
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
-// Vue.component('example-component', require('./components/ExampleComponent.vue').default);
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
-// const app = new Vue({
-//     el: '#app',
-// });
-var materialize_1 = __importDefault(__webpack_require__(/*! ./lib/materialize */ "./resources/ts/lib/materialize.ts"));
-var fixes_1 = __importDefault(__webpack_require__(/*! ./lib/fixes */ "./resources/ts/lib/fixes.ts"));
-var gallery_1 = __importDefault(__webpack_require__(/*! ./lib/gallery */ "./resources/ts/lib/gallery.ts"));
-__webpack_require__(/*! ./lib/map */ "./resources/ts/lib/map.ts");
-window.addEventListener('DOMContentLoaded', function () { return __awaiter(_this, void 0, void 0, function () {
-    return __generator(this, function (_a) {
-        materialize_1.default();
-        fixes_1.default();
-        gallery_1.default();
-        return [2 /*return*/];
+var materialize_css_1 = __webpack_require__(/*! materialize-css */ "./node_modules/materialize-css/dist/js/materialize.js");
+exports.default = (function () {
+    var modalBookNow = document.getElementById('modal-book-now');
+    var selects = document.querySelectorAll('select');
+    var arrivalPicker = document.getElementById('arrival-picker');
+    var departurePicker = document.getElementById('departure-picker');
+    materialize_css_1.Modal.init(modalBookNow)
+        // development only
+        .open();
+    materialize_css_1.FormSelect.init(selects);
+    var today = new Date();
+    var tommorrow = new Date();
+    tommorrow.setDate(today.getDate() + 1);
+    var initDatePicker = function (el, options) { return materialize_css_1.Datepicker.init(el, __assign({}, options, { setDefaultDate: true, container: document.body })); };
+    initDatePicker(arrivalPicker, {
+        minDate: today,
+        defaultDate: today,
+        onClose: function () {
+            var selectedArrDate = this.date;
+            if (selectedArrDate.getTime() >= departurePickerInstance.date.getTime()) {
+                var nextDay = new Date();
+                nextDay.setDate(selectedArrDate.getDate() + 1);
+                departurePickerInstance.destroy();
+                departurePickerInstance = initDatePicker(departurePicker, {
+                    minDate: nextDay,
+                    defaultDate: nextDay
+                });
+            }
+        }
     });
-}); });
+    var departurePickerInstance = initDatePicker(departurePicker, {
+        minDate: tommorrow,
+        defaultDate: tommorrow
+    });
+    var rooms = [];
+    var totalGuestCount = Number.parseInt(document.getElementById('total-guest-count').innerHTML);
+    var roomsCountContainer = document.querySelector('.rooms__count');
+    var roomsConsCloned = document.querySelector('.rooms__cons').cloneNode(true);
+    var addRoom = function () {
+        rooms.push({
+            adultRange: null,
+            childRange: null
+        });
+        var roomsCount = rooms.length - 1;
+        // `[name="room[${roomsCount}][adults]"]`
+        var lastRoom = roomsCountContainer.children[roomsCount];
+        lastRoom.querySelector('.room__counter').innerHTML = "" + rooms.length;
+        var _a = Array.from(lastRoom.querySelectorAll('[type="range"]')), adultRange = _a[0], childRange = _a[1];
+        adultRange.name = "room[" + roomsCount + "][adults]";
+        childRange.name = "room[" + roomsCount + "][child]";
+        var adultCounter = adultRange.parentElement.querySelector('.adult__count');
+        var adultRangeHandler = function () {
+            var curChildCount = Number.parseInt(childRange.value);
+            var curAdultCount = Number.parseInt(adultRange.value);
+            if (Number.parseInt(adultRange.max) > totalGuestCount) {
+                adultRange.max = "" + totalGuestCount;
+            }
+            if (Number.parseInt(adultRange.min) < 1) {
+                adultRange.min = '1';
+            }
+            adultCounter.innerHTML = "" + curAdultCount;
+            var diff = totalGuestCount - curAdultCount;
+            diff = diff < 0 ? 0 : diff;
+            if (curAdultCount + curChildCount >= totalGuestCount) {
+                childCounter.innerHTML = childRange.value = "" + diff;
+            }
+            childRange.max = "" + diff;
+            childRange.disabled = curAdultCount == totalGuestCount;
+        };
+        adultRange.onchange = adultRange.oninput = adultRangeHandler;
+        var childCounter = childRange.parentElement.querySelector('.child__count');
+        var childRangeHandler = function () {
+            var curChildCount = Number.parseInt(childRange.value);
+            var curAdultCount = Number.parseInt(adultRange.value);
+            if (Number.parseInt(childRange.max) > (totalGuestCount - 1)) {
+                childRange.max = "" + (totalGuestCount - 1);
+            }
+            if (Number.parseInt(childRange.min) < 0) {
+                childRange.min = '0';
+            }
+            childCounter.innerHTML = "" + curChildCount;
+            var diff = totalGuestCount - curChildCount;
+            diff = diff < 0 ? 0 : diff;
+            if (curAdultCount + curChildCount >= totalGuestCount) {
+                adultCounter.innerHTML = adultRange.value = "" + diff;
+            }
+            adultRange.max = "" + diff;
+            adultRange.disabled = curChildCount == (totalGuestCount - 1);
+        };
+        childRange.onchange = childRange.oninput = childRangeHandler;
+        rooms[roomsCount].adultRange = adultRange;
+        rooms[roomsCount].childRange = childRange;
+        materialize_css_1.Range.init(document.querySelectorAll('[type="range"]'));
+    };
+    addRoom();
+    document.getElementById('add-room').addEventListener('click', function () {
+        roomsCountContainer.appendChild(roomsConsCloned.cloneNode(true));
+        addRoom();
+    });
+});
 
 
 /***/ }),
 
-/***/ "./resources/ts/lib/cookie.ts":
-/*!************************************!*\
-  !*** ./resources/ts/lib/cookie.ts ***!
-  \************************************/
+/***/ "./resources/ts/modules/commons/components/collapsible.ts":
+/*!****************************************************************!*\
+  !*** ./resources/ts/modules/commons/components/collapsible.ts ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var materialize_css_1 = __webpack_require__(/*! materialize-css */ "./node_modules/materialize-css/dist/js/materialize.js");
+exports.default = (function () {
+    var collapsible = document.querySelectorAll('.collapsible');
+    materialize_css_1.Collapsible.init(collapsible);
+});
+
+
+/***/ }),
+
+/***/ "./resources/ts/modules/commons/components/cookie-policy.ts":
+/*!******************************************************************!*\
+  !*** ./resources/ts/modules/commons/components/cookie-policy.ts ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var materialize_css_1 = __webpack_require__(/*! materialize-css */ "./node_modules/materialize-css/dist/js/materialize.js");
+var cookie_1 = __importDefault(__webpack_require__(/*! ../lib/cookie */ "./resources/ts/modules/commons/lib/cookie.ts"));
+exports.default = (function () {
+    var COOKIE_POLICY_CUR = '__cp';
+    var COOKIE_POLICY_SET = '__p';
+    var currentCookiePolicyVersion = cookie_1.default.getItem(COOKIE_POLICY_CUR);
+    if (!currentCookiePolicyVersion || (currentCookiePolicyVersion !== cookie_1.default.getItem(COOKIE_POLICY_SET))) {
+        setTimeout(function () {
+            var cookieToast = materialize_css_1.toast({
+                html: "<span>Updated Privacy Policy: We have updated our Privacy Policy and Cookies Policy to take into account the European Union General Data Protection Regulation.</span>\n                        <button class=\"btn-flat toast-action\" href=\"privacy/cookie\" target=\"_blank\">more</button>\n                        <button id=\"toast-dismiss-btn\" class=\"btn-flat toast-action\">ok</button>",
+                displayLength: Infinity,
+                classes: 'cookie-policy'
+            });
+            var _a = Array.from(document.querySelectorAll('.toast-action')), moreBtn = _a[0], toastDismissBtn = _a[1];
+            moreBtn.onclick = function () { return window.open('/privacy/cookie', '_blank'); };
+            toastDismissBtn.onclick = function () {
+                var cookiePolicyVersion = cookie_1.default.getItem(COOKIE_POLICY_CUR);
+                cookie_1.default.setItem(COOKIE_POLICY_SET, cookiePolicyVersion || '1');
+                cookieToast.dismiss();
+            };
+        }, 5000);
+    }
+});
+
+
+/***/ }),
+
+/***/ "./resources/ts/modules/commons/components/nav-hint.ts":
+/*!*************************************************************!*\
+  !*** ./resources/ts/modules/commons/components/nav-hint.ts ***!
+  \*************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var materialize_css_1 = __webpack_require__(/*! materialize-css */ "./node_modules/materialize-css/dist/js/materialize.js");
+var detect_mobile_browser_1 = __importDefault(__webpack_require__(/*! ../lib/detect-mobile-browser */ "./resources/ts/modules/commons/lib/detect-mobile-browser.ts"));
+var cookie_1 = __importDefault(__webpack_require__(/*! ../lib/cookie */ "./resources/ts/modules/commons/lib/cookie.ts"));
+exports.default = (function () {
+    var COOKIE_NAME = '__s';
+    if (detect_mobile_browser_1.default() && !cookie_1.default.hasItem(COOKIE_NAME)) {
+        materialize_css_1.TapTarget.init(document.getElementById('tap-target'), {
+            onClose: function () { return cookie_1.default.setItem(COOKIE_NAME, 1..toString()); }
+        }).open();
+    }
+});
+
+
+/***/ }),
+
+/***/ "./resources/ts/modules/commons/index.ts":
+/*!***********************************************!*\
+  !*** ./resources/ts/modules/commons/index.ts ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var materialize_css_1 = __webpack_require__(/*! materialize-css */ "./node_modules/materialize-css/dist/js/materialize.js");
+var cookie_policy_1 = __importDefault(__webpack_require__(/*! ./components/cookie-policy */ "./resources/ts/modules/commons/components/cookie-policy.ts"));
+var nav_hint_1 = __importDefault(__webpack_require__(/*! ./components/nav-hint */ "./resources/ts/modules/commons/components/nav-hint.ts"));
+exports.default = (function () {
+    cookie_policy_1.default();
+    nav_hint_1.default();
+    materialize_css_1.Sidenav.init(document.getElementById('slide-nav'));
+    materialize_css_1.FloatingActionButton.init(document.getElementById('fixed-action-btn'), {
+        toolbarEnabled: true
+    });
+});
+
+
+/***/ }),
+
+/***/ "./resources/ts/modules/commons/lib/cookie.ts":
+/*!****************************************************!*\
+  !*** ./resources/ts/modules/commons/lib/cookie.ts ***!
+  \****************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25960,10 +26110,10 @@ exports.default = {
 
 /***/ }),
 
-/***/ "./resources/ts/lib/detectmobilebrowser.ts":
-/*!*************************************************!*\
-  !*** ./resources/ts/lib/detectmobilebrowser.ts ***!
-  \*************************************************/
+/***/ "./resources/ts/modules/commons/lib/detect-mobile-browser.ts":
+/*!*******************************************************************!*\
+  !*** ./resources/ts/modules/commons/lib/detect-mobile-browser.ts ***!
+  \*******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25978,42 +26128,72 @@ exports.default = (function () {
 
 /***/ }),
 
-/***/ "./resources/ts/lib/fixes.ts":
-/*!***********************************!*\
-  !*** ./resources/ts/lib/fixes.ts ***!
-  \***********************************/
+/***/ "./resources/ts/modules/commons/lib/get-element-position.ts":
+/*!******************************************************************!*\
+  !*** ./resources/ts/modules/commons/lib/get-element-position.ts ***!
+  \******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var getElementPosition_1 = __importDefault(__webpack_require__(/*! ./getElementPosition */ "./resources/ts/lib/getElementPosition.ts"));
-exports.default = (function () {
-    serviceWrapperPosition();
-    window.addEventListener('resize', serviceWrapperPosition);
-    window.addEventListener('load', serviceWrapperPosition);
+exports.default = (function (el) {
+    var rect = el.getBoundingClientRect();
+    return {
+        left: rect.left + window.scrollX,
+        top: rect.top + window.scrollY
+    };
 });
-function serviceWrapperPosition() {
-    //const offersCarouselImg = document.querySelector('#offers-carousel .carousel-item.active img') as HTMLImageElement;
-    var offersDescription = document.getElementById('offers__desc');
-    //const descriptionOffset = offersCarouselImg.offsetHeight + offersDescription.offsetHeight + 50;
-    //offersDescription.style.top = `${descriptionOffset}px`;
-    document.getElementById('service-wrapper').style.top = getElementPosition_1.default(offersDescription).top + offersDescription.offsetHeight + 80 + "px";
-}
-exports.serviceWrapperPosition = serviceWrapperPosition;
-;
 
 
 /***/ }),
 
-/***/ "./resources/ts/lib/gallery.ts":
-/*!*************************************!*\
-  !*** ./resources/ts/lib/gallery.ts ***!
-  \*************************************/
+/***/ "./resources/ts/modules/landing/components/accommodation.ts":
+/*!******************************************************************!*\
+  !*** ./resources/ts/modules/landing/components/accommodation.ts ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var materialize_css_1 = __webpack_require__(/*! materialize-css */ "./node_modules/materialize-css/dist/js/materialize.js");
+exports.default = (function () {
+    var roomTypes = document.getElementById('room-types');
+    var accommodationLink = document.getElementById('accommodation-link');
+    var accommodationSectionTabs = function (oldInstance) {
+        if (oldInstance) {
+            oldInstance.destroy();
+            roomTypes.querySelectorAll('.active').forEach(function (activeEl) { return activeEl.classList.remove('active'); });
+        }
+        var tabInst = materialize_css_1.Tabs.init(roomTypes, {
+            swipeable: true,
+            onShow: function (_a) {
+                var id = _a.id;
+                var index = tabInst ? tabInst.index : 0;
+                var child = tabContent && tabContent.children[index];
+                accommodationLink.href = "/accommodation/" + (child ? child.id : id);
+            }
+        });
+        var tabContent = document.querySelector('.tabs-content');
+        tabContent.style.height = '';
+        return tabInst;
+    };
+    var accommodationTabInstance = accommodationSectionTabs();
+    window.addEventListener('resize', function () {
+        accommodationTabInstance = accommodationSectionTabs(accommodationTabInstance);
+    });
+});
+
+
+/***/ }),
+
+/***/ "./resources/ts/modules/landing/components/gallery.ts":
+/*!************************************************************!*\
+  !*** ./resources/ts/modules/landing/components/gallery.ts ***!
+  \************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -26060,34 +26240,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
 var swiper_1 = __importDefault(__webpack_require__(/*! swiper */ "./node_modules/swiper/dist/js/swiper.esm.bundle.js"));
-var photoswipe_1 = __importDefault(__webpack_require__(/*! ./photoswipe */ "./resources/ts/lib/photoswipe.ts"));
-var GALLERY_SELECTOR = 'gallery';
-var settings = {
-    autoplay: true,
-    breakpointsInverse: true,
-    breakpoints: {
-        0: {
-            slidesPerView: 1
-        },
-        500: {
-            slidesPerView: 2
-        },
-        800: {
-            slidesPerView: 3
-        },
-        1100: {
-            slidesPerView: 4
-        },
-        1300: {
-            slidesPerView: 5
-        }
-    }
-};
+var photoswipe_1 = __importDefault(__webpack_require__(/*! photoswipe */ "./node_modules/photoswipe/dist/photoswipe.js"));
+var photoswipe_ui_default_1 = __importDefault(__webpack_require__(/*! photoswipe/dist/photoswipe-ui-default */ "./node_modules/photoswipe/dist/photoswipe-ui-default.js"));
 exports.default = (function () { return __awaiter(_this, void 0, void 0, function () {
-    var uri, imgData, swiper_2;
+    var GALLERY_SELECTOR, uri, imgData, swiper_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, getUris()];
+            case 0:
+                GALLERY_SELECTOR = 'gallery';
+                return [4 /*yield*/, getUris()];
             case 1:
                 uri = _a.sent();
                 return [4 /*yield*/, loadImages(uri)];
@@ -26099,14 +26260,34 @@ exports.default = (function () { return __awaiter(_this, void 0, void 0, functio
                         var src = _a.src;
                         return addSlide(createSlide(src, i));
                     });
-                    swiper_2 = new swiper_1.default('.swiper-container', settings);
+                    swiper_2 = new swiper_1.default('.swiper-container', {
+                        autoplay: true,
+                        breakpointsInverse: true,
+                        breakpoints: {
+                            0: {
+                                slidesPerView: 1
+                            },
+                            500: {
+                                slidesPerView: 2
+                            },
+                            800: {
+                                slidesPerView: 3
+                            },
+                            1100: {
+                                slidesPerView: 4
+                            },
+                            1300: {
+                                slidesPerView: 5
+                            }
+                        }
+                    });
                     swiper_2.on('tap', function () {
                         var args = [];
                         for (var _i = 0; _i < arguments.length; _i++) {
                             args[_i] = arguments[_i];
                         }
                         var index = args[0].target.parentNode.dataset.index;
-                        photoswipe_1.default(imgData, {
+                        new photoswipe_1.default(document.querySelector('.pswp'), photoswipe_ui_default_1.default, imgData, {
                             index: +index,
                             showHideOpacity: true,
                             getThumbBoundsFn: function (num) {
@@ -26195,31 +26376,45 @@ function loadImages(imageUri) {
 
 /***/ }),
 
-/***/ "./resources/ts/lib/getElementPosition.ts":
-/*!************************************************!*\
-  !*** ./resources/ts/lib/getElementPosition.ts ***!
-  \************************************************/
+/***/ "./resources/ts/modules/landing/components/main-slider.ts":
+/*!****************************************************************!*\
+  !*** ./resources/ts/modules/landing/components/main-slider.ts ***!
+  \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = (function (el) {
-    var rect = el.getBoundingClientRect();
-    return {
-        left: rect.left + window.scrollX,
-        top: rect.top + window.scrollY
+var materialize_css_1 = __webpack_require__(/*! materialize-css */ "./node_modules/materialize-css/dist/js/materialize.js");
+exports.default = (function () {
+    var navbar = document.getElementById('app-navbar');
+    var mainSlider = document.getElementById('main-slider');
+    var OFFSET = 10;
+    var mainSliderInitializer = function (oldInstance) {
+        if (oldInstance) {
+            oldInstance.destroy();
+        }
+        return materialize_css_1.Slider.init(mainSlider, {
+            height: window.innerHeight - navbar.offsetHeight - 40 - OFFSET
+        });
     };
+    var mainSliderInstance = mainSliderInitializer();
+    window.addEventListener('resize', function () {
+        if (window.innerHeight < 400) {
+            return;
+        }
+        mainSliderInstance = mainSliderInitializer(mainSliderInstance);
+    });
 });
 
 
 /***/ }),
 
-/***/ "./resources/ts/lib/map.ts":
-/*!*********************************!*\
-  !*** ./resources/ts/lib/map.ts ***!
-  \*********************************/
+/***/ "./resources/ts/modules/landing/components/map.ts":
+/*!********************************************************!*\
+  !*** ./resources/ts/modules/landing/components/map.ts ***!
+  \********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -26274,152 +26469,21 @@ if (typeof window === 'object') {
 
 /***/ }),
 
-/***/ "./resources/ts/lib/materialize.ts":
-/*!*****************************************!*\
-  !*** ./resources/ts/lib/materialize.ts ***!
-  \*****************************************/
+/***/ "./resources/ts/modules/landing/components/offers.ts":
+/*!***********************************************************!*\
+  !*** ./resources/ts/modules/landing/components/offers.ts ***!
+  \***********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 var materialize_css_1 = __webpack_require__(/*! materialize-css */ "./node_modules/materialize-css/dist/js/materialize.js");
-var detectmobilebrowser_1 = __importDefault(__webpack_require__(/*! ./detectmobilebrowser */ "./resources/ts/lib/detectmobilebrowser.ts"));
-var cookie_1 = __importDefault(__webpack_require__(/*! ./cookie */ "./resources/ts/lib/cookie.ts"));
 exports.default = (function () {
-    var COOKIE_NAME = '__s';
-    var COOKIE_POLICY_CUR = '__cp';
-    var COOKIE_POLICY_SET = '__p';
-    var modalBookNow = document.getElementById('modal-book-now');
-    var navbar = document.getElementById('app-navbar');
-    var mainSlider = document.getElementById('main-slider');
-    var slideNav = document.getElementById('slide-nav');
-    var collapsible = document.querySelectorAll('.collapsible');
-    var fixedActionBtn = document.getElementById('fixed-action-btn');
-    var roomTypes = document.getElementById('room-types');
-    var accommodationLink = document.getElementById('accommodation-link');
     var offersCarousel = document.getElementById('offers-carousel');
     var offersCardTitle = document.querySelector('#offers-card .card-title');
     var offersCardText = document.querySelector('#offers-card .card-text');
-    var selects = document.querySelectorAll('select');
-    var arrivalPicker = document.getElementById('arrival-picker');
-    var departurePicker = document.getElementById('departure-picker');
-    var ranges = document.querySelectorAll('[type="range"]');
-    var getSliderHeight = function (offset) {
-        if (offset === void 0) { offset = 10; }
-        return window.innerHeight - navbar.offsetHeight - 40 - offset;
-    };
-    var mainSliderInitializer = function (oldInstance) {
-        if (oldInstance) {
-            oldInstance.destroy();
-        }
-        return materialize_css_1.Slider.init(mainSlider, {
-            height: getSliderHeight()
-        });
-    };
-    var mainSliderInstance = mainSliderInitializer();
-    materialize_css_1.Sidenav.init(slideNav);
-    materialize_css_1.Collapsible.init(collapsible);
-    materialize_css_1.FloatingActionButton.init(fixedActionBtn, {
-        toolbarEnabled: true
-    });
-    // book now
-    materialize_css_1.Modal.init(modalBookNow)
-        // development only
-        .open();
-    materialize_css_1.FormSelect.init(selects);
-    var today = new Date();
-    var tommorrow = new Date();
-    tommorrow.setDate(today.getDate() + 1);
-    var initDatePicker = function (el, options) { return materialize_css_1.Datepicker.init(el, __assign({}, options, { setDefaultDate: true, container: document.body })); };
-    initDatePicker(arrivalPicker, {
-        minDate: today,
-        defaultDate: today,
-        onClose: function () {
-            var selectedArrDate = this.date;
-            if (selectedArrDate.getTime() >= departurePickerInstance.date.getTime()) {
-                var nextDay = new Date();
-                nextDay.setDate(selectedArrDate.getDate() + 1);
-                departurePickerInstance.destroy();
-                departurePickerInstance = initDatePicker(departurePicker, {
-                    minDate: nextDay,
-                    defaultDate: nextDay
-                });
-            }
-        }
-    });
-    var departurePickerInstance = initDatePicker(departurePicker, {
-        minDate: tommorrow,
-        defaultDate: tommorrow
-    });
-    materialize_css_1.Range.init(ranges);
-    var rooms = [];
-    var addRoom = function () {
-        rooms.push({
-        // adultsRange: document.querySelector()
-        // TODO: finish here
-        });
-    };
-    // init toast with cookie policy
-    var currentCookiePolicyVersion = cookie_1.default.getItem(COOKIE_POLICY_CUR);
-    if (!currentCookiePolicyVersion || (currentCookiePolicyVersion !== cookie_1.default.getItem(COOKIE_POLICY_SET))) {
-        setTimeout(function () {
-            var cookieToast = materialize_css_1.toast({
-                html: "<span>Updated Privacy Policy: We have updated our Privacy Policy and Cookies Policy to take into account the European Union General Data Protection Regulation.</span>\n                        <button class=\"btn-flat toast-action\" href=\"privacy/cookie\" target=\"_blank\">more</button>\n                        <button id=\"toast-dismiss-btn\" class=\"btn-flat toast-action\">ok</button>",
-                displayLength: Infinity,
-                classes: 'cookie-policy'
-            });
-            var _a = Array.from(document.querySelectorAll('.toast-action')), moreBtn = _a[0], toastDismissBtn = _a[1];
-            moreBtn.onclick = function () { return window.open('/privacy/cookie', '_blank'); };
-            toastDismissBtn.onclick = function () {
-                var cookiePolicyVersion = cookie_1.default.getItem(COOKIE_POLICY_CUR);
-                cookie_1.default.setItem(COOKIE_POLICY_SET, cookiePolicyVersion || '1');
-                cookieToast.dismiss();
-            };
-        }, 5000);
-    }
-    // show hint if on mobile
-    if (detectmobilebrowser_1.default() && !cookie_1.default.hasItem(COOKIE_NAME)) {
-        materialize_css_1.TapTarget.init(document.getElementById('tap-target'), {
-            onClose: function () { return cookie_1.default.setItem(COOKIE_NAME, 1..toString()); }
-        }).open();
-    }
-    // accommodation section
-    var accommodationSectionTabs = function (oldInstance) {
-        if (oldInstance) {
-            oldInstance.destroy();
-            roomTypes.querySelectorAll('.active').forEach(function (activeEl) { return activeEl.classList.remove('active'); });
-        }
-        var tabInst = materialize_css_1.Tabs.init(roomTypes, {
-            swipeable: true,
-            onShow: function (_a) {
-                var id = _a.id;
-                var index = tabInst ? tabInst.index : 0;
-                var child = tabContent && tabContent.children[index];
-                accommodationLink.href = "/accommodation/" + (child ? child.id : id);
-            }
-        });
-        var tabContent = document.querySelector('.tabs-content');
-        tabContent.style.height = '';
-        return tabInst;
-    };
-    var accommodationTabInstance = accommodationSectionTabs();
-    // carousel offers
     var offersSectionCarousel = function (oldInstance) {
         if (oldInstance) {
             oldInstance.destroy();
@@ -26432,51 +26496,104 @@ exports.default = (function () {
         });
     };
     var offersSectionCarouselInstance = offersSectionCarousel();
-    // main resizer
     window.addEventListener('resize', function () {
-        accommodationTabInstance = accommodationSectionTabs(accommodationTabInstance);
         offersSectionCarouselInstance = offersSectionCarousel(offersSectionCarouselInstance);
-        if (window.innerHeight < 400) {
-            return;
-        }
-        mainSliderInstance = mainSliderInitializer(mainSliderInstance);
     });
 });
 
 
 /***/ }),
 
-/***/ "./resources/ts/lib/photoswipe.ts":
-/*!****************************************!*\
-  !*** ./resources/ts/lib/photoswipe.ts ***!
-  \****************************************/
+/***/ "./resources/ts/modules/landing/index.ts":
+/*!***********************************************!*\
+  !*** ./resources/ts/modules/landing/index.ts ***!
+  \***********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
-var photoswipe_1 = __importDefault(__webpack_require__(/*! photoswipe */ "./node_modules/photoswipe/dist/photoswipe.js"));
-var photoswipe_ui_default_1 = __importDefault(__webpack_require__(/*! photoswipe/dist/photoswipe-ui-default */ "./node_modules/photoswipe/dist/photoswipe-ui-default.js"));
-exports.default = (function (items, options) {
-    if (options === void 0) { options = {}; }
-    return new photoswipe_1.default(document.querySelector('.pswp'), photoswipe_ui_default_1.default, items, options);
-});
+var commons_1 = __importDefault(__webpack_require__(/*! ../commons */ "./resources/ts/modules/commons/index.ts"));
+var collapsible_1 = __importDefault(__webpack_require__(/*! ../commons/components/collapsible */ "./resources/ts/modules/commons/components/collapsible.ts"));
+var book_now_modal_1 = __importDefault(__webpack_require__(/*! ../commons/components/book-now-modal */ "./resources/ts/modules/commons/components/book-now-modal.ts"));
+var get_element_position_1 = __importDefault(__webpack_require__(/*! ../commons/lib/get-element-position */ "./resources/ts/modules/commons/lib/get-element-position.ts"));
+var main_slider_1 = __importDefault(__webpack_require__(/*! ./components/main-slider */ "./resources/ts/modules/landing/components/main-slider.ts"));
+var accommodation_1 = __importDefault(__webpack_require__(/*! ./components/accommodation */ "./resources/ts/modules/landing/components/accommodation.ts"));
+var offers_1 = __importDefault(__webpack_require__(/*! ./components/offers */ "./resources/ts/modules/landing/components/offers.ts"));
+var gallery_1 = __importDefault(__webpack_require__(/*! ./components/gallery */ "./resources/ts/modules/landing/components/gallery.ts"));
+__webpack_require__(/*! ./components/map */ "./resources/ts/modules/landing/components/map.ts");
+window.addEventListener('DOMContentLoaded', function () { return __awaiter(_this, void 0, void 0, function () {
+    function serviceWrapperPosition() {
+        var offersDescription = document.getElementById('offers__desc');
+        document.getElementById('service-wrapper').style.top = get_element_position_1.default(offersDescription).top + offersDescription.offsetHeight + 80 + "px";
+    }
+    return __generator(this, function (_a) {
+        commons_1.default();
+        collapsible_1.default();
+        book_now_modal_1.default();
+        main_slider_1.default();
+        accommodation_1.default();
+        offers_1.default();
+        gallery_1.default();
+        serviceWrapperPosition();
+        window.addEventListener('resize', serviceWrapperPosition);
+        window.addEventListener('load', serviceWrapperPosition);
+        ;
+        return [2 /*return*/];
+    });
+}); });
 
 
 /***/ }),
 
 /***/ 0:
-/*!*************************************************************!*\
-  !*** multi ./resources/ts/app.ts ./resources/sass/app.scss ***!
-  \*************************************************************/
+/*!*******************************************************************************!*\
+  !*** multi ./resources/ts/modules/landing/index.ts ./resources/sass/app.scss ***!
+  \*******************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\godoggy_website\resources\ts\app.ts */"./resources/ts/app.ts");
+__webpack_require__(/*! D:\godoggy_website\resources\ts\modules\landing\index.ts */"./resources/ts/modules/landing/index.ts");
 module.exports = __webpack_require__(/*! D:\godoggy_website\resources\sass\app.scss */"./resources/sass/app.scss");
 
 

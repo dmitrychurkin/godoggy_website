@@ -30,13 +30,4 @@
 // const app = new Vue({
 //     el: '#app',
 // });
-import M from './lib/materialize';
-import fixes from './lib/fixes';
-import gallery from './lib/gallery';
-import './lib/map';
 
-window.addEventListener('DOMContentLoaded', async () => {
-    M();
-    fixes();
-    gallery();
-});

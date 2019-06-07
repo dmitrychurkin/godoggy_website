@@ -1,41 +1,38 @@
-import Swiper, { SwiperOptions } from 'swiper';
-import { Item } from 'photoswipe';
-import photoSwipe from './photoswipe';
-
-const GALLERY_SELECTOR = 'gallery';
-
-const settings: SwiperOptions = {
-    autoplay: true,
-    breakpointsInverse: true,
-    breakpoints: {
-        0: {
-            slidesPerView: 1
-        },
-        500: {
-            slidesPerView: 2
-        },
-        800: {
-            slidesPerView: 3
-        },
-        1100: {
-            slidesPerView: 4
-        },
-        1300: {
-            slidesPerView: 5
-        }
-    }
-};
+import Swiper from 'swiper';
+import PhotoSwipe, { Item } from 'photoswipe';
+import PhotoSwipeUI_Default from 'photoswipe/dist/photoswipe-ui-default';
 
 export default async () => {
+    const GALLERY_SELECTOR = 'gallery';
     const uri: Array<string> = await getUris();
     const imgData: Array<Item> = await loadImages(uri);
     if (imgData.length > 0) {
         markWithClassName(`${GALLERY_SELECTOR}__ready`);
         imgData.forEach(({ src }, i) => addSlide(createSlide(src, i)));
-        const swiper = new Swiper('.swiper-container', settings);
+        const swiper = new Swiper('.swiper-container', {
+            autoplay: true,
+            breakpointsInverse: true,
+            breakpoints: {
+                0: {
+                    slidesPerView: 1
+                },
+                500: {
+                    slidesPerView: 2
+                },
+                800: {
+                    slidesPerView: 3
+                },
+                1100: {
+                    slidesPerView: 4
+                },
+                1300: {
+                    slidesPerView: 5
+                }
+            }
+        });
         swiper.on('tap', (...args: Array<any>) => {
             const [{ target: { parentNode: { dataset: { index } } } }] = args;
-            photoSwipe(imgData, {
+            new PhotoSwipe(document.querySelector('.pswp') as HTMLElement, PhotoSwipeUI_Default, imgData, {
                 index: +index,
                 showHideOpacity: true,
                 getThumbBoundsFn: num => {
@@ -48,7 +45,7 @@ export default async () => {
                     };
                 }
             }).init();
-        })
+        });
     } else {
         markWithClassName(`${GALLERY_SELECTOR}__failed`);
     }
