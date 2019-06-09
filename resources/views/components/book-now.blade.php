@@ -288,14 +288,14 @@
                     3 - 11.99 years - 50% on meals<br>
                     12 years and above - considered adult
                 </div>
-                <div class="rooms__count">
+                <div id="rooms__count" class="rooms__count">
                     <div class="rooms__cons teal lighten-5">
                         <div class="rooms__cons_head">
                             <div>Room <span class="room__counter">1</span></div>
                             <a class="waves-effect waves-green btn-flat"><i class="material-icons">remove_circle</i></a>
                         </div>
                         <p class="input-field">
-                            <select name="room[0][category]">
+                            <select>
                                 <option value="0">Beach Studio</option>
                                 <option value="1">Ocean Studio</option>
                                 <option value="2">Bay Suite</option>

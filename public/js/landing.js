@@ -25839,19 +25839,15 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var materialize_css_1 = __webpack_require__(/*! materialize-css */ "./node_modules/materialize-css/dist/js/materialize.js");
 exports.default = (function () {
-    var modalBookNow = document.getElementById('modal-book-now');
-    var selects = document.querySelectorAll('select');
-    var arrivalPicker = document.getElementById('arrival-picker');
-    var departurePicker = document.getElementById('departure-picker');
-    materialize_css_1.Modal.init(modalBookNow)
+    materialize_css_1.Modal.init(document.getElementById('modal-book-now'))
         // development only
         .open();
-    materialize_css_1.FormSelect.init(selects);
+    materialize_css_1.FormSelect.init(document.querySelectorAll('select'));
     var today = new Date();
     var tommorrow = new Date();
     tommorrow.setDate(today.getDate() + 1);
     var initDatePicker = function (el, options) { return materialize_css_1.Datepicker.init(el, __assign({}, options, { setDefaultDate: true, container: document.body })); };
-    initDatePicker(arrivalPicker, {
+    initDatePicker(document.getElementById('arrival-picker'), {
         minDate: today,
         defaultDate: today,
         onClose: function () {
@@ -25867,39 +25863,61 @@ exports.default = (function () {
             }
         }
     });
+    var departurePicker = document.getElementById('departure-picker');
     var departurePickerInstance = initDatePicker(departurePicker, {
         minDate: tommorrow,
         defaultDate: tommorrow
     });
     var rooms = [];
     var totalGuestCount = Number.parseInt(document.getElementById('total-guest-count').innerHTML);
-    var roomsCountContainer = document.querySelector('.rooms__count');
+    var roomsCountContainer = document.getElementById('rooms__count');
     var roomsConsCloned = document.querySelector('.rooms__cons').cloneNode(true);
+    var getCounts = function (childRange, adultRange) { return [Number.parseInt(childRange.value), Number.parseInt(adultRange.value)]; };
+    var getDiff = function (totalGuestCount, curCount) {
+        var diff = totalGuestCount - curCount;
+        return diff < 0 ? 0 : diff;
+    };
+    var checkEdges = function (range, totalGuestCount, substractor) {
+        if (substractor === void 0) { substractor = 0; }
+        if (Number.parseInt(range.max) > (totalGuestCount - substractor)) {
+            range.max = "" + (totalGuestCount - substractor);
+        }
+        if (Number.parseInt(range.min) < (1 - substractor)) {
+            range.min = "" + (1 - substractor);
+        }
+    };
+    var handleOrder = function () { return Array.from(roomsCountContainer.children)
+        .forEach(function (room, i) {
+        room.querySelector('.input-field select').name = "room[" + i + "][category]";
+        room.querySelector('.room__counter').innerHTML = "" + (i + 1);
+        var _a = Array.from(room.querySelectorAll('[type="range"]')), adultRange = _a[0], childRange = _a[1];
+        adultRange.name = "room[" + i + "][adults]";
+        childRange.name = "room[" + i + "][child]";
+    }); };
+    var roomsCount;
     var addRoom = function () {
         rooms.push({
             adultRange: null,
             childRange: null
         });
-        var roomsCount = rooms.length - 1;
-        // `[name="room[${roomsCount}][adults]"]`
+        handleOrder();
+        roomsCount = rooms.length - 1;
         var lastRoom = roomsCountContainer.children[roomsCount];
-        lastRoom.querySelector('.room__counter').innerHTML = "" + rooms.length;
+        if (roomsCount > 0) {
+            var removeRoomBtn = lastRoom.querySelector('.btn-flat');
+            removeRoomBtn.onclick = function () {
+                rooms.splice(roomsCount--, 1);
+                lastRoom.remove();
+                handleOrder();
+            };
+        }
         var _a = Array.from(lastRoom.querySelectorAll('[type="range"]')), adultRange = _a[0], childRange = _a[1];
-        adultRange.name = "room[" + roomsCount + "][adults]";
-        childRange.name = "room[" + roomsCount + "][child]";
         var adultCounter = adultRange.parentElement.querySelector('.adult__count');
         var adultRangeHandler = function () {
-            var curChildCount = Number.parseInt(childRange.value);
-            var curAdultCount = Number.parseInt(adultRange.value);
-            if (Number.parseInt(adultRange.max) > totalGuestCount) {
-                adultRange.max = "" + totalGuestCount;
-            }
-            if (Number.parseInt(adultRange.min) < 1) {
-                adultRange.min = '1';
-            }
+            var _a = getCounts(childRange, adultRange), curChildCount = _a[0], curAdultCount = _a[1];
+            checkEdges(adultRange, totalGuestCount);
             adultCounter.innerHTML = "" + curAdultCount;
-            var diff = totalGuestCount - curAdultCount;
-            diff = diff < 0 ? 0 : diff;
+            var diff = getDiff(totalGuestCount, curAdultCount);
             if (curAdultCount + curChildCount >= totalGuestCount) {
                 childCounter.innerHTML = childRange.value = "" + diff;
             }
@@ -25909,17 +25927,10 @@ exports.default = (function () {
         adultRange.onchange = adultRange.oninput = adultRangeHandler;
         var childCounter = childRange.parentElement.querySelector('.child__count');
         var childRangeHandler = function () {
-            var curChildCount = Number.parseInt(childRange.value);
-            var curAdultCount = Number.parseInt(adultRange.value);
-            if (Number.parseInt(childRange.max) > (totalGuestCount - 1)) {
-                childRange.max = "" + (totalGuestCount - 1);
-            }
-            if (Number.parseInt(childRange.min) < 0) {
-                childRange.min = '0';
-            }
+            var _a = getCounts(childRange, adultRange), curChildCount = _a[0], curAdultCount = _a[1];
+            checkEdges(childRange, totalGuestCount, 1);
             childCounter.innerHTML = "" + curChildCount;
-            var diff = totalGuestCount - curChildCount;
-            diff = diff < 0 ? 0 : diff;
+            var diff = getDiff(totalGuestCount, curChildCount);
             if (curAdultCount + curChildCount >= totalGuestCount) {
                 adultCounter.innerHTML = adultRange.value = "" + diff;
             }
@@ -26593,8 +26604,8 @@ window.addEventListener('DOMContentLoaded', function () { return __awaiter(_this
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\godoggy_website\resources\ts\modules\landing\index.ts */"./resources/ts/modules/landing/index.ts");
-module.exports = __webpack_require__(/*! D:\godoggy_website\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\SERVER\OpenServer\domains\godoggy.com\resources\ts\modules\landing\index.ts */"./resources/ts/modules/landing/index.ts");
+module.exports = __webpack_require__(/*! C:\SERVER\OpenServer\domains\godoggy.com\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

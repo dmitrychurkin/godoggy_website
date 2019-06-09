@@ -9894,8 +9894,8 @@ section .section-pattern .material-icons {
 }
 
 .navbar .nav-wrapper .btn-group.btn-group__last .btn-outline:hover {
-  border-color: #42A5F5;
-  color: #42A5F5;
+  border-color: #42a5f5;
+  color: #42a5f5;
   background-color: #fff;
 }
 
@@ -9904,7 +9904,7 @@ section .section-pattern .material-icons {
 }
 
 .navbar .nav-wrapper .btn-group.btn-group__last .btn-outline:last-child {
-  max-width: 138px;
+  max-width: 140px;
   transition: -webkit-transform 0.2s;
   transition: transform 0.2s;
   transition: transform 0.2s, -webkit-transform 0.2s;

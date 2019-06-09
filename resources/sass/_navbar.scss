@@ -29,12 +29,12 @@
         @media (min-width: 610px) {
           flex: unset;
         }
-        @include btn-outline(#42A5F5);
+        @include btn-outline(#42a5f5);
         .btn-outline:first-child {
           margin-right: 20px;
         }
         .btn-outline:last-child {
-          max-width: 138px;
+          max-width: 140px;
           @include scale(false, 609);
         }
       }
@@ -47,7 +47,7 @@
 
 .sidenav {
   &::before {
-    content: '';
+    content: "";
     display: block;
     height: 120px;
     @include logo;
