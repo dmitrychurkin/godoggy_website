@@ -19,6 +19,33 @@
 
     <!-- Styles -->
     <!-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> -->
+    @php
+        $appState = [
+            'appName' => config('app.name', 'Laravel'),
+            'locale' => app()->getLocale(),
+            'hasRegister' => Route::has('register'),
+            'authenticated' => Auth::check(),
+            'guest' => !Auth::check(),
+            'routes' => [
+                'root' => url('/'),
+                'login' => route('login'),
+                'register' => Route::has('register') ? route('register') : '',
+                'logout' => route('logout')
+            ],
+            'i18n' => [
+                'Toggle navigation' => __('Toggle navigation'),
+                'Login' => __('Login'),
+                'Register' => __('Register')
+            ],
+            'user' => [
+                'name' => Auth::user()->name
+            ],
+            'status' => session('status')
+        ]
+    @endphp
+    <script>
+        var AppState = @json($appState);
+    </script>
 </head>
 
 <body>
@@ -77,17 +104,6 @@
             @yield('content')
         </main>
     </div>
-    <script>
-        setInterval(() => {
-            fetch('/api/user', {
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest'
-                    }
-                })
-                .then(res => console.log(res.text()))
-                .catch(console.log)
-        }, 5000);
-    </script>
 </body>
 
 </html>

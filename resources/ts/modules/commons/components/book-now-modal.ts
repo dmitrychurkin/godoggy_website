@@ -8,9 +8,9 @@ import {
 
 export default () => {
 
-    Modal.init(document.getElementById('modal-book-now')!)
+    Modal.init(document.getElementById('modal-book-now')!);
         // development only
-        .open();
+        // .open();
     FormSelect.init(document.querySelectorAll('select'));
     const today = new Date();
     const tommorrow = new Date();

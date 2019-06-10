@@ -25839,9 +25839,9 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var materialize_css_1 = __webpack_require__(/*! materialize-css */ "./node_modules/materialize-css/dist/js/materialize.js");
 exports.default = (function () {
-    materialize_css_1.Modal.init(document.getElementById('modal-book-now'))
-        // development only
-        .open();
+    materialize_css_1.Modal.init(document.getElementById('modal-book-now'));
+    // development only
+    // .open();
     materialize_css_1.FormSelect.init(document.querySelectorAll('select'));
     var today = new Date();
     var tommorrow = new Date();
@@ -26604,8 +26604,8 @@ window.addEventListener('DOMContentLoaded', function () { return __awaiter(_this
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\SERVER\OpenServer\domains\godoggy.com\resources\ts\modules\landing\index.ts */"./resources/ts/modules/landing/index.ts");
-module.exports = __webpack_require__(/*! C:\SERVER\OpenServer\domains\godoggy.com\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\godoggy_website\resources\ts\modules\landing\index.ts */"./resources/ts/modules/landing/index.ts");
+module.exports = __webpack_require__(/*! D:\godoggy_website\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
