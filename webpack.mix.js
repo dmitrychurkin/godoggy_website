@@ -12,7 +12,9 @@ const mix = require('laravel-mix');
  */
 
 mix.ts('resources/ts/modules/landing/index.ts', 'public/js/landing.js')
-    .sass('resources/sass/app.scss', 'public/css');
+    .ts('resources/ts/modules/admin/index.ts', 'public/js/admin.js')
+    .sass('resources/sass/app.scss', 'public/css')
+    .styles('node_modules/vuetify/dist/vuetify.min.css', 'public/css/admin.css');
 
 if (mix.inProduction()) {
     mix.version();

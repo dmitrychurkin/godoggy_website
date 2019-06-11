@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
@@ -14,7 +15,16 @@ use Illuminate\Http\Request;
 
 Route::get('/', 'Landing');
 
-Auth::routes(['register' => false]);
+Route::prefix('admin')->group(function() {
+    Auth::routes(['register' => false]);
+});
+
+Route::get('/admin', function() {
+    if (Auth::check()) {
+        return redirect()->route('home');
+    }
+    return redirect()->route('login');
+});
 
 Route::get('/home', 'HomeController@index')->name('home');
 

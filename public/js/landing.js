@@ -25820,12 +25820,14 @@ module.exports = g;
 /*!*******************************************************************!*\
   !*** ./resources/ts/modules/commons/components/book-now-modal.ts ***!
   \*******************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
-var __assign = (this && this.__assign) || function () {
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var materialize_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! materialize-css */ "./node_modules/materialize-css/dist/js/materialize.js");
+/* harmony import */ var materialize_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(materialize_css__WEBPACK_IMPORTED_MODULE_0__);
+var __assign = (undefined && undefined.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
             s = arguments[i];
@@ -25836,17 +25838,16 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-var materialize_css_1 = __webpack_require__(/*! materialize-css */ "./node_modules/materialize-css/dist/js/materialize.js");
-exports.default = (function () {
-    materialize_css_1.Modal.init(document.getElementById('modal-book-now'));
+
+/* harmony default export */ __webpack_exports__["default"] = (function () {
+    materialize_css__WEBPACK_IMPORTED_MODULE_0__["Modal"].init(document.getElementById('modal-book-now'));
     // development only
     // .open();
-    materialize_css_1.FormSelect.init(document.querySelectorAll('select'));
+    materialize_css__WEBPACK_IMPORTED_MODULE_0__["FormSelect"].init(document.querySelectorAll('select'));
     var today = new Date();
     var tommorrow = new Date();
     tommorrow.setDate(today.getDate() + 1);
-    var initDatePicker = function (el, options) { return materialize_css_1.Datepicker.init(el, __assign({}, options, { setDefaultDate: true, container: document.body })); };
+    var initDatePicker = function (el, options) { return materialize_css__WEBPACK_IMPORTED_MODULE_0__["Datepicker"].init(el, __assign({}, options, { setDefaultDate: true, container: document.body })); };
     initDatePicker(document.getElementById('arrival-picker'), {
         minDate: today,
         defaultDate: today,
@@ -25940,7 +25941,7 @@ exports.default = (function () {
         childRange.onchange = childRange.oninput = childRangeHandler;
         rooms[roomsCount].adultRange = adultRange;
         rooms[roomsCount].childRange = childRange;
-        materialize_css_1.Range.init(document.querySelectorAll('[type="range"]'));
+        materialize_css__WEBPACK_IMPORTED_MODULE_0__["Range"].init(document.querySelectorAll('[type="range"]'));
     };
     addRoom();
     document.getElementById('add-room').addEventListener('click', function () {
@@ -25956,16 +25957,17 @@ exports.default = (function () {
 /*!****************************************************************!*\
   !*** ./resources/ts/modules/commons/components/collapsible.ts ***!
   \****************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var materialize_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! materialize-css */ "./node_modules/materialize-css/dist/js/materialize.js");
+/* harmony import */ var materialize_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(materialize_css__WEBPACK_IMPORTED_MODULE_0__);
 
-Object.defineProperty(exports, "__esModule", { value: true });
-var materialize_css_1 = __webpack_require__(/*! materialize-css */ "./node_modules/materialize-css/dist/js/materialize.js");
-exports.default = (function () {
+/* harmony default export */ __webpack_exports__["default"] = (function () {
     var collapsible = document.querySelectorAll('.collapsible');
-    materialize_css_1.Collapsible.init(collapsible);
+    materialize_css__WEBPACK_IMPORTED_MODULE_0__["Collapsible"].init(collapsible);
 });
 
 
@@ -25975,24 +25977,23 @@ exports.default = (function () {
 /*!******************************************************************!*\
   !*** ./resources/ts/modules/commons/components/cookie-policy.ts ***!
   \******************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var materialize_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! materialize-css */ "./node_modules/materialize-css/dist/js/materialize.js");
+/* harmony import */ var materialize_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(materialize_css__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _lib_cookie__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../lib/cookie */ "./resources/ts/modules/commons/lib/cookie.ts");
 
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var materialize_css_1 = __webpack_require__(/*! materialize-css */ "./node_modules/materialize-css/dist/js/materialize.js");
-var cookie_1 = __importDefault(__webpack_require__(/*! ../lib/cookie */ "./resources/ts/modules/commons/lib/cookie.ts"));
-exports.default = (function () {
+
+/* harmony default export */ __webpack_exports__["default"] = (function () {
     var COOKIE_POLICY_CUR = '__cp';
     var COOKIE_POLICY_SET = '__p';
-    var currentCookiePolicyVersion = cookie_1.default.getItem(COOKIE_POLICY_CUR);
-    if (!currentCookiePolicyVersion || (currentCookiePolicyVersion !== cookie_1.default.getItem(COOKIE_POLICY_SET))) {
+    var currentCookiePolicyVersion = _lib_cookie__WEBPACK_IMPORTED_MODULE_1__["default"].getItem(COOKIE_POLICY_CUR);
+    if (!currentCookiePolicyVersion || (currentCookiePolicyVersion !== _lib_cookie__WEBPACK_IMPORTED_MODULE_1__["default"].getItem(COOKIE_POLICY_SET))) {
         setTimeout(function () {
-            var cookieToast = materialize_css_1.toast({
+            var cookieToast = Object(materialize_css__WEBPACK_IMPORTED_MODULE_0__["toast"])({
                 html: "<span>Updated Privacy Policy: We have updated our Privacy Policy and Cookies Policy to take into account the European Union General Data Protection Regulation.</span>\n                        <button class=\"btn-flat toast-action\" href=\"privacy/cookie\" target=\"_blank\">more</button>\n                        <button id=\"toast-dismiss-btn\" class=\"btn-flat toast-action\">ok</button>",
                 displayLength: Infinity,
                 classes: 'cookie-policy'
@@ -26000,8 +26001,8 @@ exports.default = (function () {
             var _a = Array.from(document.querySelectorAll('.toast-action')), moreBtn = _a[0], toastDismissBtn = _a[1];
             moreBtn.onclick = function () { return window.open('/privacy/cookie', '_blank'); };
             toastDismissBtn.onclick = function () {
-                var cookiePolicyVersion = cookie_1.default.getItem(COOKIE_POLICY_CUR);
-                cookie_1.default.setItem(COOKIE_POLICY_SET, cookiePolicyVersion || '1');
+                var cookiePolicyVersion = _lib_cookie__WEBPACK_IMPORTED_MODULE_1__["default"].getItem(COOKIE_POLICY_CUR);
+                _lib_cookie__WEBPACK_IMPORTED_MODULE_1__["default"].setItem(COOKIE_POLICY_SET, cookiePolicyVersion || '1');
                 cookieToast.dismiss();
             };
         }, 5000);
@@ -26015,23 +26016,23 @@ exports.default = (function () {
 /*!*************************************************************!*\
   !*** ./resources/ts/modules/commons/components/nav-hint.ts ***!
   \*************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var materialize_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! materialize-css */ "./node_modules/materialize-css/dist/js/materialize.js");
+/* harmony import */ var materialize_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(materialize_css__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _lib_detect_mobile_browser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../lib/detect-mobile-browser */ "./resources/ts/modules/commons/lib/detect-mobile-browser.ts");
+/* harmony import */ var _lib_cookie__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../lib/cookie */ "./resources/ts/modules/commons/lib/cookie.ts");
 
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var materialize_css_1 = __webpack_require__(/*! materialize-css */ "./node_modules/materialize-css/dist/js/materialize.js");
-var detect_mobile_browser_1 = __importDefault(__webpack_require__(/*! ../lib/detect-mobile-browser */ "./resources/ts/modules/commons/lib/detect-mobile-browser.ts"));
-var cookie_1 = __importDefault(__webpack_require__(/*! ../lib/cookie */ "./resources/ts/modules/commons/lib/cookie.ts"));
-exports.default = (function () {
+
+
+/* harmony default export */ __webpack_exports__["default"] = (function () {
     var COOKIE_NAME = '__s';
-    if (detect_mobile_browser_1.default() && !cookie_1.default.hasItem(COOKIE_NAME)) {
-        materialize_css_1.TapTarget.init(document.getElementById('tap-target'), {
-            onClose: function () { return cookie_1.default.setItem(COOKIE_NAME, 1..toString()); }
+    if (Object(_lib_detect_mobile_browser__WEBPACK_IMPORTED_MODULE_1__["default"])() && !_lib_cookie__WEBPACK_IMPORTED_MODULE_2__["default"].hasItem(COOKIE_NAME)) {
+        materialize_css__WEBPACK_IMPORTED_MODULE_0__["TapTarget"].init(document.getElementById('tap-target'), {
+            onClose: function () { return _lib_cookie__WEBPACK_IMPORTED_MODULE_2__["default"].setItem(COOKIE_NAME, 1..toString()); }
         }).open();
     }
 });
@@ -26043,23 +26044,23 @@ exports.default = (function () {
 /*!***********************************************!*\
   !*** ./resources/ts/modules/commons/index.ts ***!
   \***********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var materialize_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! materialize-css */ "./node_modules/materialize-css/dist/js/materialize.js");
+/* harmony import */ var materialize_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(materialize_css__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_cookie_policy__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/cookie-policy */ "./resources/ts/modules/commons/components/cookie-policy.ts");
+/* harmony import */ var _components_nav_hint__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/nav-hint */ "./resources/ts/modules/commons/components/nav-hint.ts");
 
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var materialize_css_1 = __webpack_require__(/*! materialize-css */ "./node_modules/materialize-css/dist/js/materialize.js");
-var cookie_policy_1 = __importDefault(__webpack_require__(/*! ./components/cookie-policy */ "./resources/ts/modules/commons/components/cookie-policy.ts"));
-var nav_hint_1 = __importDefault(__webpack_require__(/*! ./components/nav-hint */ "./resources/ts/modules/commons/components/nav-hint.ts"));
-exports.default = (function () {
-    cookie_policy_1.default();
-    nav_hint_1.default();
-    materialize_css_1.Sidenav.init(document.getElementById('slide-nav'));
-    materialize_css_1.FloatingActionButton.init(document.getElementById('fixed-action-btn'), {
+
+
+/* harmony default export */ __webpack_exports__["default"] = (function () {
+    Object(_components_cookie_policy__WEBPACK_IMPORTED_MODULE_1__["default"])();
+    Object(_components_nav_hint__WEBPACK_IMPORTED_MODULE_2__["default"])();
+    materialize_css__WEBPACK_IMPORTED_MODULE_0__["Sidenav"].init(document.getElementById('slide-nav'));
+    materialize_css__WEBPACK_IMPORTED_MODULE_0__["FloatingActionButton"].init(document.getElementById('fixed-action-btn'), {
         toolbarEnabled: true
     });
 });
@@ -26071,13 +26072,12 @@ exports.default = (function () {
 /*!****************************************************!*\
   !*** ./resources/ts/modules/commons/lib/cookie.ts ***!
   \****************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = {
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ({
     getItem: function (sKey) {
         return decodeURIComponent(document.cookie.replace(new RegExp("(?:(?:^|.*;)\\s*" + encodeURIComponent(sKey).replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1")) || null;
     },
@@ -26116,7 +26116,7 @@ exports.default = {
     hasItem: function (sKey) {
         return (new RegExp("(?:^|;\\s*)" + encodeURIComponent(sKey).replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=")).test(document.cookie);
     }
-};
+});
 
 
 /***/ }),
@@ -26125,13 +26125,12 @@ exports.default = {
 /*!*******************************************************************!*\
   !*** ./resources/ts/modules/commons/lib/detect-mobile-browser.ts ***!
   \*******************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = (function () {
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (function () {
     var a = navigator.userAgent || navigator.vendor;
     return (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i.test(a) || /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(a.substr(0, 4)));
 });
@@ -26143,13 +26142,12 @@ exports.default = (function () {
 /*!******************************************************************!*\
   !*** ./resources/ts/modules/commons/lib/get-element-position.ts ***!
   \******************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = (function (el) {
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (function (el) {
     var rect = el.getBoundingClientRect();
     return {
         left: rect.left + window.scrollX,
@@ -26164,14 +26162,15 @@ exports.default = (function (el) {
 /*!******************************************************************!*\
   !*** ./resources/ts/modules/landing/components/accommodation.ts ***!
   \******************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var materialize_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! materialize-css */ "./node_modules/materialize-css/dist/js/materialize.js");
+/* harmony import */ var materialize_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(materialize_css__WEBPACK_IMPORTED_MODULE_0__);
 
-Object.defineProperty(exports, "__esModule", { value: true });
-var materialize_css_1 = __webpack_require__(/*! materialize-css */ "./node_modules/materialize-css/dist/js/materialize.js");
-exports.default = (function () {
+/* harmony default export */ __webpack_exports__["default"] = (function () {
     var roomTypes = document.getElementById('room-types');
     var accommodationLink = document.getElementById('accommodation-link');
     var accommodationSectionTabs = function (oldInstance) {
@@ -26179,7 +26178,7 @@ exports.default = (function () {
             oldInstance.destroy();
             roomTypes.querySelectorAll('.active').forEach(function (activeEl) { return activeEl.classList.remove('active'); });
         }
-        var tabInst = materialize_css_1.Tabs.init(roomTypes, {
+        var tabInst = materialize_css__WEBPACK_IMPORTED_MODULE_0__["Tabs"].init(roomTypes, {
             swipeable: true,
             onShow: function (_a) {
                 var id = _a.id;
@@ -26205,12 +26204,17 @@ exports.default = (function () {
 /*!************************************************************!*\
   !*** ./resources/ts/modules/landing/components/gallery.ts ***!
   \************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var swiper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! swiper */ "./node_modules/swiper/dist/js/swiper.esm.bundle.js");
+/* harmony import */ var photoswipe__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! photoswipe */ "./node_modules/photoswipe/dist/photoswipe.js");
+/* harmony import */ var photoswipe__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(photoswipe__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var photoswipe_dist_photoswipe_ui_default__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! photoswipe/dist/photoswipe-ui-default */ "./node_modules/photoswipe/dist/photoswipe-ui-default.js");
+/* harmony import */ var photoswipe_dist_photoswipe_ui_default__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(photoswipe_dist_photoswipe_ui_default__WEBPACK_IMPORTED_MODULE_2__);
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
@@ -26218,7 +26222,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __generator = (this && this.__generator) || function (thisArg, body) {
+var __generator = (undefined && undefined.__generator) || function (thisArg, body) {
     var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
     return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
     function verb(n) { return function (v) { return step([n, v]); }; }
@@ -26245,16 +26249,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-var _this = this;
-Object.defineProperty(exports, "__esModule", { value: true });
-var swiper_1 = __importDefault(__webpack_require__(/*! swiper */ "./node_modules/swiper/dist/js/swiper.esm.bundle.js"));
-var photoswipe_1 = __importDefault(__webpack_require__(/*! photoswipe */ "./node_modules/photoswipe/dist/photoswipe.js"));
-var photoswipe_ui_default_1 = __importDefault(__webpack_require__(/*! photoswipe/dist/photoswipe-ui-default */ "./node_modules/photoswipe/dist/photoswipe-ui-default.js"));
-exports.default = (function () { return __awaiter(_this, void 0, void 0, function () {
-    var GALLERY_SELECTOR, uri, imgData, swiper_2;
+var _this = undefined;
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = (function () { return __awaiter(_this, void 0, void 0, function () {
+    var GALLERY_SELECTOR, uri, imgData, swiper_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -26271,7 +26271,7 @@ exports.default = (function () { return __awaiter(_this, void 0, void 0, functio
                         var src = _a.src;
                         return addSlide(createSlide(src, i));
                     });
-                    swiper_2 = new swiper_1.default('.swiper-container', {
+                    swiper_1 = new swiper__WEBPACK_IMPORTED_MODULE_0__["default"]('.swiper-container', {
                         autoplay: true,
                         breakpointsInverse: true,
                         breakpoints: {
@@ -26292,17 +26292,17 @@ exports.default = (function () { return __awaiter(_this, void 0, void 0, functio
                             }
                         }
                     });
-                    swiper_2.on('tap', function () {
+                    swiper_1.on('tap', function () {
                         var args = [];
                         for (var _i = 0; _i < arguments.length; _i++) {
                             args[_i] = arguments[_i];
                         }
                         var index = args[0].target.parentNode.dataset.index;
-                        new photoswipe_1.default(document.querySelector('.pswp'), photoswipe_ui_default_1.default, imgData, {
+                        new photoswipe__WEBPACK_IMPORTED_MODULE_1___default.a(document.querySelector('.pswp'), photoswipe_dist_photoswipe_ui_default__WEBPACK_IMPORTED_MODULE_2___default.a, imgData, {
                             index: +index,
                             showHideOpacity: true,
                             getThumbBoundsFn: function (num) {
-                                swiper_2.slideTo(num);
+                                swiper_1.slideTo(num);
                                 var _a = document.querySelector(".swiper-slide[data-index='" + num + "']").getBoundingClientRect(), left = _a.left, top = _a.top, width = _a.width;
                                 return {
                                     x: left,
@@ -26391,14 +26391,15 @@ function loadImages(imageUri) {
 /*!****************************************************************!*\
   !*** ./resources/ts/modules/landing/components/main-slider.ts ***!
   \****************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var materialize_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! materialize-css */ "./node_modules/materialize-css/dist/js/materialize.js");
+/* harmony import */ var materialize_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(materialize_css__WEBPACK_IMPORTED_MODULE_0__);
 
-Object.defineProperty(exports, "__esModule", { value: true });
-var materialize_css_1 = __webpack_require__(/*! materialize-css */ "./node_modules/materialize-css/dist/js/materialize.js");
-exports.default = (function () {
+/* harmony default export */ __webpack_exports__["default"] = (function () {
     var navbar = document.getElementById('app-navbar');
     var mainSlider = document.getElementById('main-slider');
     var OFFSET = 10;
@@ -26406,7 +26407,7 @@ exports.default = (function () {
         if (oldInstance) {
             oldInstance.destroy();
         }
-        return materialize_css_1.Slider.init(mainSlider, {
+        return materialize_css__WEBPACK_IMPORTED_MODULE_0__["Slider"].init(mainSlider, {
             height: window.innerHeight - navbar.offsetHeight - 40 - OFFSET
         });
     };
@@ -26484,14 +26485,15 @@ if (typeof window === 'object') {
 /*!***********************************************************!*\
   !*** ./resources/ts/modules/landing/components/offers.ts ***!
   \***********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var materialize_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! materialize-css */ "./node_modules/materialize-css/dist/js/materialize.js");
+/* harmony import */ var materialize_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(materialize_css__WEBPACK_IMPORTED_MODULE_0__);
 
-Object.defineProperty(exports, "__esModule", { value: true });
-var materialize_css_1 = __webpack_require__(/*! materialize-css */ "./node_modules/materialize-css/dist/js/materialize.js");
-exports.default = (function () {
+/* harmony default export */ __webpack_exports__["default"] = (function () {
     var offersCarousel = document.getElementById('offers-carousel');
     var offersCardTitle = document.querySelector('#offers-card .card-title');
     var offersCardText = document.querySelector('#offers-card .card-text');
@@ -26499,7 +26501,7 @@ exports.default = (function () {
         if (oldInstance) {
             oldInstance.destroy();
         }
-        return materialize_css_1.Carousel.init(offersCarousel, {
+        return materialize_css__WEBPACK_IMPORTED_MODULE_0__["Carousel"].init(offersCarousel, {
             onCycleTo: function (el) {
                 offersCardTitle.innerHTML = el.querySelector('.offer__title').innerHTML;
                 offersCardText.innerHTML = el.querySelector('.offer__desc').innerHTML;
@@ -26519,12 +26521,22 @@ exports.default = (function () {
 /*!***********************************************!*\
   !*** ./resources/ts/modules/landing/index.ts ***!
   \***********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _commons__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../commons */ "./resources/ts/modules/commons/index.ts");
+/* harmony import */ var _commons_components_collapsible__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../commons/components/collapsible */ "./resources/ts/modules/commons/components/collapsible.ts");
+/* harmony import */ var _commons_components_book_now_modal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../commons/components/book-now-modal */ "./resources/ts/modules/commons/components/book-now-modal.ts");
+/* harmony import */ var _commons_lib_get_element_position__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../commons/lib/get-element-position */ "./resources/ts/modules/commons/lib/get-element-position.ts");
+/* harmony import */ var _components_main_slider__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/main-slider */ "./resources/ts/modules/landing/components/main-slider.ts");
+/* harmony import */ var _components_accommodation__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/accommodation */ "./resources/ts/modules/landing/components/accommodation.ts");
+/* harmony import */ var _components_offers__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/offers */ "./resources/ts/modules/landing/components/offers.ts");
+/* harmony import */ var _components_gallery__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/gallery */ "./resources/ts/modules/landing/components/gallery.ts");
+/* harmony import */ var _components_map__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/map */ "./resources/ts/modules/landing/components/map.ts");
+/* harmony import */ var _components_map__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_components_map__WEBPACK_IMPORTED_MODULE_8__);
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
@@ -26532,7 +26544,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __generator = (this && this.__generator) || function (thisArg, body) {
+var __generator = (undefined && undefined.__generator) || function (thisArg, body) {
     var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
     return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
     function verb(n) { return function (v) { return step([n, v]); }; }
@@ -26559,33 +26571,29 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-var _this = this;
-Object.defineProperty(exports, "__esModule", { value: true });
-var commons_1 = __importDefault(__webpack_require__(/*! ../commons */ "./resources/ts/modules/commons/index.ts"));
-var collapsible_1 = __importDefault(__webpack_require__(/*! ../commons/components/collapsible */ "./resources/ts/modules/commons/components/collapsible.ts"));
-var book_now_modal_1 = __importDefault(__webpack_require__(/*! ../commons/components/book-now-modal */ "./resources/ts/modules/commons/components/book-now-modal.ts"));
-var get_element_position_1 = __importDefault(__webpack_require__(/*! ../commons/lib/get-element-position */ "./resources/ts/modules/commons/lib/get-element-position.ts"));
-var main_slider_1 = __importDefault(__webpack_require__(/*! ./components/main-slider */ "./resources/ts/modules/landing/components/main-slider.ts"));
-var accommodation_1 = __importDefault(__webpack_require__(/*! ./components/accommodation */ "./resources/ts/modules/landing/components/accommodation.ts"));
-var offers_1 = __importDefault(__webpack_require__(/*! ./components/offers */ "./resources/ts/modules/landing/components/offers.ts"));
-var gallery_1 = __importDefault(__webpack_require__(/*! ./components/gallery */ "./resources/ts/modules/landing/components/gallery.ts"));
-__webpack_require__(/*! ./components/map */ "./resources/ts/modules/landing/components/map.ts");
+var _this = undefined;
+
+
+
+
+
+
+
+
+
 window.addEventListener('DOMContentLoaded', function () { return __awaiter(_this, void 0, void 0, function () {
     function serviceWrapperPosition() {
         var offersDescription = document.getElementById('offers__desc');
-        document.getElementById('service-wrapper').style.top = get_element_position_1.default(offersDescription).top + offersDescription.offsetHeight + 80 + "px";
+        document.getElementById('service-wrapper').style.top = Object(_commons_lib_get_element_position__WEBPACK_IMPORTED_MODULE_3__["default"])(offersDescription).top + offersDescription.offsetHeight + 80 + "px";
     }
     return __generator(this, function (_a) {
-        commons_1.default();
-        collapsible_1.default();
-        book_now_modal_1.default();
-        main_slider_1.default();
-        accommodation_1.default();
-        offers_1.default();
-        gallery_1.default();
+        Object(_commons__WEBPACK_IMPORTED_MODULE_0__["default"])();
+        Object(_commons_components_collapsible__WEBPACK_IMPORTED_MODULE_1__["default"])();
+        Object(_commons_components_book_now_modal__WEBPACK_IMPORTED_MODULE_2__["default"])();
+        Object(_components_main_slider__WEBPACK_IMPORTED_MODULE_4__["default"])();
+        Object(_components_accommodation__WEBPACK_IMPORTED_MODULE_5__["default"])();
+        Object(_components_offers__WEBPACK_IMPORTED_MODULE_6__["default"])();
+        Object(_components_gallery__WEBPACK_IMPORTED_MODULE_7__["default"])();
         serviceWrapperPosition();
         window.addEventListener('resize', serviceWrapperPosition);
         window.addEventListener('load', serviceWrapperPosition);

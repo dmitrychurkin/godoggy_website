@@ -8,22 +8,21 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Laravel') }} | Management panel</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/admin.js') }}" defer></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
-
+    <!-- <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css"> -->
+    <link href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons' rel="stylesheet">
     <!-- Styles -->
-    <!-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> -->
+    <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
     @php
-        $appState = [
+        $LayoutState__tvar = [
             'appName' => config('app.name', 'Laravel'),
             'locale' => app()->getLocale(),
-            'hasRegister' => Route::has('register'),
             'authenticated' => Auth::check(),
             'guest' => !Auth::check(),
             'routes' => [
@@ -35,22 +34,21 @@
             'i18n' => [
                 'Toggle navigation' => __('Toggle navigation'),
                 'Login' => __('Login'),
-                'Register' => __('Register')
+                'Register' => Route::has('register') ? __('Register') : '',
             ],
-            'user' => [
+            'user' => Auth::user() ? [
                 'name' => Auth::user()->name
-            ],
-            'status' => session('status')
+            ] : null
         ]
     @endphp
     <script>
-        var AppState = @json($appState);
+        var AppState = @json($LayoutState__tvar);
     </script>
 </head>
 
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
+        <!-- <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
@@ -59,16 +57,16 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <div class="collapse navbar-collapse" id="navbarSupportedContent"> -->
                     <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
+                    <!-- <ul class="navbar-nav mr-auto">
 
-                    </ul>
+                    </ul> -->
 
                     <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
+                    <!-- <ul class="navbar-nav ml-auto"> -->
                         <!-- Authentication Links -->
-                        @guest
+                        <!-- @guest
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                         </li>
@@ -102,8 +100,9 @@
 
         <main class="py-4">
             @yield('content')
-        </main>
+        </main>-->
     </div>
+    @yield('content')
 </body>
 
 </html>
