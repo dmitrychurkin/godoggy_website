@@ -1,15 +1,18 @@
 
 import { createContext } from 'react';
-import { decorate, observable } from 'mobx';
+import { observable, configure } from 'mobx';
+
+configure({
+    enforceActions: 'always'
+});
 
 class AppStore {
+
+    @observable initialState;
+
     constructor(initialState) {
         this.initialState = initialState;
     }
 }
-
-decorate(AppStore, {
-    initialState: observable
-});
 
 export default createContext(new AppStore(window.AppState));

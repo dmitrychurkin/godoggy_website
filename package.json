@@ -10,6 +10,9 @@
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
     },
     "devDependencies": {
+        "@babel/plugin-proposal-class-properties": "^7.4.4",
+        "@babel/plugin-proposal-decorators": "^7.4.4",
+        "@babel/preset-react": "^7.0.0",
         "@types/googlemaps": "^3.36.2",
         "@types/materialize-css": "^1.0.6",
         "@types/photoswipe": "^4.0.29",
