@@ -15,18 +15,24 @@ use Illuminate\Http\Request;
 
 Route::get('/', 'Landing');
 
-Route::prefix('admin')->group(function() {
-    Auth::routes(['register' => false]);
+Route::group([
+    'prefix' => 'admin',
+    'name' => 'admin.'
+], function () {
+    Route::get('/', 'AdminController')->name('home');
 });
+// Route::prefix('admin')->group(function() {
+//     Auth::routes(['register' => false]);
+// });
 
-Route::get('/admin', function() {
-    if (Auth::check()) {
-        return redirect()->route('home');
-    }
-    return redirect()->route('login');
-});
+// Route::get('/admin', function() {
+//     if (Auth::check()) {
+//         return redirect()->route('home');
+//     }
+//     return redirect()->route('login');
+// });
 
-Route::get('/home', 'HomeController@index')->name('home');
+// Route::get('/home', 'HomeController@index')->name('home');
 
 Route::middleware('auth')->get('/api/user', function(Request $request) {
     return $request->user();

@@ -1,5 +1,4 @@
 const mix = require('laravel-mix');
-
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -12,7 +11,7 @@ const mix = require('laravel-mix');
  */
 
 mix.ts('resources/ts/modules/landing/index.ts', 'public/js/landing.js')
-    .ts('resources/ts/modules/admin/index.ts', 'public/js/admin.js')
+    .react('resources/ts/modules/admin/index.jsx', 'public/js/admin.js')
     .sass('resources/sass/app.scss', 'public/css')
     .styles('node_modules/vuetify/dist/vuetify.min.css', 'public/css/admin.css');
 

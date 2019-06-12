@@ -36,6 +36,11 @@
     "dependencies": {
         "font-awesome": "^4.7.0",
         "materialize-css": "^1.0.0-rc.2",
+        "mobx": "^5.10.1",
+        "mobx-react-lite": "^1.4.0",
+        "react": "^16.8.6",
+        "react-dom": "^16.8.6",
+        "react-router-dom": "^5.0.1",
         "swiper": "^4.5.0",
         "vue-property-decorator": "^8.1.1",
         "vuetify": "^1.5.14"

@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 1);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -25805,17 +25805,6 @@ module.exports = g;
 
 /***/ }),
 
-/***/ "./resources/sass/app.scss":
-/*!*********************************!*\
-  !*** ./resources/sass/app.scss ***!
-  \*********************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
 /***/ "./resources/ts/modules/commons/components/book-now-modal.ts":
 /*!*******************************************************************!*\
   !*** ./resources/ts/modules/commons/components/book-now-modal.ts ***!
@@ -26605,15 +26594,14 @@ window.addEventListener('DOMContentLoaded', function () { return __awaiter(_this
 
 /***/ }),
 
-/***/ 0:
-/*!*******************************************************************************!*\
-  !*** multi ./resources/ts/modules/landing/index.ts ./resources/sass/app.scss ***!
-  \*******************************************************************************/
+/***/ 1:
+/*!*****************************************************!*\
+  !*** multi ./resources/ts/modules/landing/index.ts ***!
+  \*****************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\godoggy_website\resources\ts\modules\landing\index.ts */"./resources/ts/modules/landing/index.ts");
-module.exports = __webpack_require__(/*! D:\godoggy_website\resources\sass\app.scss */"./resources/sass/app.scss");
+module.exports = __webpack_require__(/*! D:\godoggy_website\resources\ts\modules\landing\index.ts */"./resources/ts/modules/landing/index.ts");
 
 
 /***/ })
