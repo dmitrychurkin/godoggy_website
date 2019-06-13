@@ -1,5 +1,4 @@
-import React, { useRef } from 'react';
-import { useLocalStore } from 'mobx-react-lite';
+import React, { useRef, useState, use } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -17,9 +16,18 @@ import useStyles from './styles';
 const Signin = ({ i18n }) => {
     const classes = useStyles();
     const emailRef = useRef(null);
-    const passwordRef = useRef(null);
+    const emailInputProps = {
+        maxLength: 100,
+        pattern: `[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$`
+    };
 
-    const form = useLocalStore(() => ({
+    const passwordRef = useRef(null);
+    const passwordInputProps = {
+        minLength: 8,
+        maxLength: 1000
+    };
+
+    const [form, setState] = useState({
         email: {
             value: '',
             isError: false,
@@ -34,13 +42,22 @@ const Signin = ({ i18n }) => {
         },
         rememberMe: {
             value: false
-        },
-        handleInput: inputName => event => {
-            const currentInput = form[inputName];
-            currentInput.value = event.target.value;
-            
         }
-    }));
+    });
+
+    const onChange = (inputName) => event => {
+        const currentInput = form[inputName];
+        currentInput.value = event.target.value;
+        setState(prev => ({ ...prev, [inputName]: currentInput }));
+    };
+
+    const onBlur = inputName => () => {
+        const currentInput = form[inputName];
+        const { current } = currentInput.elRef;
+        currentInput.message = current.validationMessage;
+        currentInput.isError = !current.checkValidity();
+        setState(prev => ({ ...prev, [inputName]: currentInput }));
+    };
 
     return (
         <Grid container component="main" className={classes.root}>
@@ -51,36 +68,59 @@ const Signin = ({ i18n }) => {
                         <LockOutlinedIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
-                        { i18n['Login'] }
+                        {i18n['Login']}
                     </Typography>
-                    <form className={classes.form} noValidate>
+                    <form
+                        className={classes.form}
+                        noValidate
+                        onSubmit={e => {
+                            e.preventDefault();
+                            if (e.target.checkValidity()) {
+                                return console.log('Can send request');
+                            }
+                            console.log('Have some errors');
+                        }}
+                    >
                         <TextField
-                            ref={emailRef}
+                            inputRef={emailRef}
                             variant="outlined"
                             margin="normal"
                             required
                             fullWidth
                             id="email"
-                            label={ i18n['E-Mail Address'] }
+                            label={i18n['E-Mail Address']}
                             name="email"
                             autoComplete="email"
                             autoFocus
+                            inputProps={emailInputProps}
+                            onChange={onChange('email')}
+                            onBlur={onBlur('email')}
+                            value={form.email.value}
+                            error={form.email.isError}
+                            helperText={form.email.message}
                         />
                         <TextField
-                            ref={passwordRef}
+                            inputRef={passwordRef}
                             variant="outlined"
                             margin="normal"
                             required
                             fullWidth
                             name="password"
-                            label={ i18n['Password'] }
+                            label={i18n['Password']}
                             type="password"
                             id="password"
                             autoComplete="current-password"
+                            inputProps={passwordInputProps}
+                            onChange={onChange('password')}
+                            onBlur={onBlur('password')}
+                            value={form.password.value}
+                            error={form.password.isError}
+                            helperText={form.password.message}
                         />
                         <FormControlLabel
                             control={<Checkbox value="remember" color="primary" />}
-                            label={ i18n['Remember Me'] }
+                            label={i18n['Remember Me']}
+                            onChange={onChange('rememberMe')}
                         />
                         <Button
                             type="submit"
@@ -89,13 +129,13 @@ const Signin = ({ i18n }) => {
                             color="primary"
                             className={classes.submit}
                         >
-                            { i18n['Login'] }
+                            {i18n['Login']}
                         </Button>
                         <Grid container>
                             <Grid item xs>
                                 <Box textAlign='right'>
                                     <Link href="#" variant="body2">
-                                        { i18n['Forgot Your Password?'] }
+                                        {i18n['Forgot Your Password?']}
                                     </Link>
                                 </Box>
                             </Grid>

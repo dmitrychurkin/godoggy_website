@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { BrowserRouter, Route, Redirect } from 'react-router-dom';
+import NoSsr from '@material-ui/core/NoSsr';
 import { ThemeProvider } from '@material-ui/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { observer } from 'mobx-react-lite';
@@ -13,18 +14,20 @@ const App = () => {
     
     return (
         <BrowserRouter basename='admin'>
-            <CssBaseline />
-            <ThemeProvider theme={theme}>
-                <Redirect to={`${authenticated ? '/dashboard' : '/login'}`}/>
-                <Route
-                    path='/dashboard'
-                    render={() => <div>Admin dashboard</div>}
-                />
-                <Route
-                    path='/login'
-                    render={() => <SigninPage i18n={i18n} />}
-                />
-            </ThemeProvider>
+            <NoSsr defer>
+                <CssBaseline />
+                <ThemeProvider theme={theme}>
+                    <Redirect to={`${authenticated ? '/dashboard' : '/login'}`}/>
+                    <Route
+                        path='/dashboard'
+                        render={() => <div>Admin dashboard</div>}
+                    />
+                    <Route
+                        path='/login'
+                        render={() => <SigninPage i18n={i18n} />}
+                    />
+                </ThemeProvider>
+            </NoSsr>
         </BrowserRouter>
     );
 };

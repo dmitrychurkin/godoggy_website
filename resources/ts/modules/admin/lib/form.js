@@ -1,12 +1,17 @@
 /*
     type Fields = Array<{
         name: string;
-        options: {
-            value?: string;
-            requiredErrorMessage?: string;
-            invalidErrorMessage?: (fieldValue?: string) => string;
-            [attr: string]: any;
-        }
+        //options: {
+            //value?: string;
+            //requiredErrorMessage?: string;
+            //invalidErrorMessage?: (fieldValue?: string) => string;
+            //[attr: string]: any;
+        //}
+        rules: Array<{
+            [rule: string]: string;
+            errorMessage?: (fieldValue?: string) => string;
+        }>;
+        errorMessage?: (fieldValue?: string) => string;
         validator?: Function;
         elRef: HTMLElement;
     }>;
@@ -15,20 +20,23 @@ export const isError = Symbol.for('isError');
 export const message = Symbol.for('message');
 export const elRef = Symbol.for('elRef');
 export const validator = Symbol.for('validator');
+export const errorMessage = Symbol.for('errorMessage');
+export const rules = Symbol.for('rules');
 
 export default class CreateCustomForm {
 
     formFields = {};
 
     construstor(...fields) {
-        for (const { name, options, elRef, validator } of fields) {
+        for (const { name, errorMessage, elRef, validator, rules } of fields) {
             this.formFields[name] = {
                 value: '',
                 [isError]: false,
                 [message]: '',
                 [elRef]: elRef,
                 [validator]: validator,
-                ...options
+                [errorMessage]: errorMessage,
+                [rules]: rules
             };
         }
     }
@@ -47,14 +55,13 @@ export default class CreateCustomForm {
                     el = elRef.current;
                     isValid = el.checkValidity();
                     validationMessage = el.validationMessage;
-                }else {
+                } else {
                     const validator = field[validator];
                     if (typeof validator === 'function') {
                         isValid = (!!validationMessage) = validator(field.value);
-                    }else {
-                        switch(fieldName.toLowerCase()) {
+                    } else {
+                        switch (fieldName.toLowerCase()) {
                             case 'email': {
-                                
                                 // for (const key of Object.keys(field)) {
                                 //     if (typeof this[key] === 'function') {
                                 //         this[key]
@@ -66,7 +73,7 @@ export default class CreateCustomForm {
                             }
                         }
                     }
-                    
+
                 }
             }
         }
@@ -79,20 +86,20 @@ export default class CreateCustomForm {
         };
     }
 
-    maxLength(fieldValue= '', maxLength= 100) {
+    maxLength(fieldValue = '', maxLength = 100) {
         return (String(fieldValue).length <= maxLength);
     }
-    
-    required(fieldValue= '') {
+
+    required(fieldValue = '') {
         return (String(fieldValue).length > 0);
     }
-    
-    embeddedEmailValidator(email= '') {
+
+    embeddedEmailValidator(email = '') {
         const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return re.test(String(email).toLowerCase());
     }
-    
-    embeddedPasswordValidator(password= '', minLength= 8) {
+
+    embeddedPasswordValidator(password = '', minLength = 8) {
         return (String(password).length >= minLength);
     }
 
