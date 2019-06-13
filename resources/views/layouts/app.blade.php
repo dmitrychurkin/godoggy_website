@@ -3,7 +3,8 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+    <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no" />
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -15,12 +16,14 @@
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
     <!-- <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css"> -->
-    <link href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons' rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
     <!-- Styles -->
     <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
     @php
-        $LayoutState__tvar = [
+        $AppState__tvar = [
             'appName' => config('app.name', 'Laravel'),
             'locale' => app()->getLocale(),
             'authenticated' => Auth::check(),
@@ -31,7 +34,11 @@
             'i18n' => [
                 'Toggle navigation' => __('Toggle navigation'),
                 'Login' => __('Login'),
-                'Register' => Route::has('register') ? __('Register') : '',
+                'E-Mail Address' => __('E-Mail Address'),
+                'Password' => __('Password'),
+                'Remember Me' => __('Remember Me'),
+                'Forgot Your Password?' => __('Forgot Your Password?'),
+                
             ],
             'user' => Auth::user() ? [
                 'name' => Auth::user()->name
@@ -39,7 +46,7 @@
         ]
     @endphp
     <script>
-        var AppState = @json($LayoutState__tvar);
+        var AppState = @json($AppState__tvar);
     </script>
 </head>
 

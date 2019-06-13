@@ -12,6 +12,7 @@
     "devDependencies": {
         "@babel/plugin-proposal-class-properties": "^7.4.4",
         "@babel/plugin-proposal-decorators": "^7.4.4",
+        "@babel/plugin-proposal-optional-catch-binding": "^7.2.0",
         "@babel/preset-react": "^7.0.0",
         "@types/googlemaps": "^3.36.2",
         "@types/materialize-css": "^1.0.6",
@@ -37,6 +38,9 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
+        "@material-ui/core": "^4.1.0",
+        "@material-ui/icons": "^4.1.0",
+        "@material-ui/styles": "^4.1.0",
         "font-awesome": "^4.7.0",
         "materialize-css": "^1.0.0-rc.2",
         "mobx": "^5.10.1",
@@ -44,8 +48,6 @@
         "react": "^16.8.6",
         "react-dom": "^16.8.6",
         "react-router-dom": "^5.0.1",
-        "swiper": "^4.5.0",
-        "vue-property-decorator": "^8.1.1",
-        "vuetify": "^1.5.14"
+        "swiper": "^4.5.0"
     }
 }

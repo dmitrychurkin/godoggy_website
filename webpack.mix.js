@@ -16,8 +16,9 @@ mix.ts('resources/ts/modules/landing/index.ts', 'public/js/landing.js')
     .styles('node_modules/vuetify/dist/vuetify.min.css', 'public/css/admin.css')
     .babelConfig({
         plugins: [
-            ['@babel/plugin-proposal-decorators', { decoratorsBeforeExport: false }],
-            '@babel/plugin-proposal-class-properties'
+            ['@babel/plugin-proposal-decorators', { legacy: true }],
+            ['@babel/plugin-proposal-class-properties', { loose: true }],
+            '@babel/plugin-proposal-optional-catch-binding'
         ]
     });
 

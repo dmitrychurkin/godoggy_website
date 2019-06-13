@@ -22,7 +22,7 @@
 </div> -->
 @php
     $PageState__tvar = [
-        status => session('status')
+        'status' => session('status')
     ]
 @endphp
 <script>
