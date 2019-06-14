@@ -13350,7 +13350,7 @@ var defaultTheme = Object(_createMuiTheme__WEBPACK_IMPORTED_MODULE_0__["default"
 /*!************************************************************!*\
   !*** ./node_modules/@material-ui/core/esm/styles/index.js ***!
   \************************************************************/
-/*! exports provided: hexToRgb, rgbToHex, hslToRgb, decomposeColor, recomposeColor, getContrastRatio, getLuminance, emphasize, fade, darken, lighten, createMuiTheme, createStyles, makeStyles, MuiThemeProvider, responsiveFontSizes, styled, easing, duration, formatMs, isString, isNumber, useTheme, withStyles, withTheme */
+/*! exports provided: createMuiTheme, createStyles, makeStyles, MuiThemeProvider, responsiveFontSizes, styled, useTheme, withStyles, withTheme, hexToRgb, rgbToHex, hslToRgb, decomposeColor, recomposeColor, getContrastRatio, getLuminance, emphasize, fade, darken, lighten, easing, duration, formatMs, isString, isNumber */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -16765,7 +16765,7 @@ var flexbox = Object(_compose__WEBPACK_IMPORTED_MODULE_1__["default"])(flexDirec
 /*!*******************************************************!*\
   !*** ./node_modules/@material-ui/system/esm/index.js ***!
   \*******************************************************/
-/*! exports provided: borders, border, borderTop, borderRight, borderBottom, borderLeft, borderColor, borderRadius, breakpoints, compose, css, display, flexbox, flexDirection, flexWrap, justifyContent, alignItems, alignContent, order, flex, flexGrow, flexShrink, alignSelf, palette, color, bgcolor, positions, position, zIndex, top, right, bottom, left, shadows, sizing, width, maxWidth, minWidth, height, maxHeight, minHeight, sizeWidth, sizeHeight, spacing, style, typography, fontFamily, fontSize, fontStyle, fontWeight, letterSpacing, lineHeight, textAlign */
+/*! exports provided: borders, breakpoints, compose, css, display, flexbox, palette, positions, shadows, sizing, spacing, style, typography, border, borderTop, borderRight, borderBottom, borderLeft, borderColor, borderRadius, flexDirection, flexWrap, justifyContent, alignItems, alignContent, order, flex, flexGrow, flexShrink, alignSelf, color, bgcolor, position, zIndex, top, right, bottom, left, width, maxWidth, minWidth, height, maxHeight, minHeight, sizeWidth, sizeHeight, fontFamily, fontSize, fontStyle, fontWeight, letterSpacing, lineHeight, textAlign */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -52114,7 +52114,7 @@ if (false) {} else {
 /*!***************************************************************!*\
   !*** ./node_modules/react-router-dom/esm/react-router-dom.js ***!
   \***************************************************************/
-/*! exports provided: MemoryRouter, Prompt, Redirect, Route, Router, StaticRouter, Switch, generatePath, matchPath, withRouter, __RouterContext, BrowserRouter, HashRouter, Link, NavLink */
+/*! exports provided: BrowserRouter, HashRouter, Link, NavLink, MemoryRouter, Prompt, Redirect, Route, Router, StaticRouter, Switch, generatePath, matchPath, withRouter, __RouterContext */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -59587,14 +59587,25 @@ function () {
 
     this.loginApi = Object(mobx__WEBPACK_IMPORTED_MODULE_2__["flow"])(
     /*#__PURE__*/
-    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(_ref) {
+      var email, password, rememberMe;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              return _context.abrupt("return", window.axios.get('/api/user'));
+              email = _ref.email, password = _ref.password, rememberMe = _ref.rememberMe;
+              return _context.abrupt("return", window.axios({
+                method: 'post',
+                baseURL: "".concat(origin, "/admin"),
+                url: '/signin',
+                data: {
+                  email: email,
+                  password: password,
+                  rememberMe: rememberMe
+                }
+              }));
 
-            case 1:
+            case 2:
             case "end":
               return _context.stop();
           }
@@ -59663,13 +59674,15 @@ var App = function App() {
   var _useContext = Object(react__WEBPACK_IMPORTED_MODULE_0__["useContext"])(_AppStore__WEBPACK_IMPORTED_MODULE_7__["default"]),
       _useContext$initialSt = _useContext.initialState,
       authenticated = _useContext$initialSt.authenticated,
-      i18n = _useContext$initialSt.i18n;
+      i18n = _useContext$initialSt.i18n,
+      loginApi = _useContext.loginApi,
+      authenticate = _useContext.authenticate;
 
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["BrowserRouter"], {
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_CssBaseline__WEBPACK_IMPORTED_MODULE_4__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["BrowserRouter"], {
     basename: "admin"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_NoSsr__WEBPACK_IMPORTED_MODULE_2__["default"], {
     defer: true
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_CssBaseline__WEBPACK_IMPORTED_MODULE_4__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_styles__WEBPACK_IMPORTED_MODULE_3__["ThemeProvider"], {
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_styles__WEBPACK_IMPORTED_MODULE_3__["ThemeProvider"], {
     theme: _theme__WEBPACK_IMPORTED_MODULE_6__["default"]
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Redirect"], {
     to: "".concat(authenticated ? '/dashboard' : '/login')
@@ -59682,10 +59695,12 @@ var App = function App() {
     path: "/login",
     render: function render() {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_Signin__WEBPACK_IMPORTED_MODULE_8__["default"], {
-        i18n: i18n
+        i18n: i18n,
+        loginApi: loginApi,
+        authenticate: authenticate
       });
     }
-  }))));
+  })))));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(mobx_react_lite__WEBPACK_IMPORTED_MODULE_5__["observer"])(App));
@@ -59737,14 +59752,12 @@ __webpack_require__.r(__webpack_exports__);
 
 var apiSetup = function apiSetup() {
   var common = axios__WEBPACK_IMPORTED_MODULE_0___default.a.defaults.headers.common;
-  common['X-Requested-With'] = 'XMLHttpRequest';
-  var token = document.head.querySelector('meta[name="csrf-token"]');
-
-  if (token) {
-    common['X-CSRF-TOKEN'] = token.content;
-  } else {
-    console.error('CSRF token not found');
-  }
+  common['X-Requested-With'] = 'XMLHttpRequest'; // const token = document.head.querySelector('meta[name="csrf-token"]');
+  // if (token) {
+  //     common['X-CSRF-TOKEN'] = token.content;
+  // } else {
+  //     console.error('CSRF token not found');
+  // }
 
   window.axios = axios__WEBPACK_IMPORTED_MODULE_0___default.a;
 };
@@ -59862,20 +59875,27 @@ function _arrayWithHoles(arr) {
 
 
 var Signin = function Signin(_ref) {
-  var i18n = _ref.i18n;
+  var i18n = _ref.i18n,
+      loginApi = _ref.loginApi,
+      authenticate = _ref.authenticate;
   var classes = Object(_styles__WEBPACK_IMPORTED_MODULE_12__["default"])();
   var emailRef = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(null);
   var emailInputProps = {
-    maxLength: 100,
+    maxLength: 255,
     pattern: "[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$"
   };
   var passwordRef = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(null);
   var passwordInputProps = {
     minLength: 8,
-    maxLength: 1000
+    maxLength: 255
   };
 
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
+      _useState2 = _slicedToArray(_useState, 2),
+      requestSent = _useState2[0],
+      setRequestState = _useState2[1];
+
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({
     email: {
       value: '',
       isError: false,
@@ -59888,18 +59908,21 @@ var Signin = function Signin(_ref) {
       message: '',
       elRef: passwordRef
     },
-    rememberMe: {
+    remember: {
       value: false
     }
   }),
-      _useState2 = _slicedToArray(_useState, 2),
-      form = _useState2[0],
-      setState = _useState2[1];
+      _useState4 = _slicedToArray(_useState3, 2),
+      form = _useState4[0],
+      setState = _useState4[1];
 
   var onChange = function onChange(inputName) {
-    return function (event) {
+    return function (_ref2) {
+      var _ref2$target = _ref2.target,
+          value = _ref2$target.value,
+          checked = _ref2$target.checked;
       var currentInput = form[inputName];
-      currentInput.value = event.target.value;
+      currentInput.value = inputName === 'remember' ? checked : value;
       setState(function (prev) {
         return _objectSpread({}, prev, _defineProperty({}, inputName, currentInput));
       });
@@ -59949,11 +59972,25 @@ var Signin = function Signin(_ref) {
     onSubmit: function onSubmit(e) {
       e.preventDefault();
 
-      if (e.target.checkValidity()) {
-        return console.log('Can send request');
+      if (!e.target.checkValidity() || requestSent) {
+        return;
       }
 
-      console.log('Have some errors');
+      setRequestState(true);
+      var email = form.email,
+          password = form.password,
+          remember = form.remember;
+      return loginApi({
+        email: email.value,
+        password: password.value,
+        remember: remember.value
+      }).then(function (res) {
+        console.log('res', res);
+        authenticate();
+      })["catch"](function (err) {
+        console.log('err', err);
+        setRequestState(false);
+      });
     }
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TextField__WEBPACK_IMPORTED_MODULE_3__["default"], {
     inputRef: emailRef,
@@ -59990,18 +60027,20 @@ var Signin = function Signin(_ref) {
     error: form.password.isError,
     helperText: form.password.message
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_FormControlLabel__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    value: form.remember.value,
     control: react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Checkbox__WEBPACK_IMPORTED_MODULE_5__["default"], {
       value: "remember",
       color: "primary"
     }),
     label: i18n['Remember Me'],
-    onChange: onChange('rememberMe')
+    onChange: onChange('remember')
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_2__["default"], {
     type: "submit",
     fullWidth: true,
     variant: "contained",
     color: "primary",
-    className: classes.submit
+    className: classes.submit,
+    disabled: requestSent
   }, i18n['Login']), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_9__["default"], {
     container: true
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_9__["default"], {
@@ -60093,8 +60132,8 @@ var theme = Object(_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_0__["create
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\SERVER\OpenServer\domains\godoggy.com\resources\ts\modules\admin\index.jsx */"./resources/ts/modules/admin/index.jsx");
-module.exports = __webpack_require__(/*! C:\SERVER\OpenServer\domains\godoggy.com\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\godoggy_website\resources\ts\modules\admin\index.jsx */"./resources/ts/modules/admin/index.jsx");
+module.exports = __webpack_require__(/*! D:\godoggy_website\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

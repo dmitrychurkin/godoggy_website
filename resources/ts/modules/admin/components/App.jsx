@@ -10,25 +10,27 @@ import AppStore from '../AppStore';
 import SigninPage from '../pages/Signin';
 
 const App = () => {
-    const { initialState: { authenticated, i18n } } = useContext(AppStore);
-    
+    const { initialState: { authenticated, i18n }, loginApi, authenticate } = useContext(AppStore);
+
     return (
-        <BrowserRouter basename='admin'>
-            <NoSsr defer>
-                <CssBaseline />
-                <ThemeProvider theme={theme}>
-                    <Redirect to={`${authenticated ? '/dashboard' : '/login'}`}/>
-                    <Route
-                        path='/dashboard'
-                        render={() => <div>Admin dashboard</div>}
-                    />
-                    <Route
-                        path='/login'
-                        render={() => <SigninPage i18n={i18n} />}
-                    />
-                </ThemeProvider>
-            </NoSsr>
-        </BrowserRouter>
+        <>
+            <CssBaseline />
+            <BrowserRouter basename='admin'>
+                <NoSsr defer>
+                    <ThemeProvider theme={theme}>
+                        <Redirect to={`${authenticated ? '/dashboard' : '/login'}`} />
+                        <Route
+                            path='/dashboard'
+                            render={() => <div>Admin dashboard</div>}
+                        />
+                        <Route
+                            path='/login'
+                            render={() => <SigninPage i18n={i18n} loginApi={loginApi} authenticate={authenticate} />}
+                        />
+                    </ThemeProvider>
+                </NoSsr>
+            </BrowserRouter>
+        </>
     );
 };
 

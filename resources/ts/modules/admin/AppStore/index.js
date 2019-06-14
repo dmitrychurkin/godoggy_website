@@ -14,8 +14,15 @@ class AppStore {
         this.initilizeStore(initialState);
     }
 
-    loginApi = flow(function *() {
-        return window.axios.get('/api/user');
+    loginApi = flow(function *({ email, password, rememberMe }) {
+        return window.axios({
+            method: 'post',
+            baseURL: `${origin}/admin`,
+            url: '/signin',
+            data: {
+                email, password, rememberMe
+            }
+        });
     });
 
     @action.bound

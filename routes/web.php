@@ -17,7 +17,8 @@ Route::group([
     'prefix' => 'admin',
     'name' => 'admin.'
 ], function () {
-    Route::get('/{any?}', 'AdminController')->where('any', '.*')->name('home');
+    Route::get('{any?}', 'AdminController')->where('any', '.*')->name('home');
+    Route::post('signin', 'AdminController@signin');
 });
 
 Route::get('/', 'Landing');

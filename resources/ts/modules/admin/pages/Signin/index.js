@@ -1,4 +1,4 @@
-import React, { useRef, useState, use } from 'react';
+import React, { useRef, useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -13,20 +13,21 @@ import Typography from '@material-ui/core/Typography';
 
 import useStyles from './styles';
 
-const Signin = ({ i18n }) => {
+const Signin = ({ i18n, loginApi, authenticate }) => {
     const classes = useStyles();
     const emailRef = useRef(null);
     const emailInputProps = {
-        maxLength: 100,
+        maxLength: 255,
         pattern: `[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$`
     };
 
     const passwordRef = useRef(null);
     const passwordInputProps = {
         minLength: 8,
-        maxLength: 1000
+        maxLength: 255
     };
 
+    const [requestSent, setRequestState] = useState(false);
     const [form, setState] = useState({
         email: {
             value: '',
@@ -40,14 +41,14 @@ const Signin = ({ i18n }) => {
             message: '',
             elRef: passwordRef
         },
-        rememberMe: {
+        remember: {
             value: false
         }
     });
 
-    const onChange = (inputName) => event => {
+    const onChange = (inputName) => ({ target: { value, checked } }) => {
         const currentInput = form[inputName];
-        currentInput.value = event.target.value;
+        currentInput.value = (inputName === 'remember') ? checked : value;
         setState(prev => ({ ...prev, [inputName]: currentInput }));
     };
 
@@ -75,10 +76,20 @@ const Signin = ({ i18n }) => {
                         noValidate
                         onSubmit={e => {
                             e.preventDefault();
-                            if (e.target.checkValidity()) {
-                                return console.log('Can send request');
+                            if (!e.target.checkValidity() || requestSent) {
+                                return;
                             }
-                            console.log('Have some errors');
+                            setRequestState(true);
+                            const { email, password, remember } = form;
+                            return loginApi({ email: email.value, password: password.value, remember: remember.value })
+                                        .then(res => {
+                                            console.log('res', res);
+                                            authenticate();
+                                        })
+                                        .catch(err => {
+                                            console.log('err', err);
+                                            setRequestState(false);
+                                        });
                         }}
                     >
                         <TextField
@@ -118,9 +129,10 @@ const Signin = ({ i18n }) => {
                             helperText={form.password.message}
                         />
                         <FormControlLabel
+                            value={form.remember.value}
                             control={<Checkbox value="remember" color="primary" />}
                             label={i18n['Remember Me']}
-                            onChange={onChange('rememberMe')}
+                            onChange={onChange('remember')}
                         />
                         <Button
                             type="submit"
@@ -128,6 +140,7 @@ const Signin = ({ i18n }) => {
                             variant="contained"
                             color="primary"
                             className={classes.submit}
+                            disabled={requestSent}
                         >
                             {i18n['Login']}
                         </Button>
