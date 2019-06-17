@@ -11,30 +11,30 @@ class AppStore {
     @observable initialState = {};
 
     constructor(initialState) {
-        this.initilizeStore(initialState);
+        this.updateStore(initialState);
     }
 
-    loginApi = flow(function *({ email, password, rememberMe }) {
+    loginApi = flow(function* ({ email, password, remember }) {
         return window.axios({
             method: 'post',
             baseURL: `${origin}/admin`,
             url: '/signin',
             data: {
-                email, password, rememberMe
+                email, password, remember
             }
         });
     });
 
     @action.bound
-    initilizeStore(initialState) {
-        this.initialState = initialState;
+    updateStore(initialState = {}) {
+        this.initialState = { ...this.initialState, ...initialState };
     }
 
-    @action.bound
-    authenticate() {
-        this.initialState.authenticated = true;
-        this.initialState.guest = false;
-    }
+    // @action.bound
+    // authenticate() {
+    //     this.initialState.authenticated = true;
+    //     this.initialState.guest = false;
+    // }
 
 }
 

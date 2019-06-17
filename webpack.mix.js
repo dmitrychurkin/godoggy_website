@@ -13,7 +13,7 @@ const mix = require('laravel-mix');
 mix.ts('resources/ts/modules/landing/index.ts', 'public/js/landing.js')
     .react('resources/ts/modules/admin/index.jsx', 'public/js/admin.js')
     .sass('resources/sass/app.scss', 'public/css')
-    .styles('node_modules/vuetify/dist/vuetify.min.css', 'public/css/admin.css')
+    // .styles('node_modules/vuetify/dist/vuetify.min.css', 'public/css/admin.css')
     .babelConfig({
         plugins: [
             ['@babel/plugin-proposal-decorators', { legacy: true }],

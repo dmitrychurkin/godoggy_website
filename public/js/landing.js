@@ -26601,7 +26601,7 @@ window.addEventListener('DOMContentLoaded', function () { return __awaiter(_this
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! D:\godoggy_website\resources\ts\modules\landing\index.ts */"./resources/ts/modules/landing/index.ts");
+module.exports = __webpack_require__(/*! C:\SERVER\OpenServer\domains\godoggy.com\resources\ts\modules\landing\index.ts */"./resources/ts/modules/landing/index.ts");
 
 
 /***/ })

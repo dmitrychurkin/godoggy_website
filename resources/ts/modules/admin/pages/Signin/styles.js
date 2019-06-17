@@ -27,6 +27,20 @@ const useStyles = makeStyles(theme => ({
     submit: {
         margin: theme.spacing(3, 0, 2),
     },
+    error: {
+        backgroundColor: theme.palette.error.dark,
+    },
+    message: {
+        display: 'flex',
+        alignItems: 'center',
+    },
+    icon: {
+        fontSize: 20,
+    },
+    iconVariant: {
+        opacity: 0.9,
+        marginRight: theme.spacing(1),
+    },
 }));
 
 export default useStyles;

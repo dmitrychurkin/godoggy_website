@@ -10,7 +10,7 @@ import AppStore from '../AppStore';
 import SigninPage from '../pages/Signin';
 
 const App = () => {
-    const { initialState: { authenticated, i18n }, loginApi, authenticate } = useContext(AppStore);
+    const { initialState: { authenticated, i18n, user }, loginApi, updateStore } = useContext(AppStore);
 
     return (
         <>
@@ -21,11 +21,17 @@ const App = () => {
                         <Redirect to={`${authenticated ? '/dashboard' : '/login'}`} />
                         <Route
                             path='/dashboard'
-                            render={() => <div>Admin dashboard</div>}
+                            render={() => <div>Admin dashboard -> {JSON.stringify({ user })}</div>}
                         />
                         <Route
                             path='/login'
-                            render={() => <SigninPage i18n={i18n} loginApi={loginApi} authenticate={authenticate} />}
+                            render={() => (
+                                <SigninPage
+                                    i18n={i18n}
+                                    loginApi={loginApi}
+                                    updateStore={updateStore}
+                                />
+                            )}
                         />
                     </ThemeProvider>
                 </NoSsr>

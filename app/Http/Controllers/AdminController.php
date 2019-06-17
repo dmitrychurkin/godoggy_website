@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
@@ -18,22 +17,27 @@ class AdminController extends Controller
         return view('admin');
     }
 
-    public function signin(Request $request) {
+    public function signin(Request $request)
+    {
         // user already registered
-        if ($this->guard()->check()) {
+        $guard = $this->guard();
+        if ($guard->check()) {
             return response()->json([
                 'success' => true,
-                'user' => Auth::user()
+                'user' => $guard->user()
             ]);
         }
-        $this->login($request);
-        return response()->json([
-            'success' => true,
-            'user' => Auth::user()
-        ]);
+        return $this->login($request);
     }
 
-    protected function authenticated(Request $request, $user){
-        return true;
+    protected function authenticated(Request $request, $user)
+    {
+        return response()->json([
+            'success' => true,
+            'user' => [
+                'name' => $user->name,
+                'email' => $user->email
+            ]
+        ]);
     }
 }
