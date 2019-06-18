@@ -23,6 +23,24 @@ import Toast from '../Toast';
 import { ToastType } from '../Toast';
 import useStyles from './styles';
 
+const initialInputState = () => ({
+    email: {
+        value: '',
+        isError: false,
+        message: '',
+        elRef: emailRef
+    },
+    password: {
+        value: '',
+        isError: false,
+        message: '',
+        elRef: passwordRef
+    },
+    remember: {
+        value: false
+    }
+});
+
 const EntranceForm = ({ i18n, loginApi, updateStore, sendPasswordResetApi }) => {
     const classes = useStyles();
     const emailRef = useRef(null);
@@ -38,23 +56,9 @@ const EntranceForm = ({ i18n, loginApi, updateStore, sendPasswordResetApi }) => 
     };
 
     const [requestSent, setRequestState] = useState(false);
-    const [form, setState] = useState({
-        email: {
-            value: '',
-            isError: false,
-            message: '',
-            elRef: emailRef
-        },
-        password: {
-            value: '',
-            isError: false,
-            message: '',
-            elRef: passwordRef
-        },
-        remember: {
-            value: false
-        }
-    });
+    const [form, setState] = useState(
+        ...initialInputState()
+    );
     const [snackbar, setSnackbarState] = useState({ message: '', isOpen: false, variant: 'error' });
     const closeSnakbar = () => setSnackbarState(prev => ({ ...prev, isOpen: false }));
     const onChange = (inputName) => ({ target: { value, checked } }) => {
@@ -211,14 +215,20 @@ const EntranceForm = ({ i18n, loginApi, updateStore, sendPasswordResetApi }) => 
                                             }
                                             const { email } = form;
                                             setRequestState(true);
-                                            
+
                                             return sendPasswordResetApi({ email: email.value })
                                                 .then(response => {
                                                     console.log('sendPasswordResetApi then response => ', response);
-                                                    const { data: { status, success } } = response;
-                                                    setSnackbarState({ isOpen: true, message: status, variant: success ? 'success' : 'warning' });
+                                                    const { status = '', success = false } = response.data || {};
+                                                    setSnackbarState({
+                                                        isOpen: true,
+                                                        message: status || 'Error occured while sending password rest link',
+                                                        variant: status ? (success ? 'success' : 'warning') : 'error'
+                                                    });
                                                     if (!success) {
                                                         setRequestState(false);
+                                                    } else {
+                                                        setState(initialInputState());
                                                     }
                                                 })
                                                 .catch(({ response }) => {
