@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 import clsx from 'clsx';
+import { Link as RouterLink } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -18,20 +19,13 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import useStyles from './styles';
 
-const Signin = ({ i18n, loginApi, updateStore }) => {
+const ForgotPassword = ({ i18n }) => {
     const classes = useStyles();
     const emailRef = useRef(null);
     const emailInputProps = {
         maxLength: 255,
         pattern: `[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$`
     };
-
-    const passwordRef = useRef(null);
-    const passwordInputProps = {
-        minLength: 8,
-        maxLength: 255
-    };
-
     const [requestSent, setRequestState] = useState(false);
     const [form, setState] = useState({
         email: {
@@ -39,15 +33,6 @@ const Signin = ({ i18n, loginApi, updateStore }) => {
             isError: false,
             message: '',
             elRef: emailRef
-        },
-        password: {
-            value: '',
-            isError: false,
-            message: '',
-            elRef: passwordRef
-        },
-        remember: {
-            value: false
         }
     });
     const [snackbar, setSnackbarState] = useState({ message: '', isOpen: false });
@@ -65,7 +50,6 @@ const Signin = ({ i18n, loginApi, updateStore }) => {
         currentInput.isError = !current.checkValidity();
         setState(prev => ({ ...prev, [inputName]: currentInput }));
     };
-
     return (
         <>
             <Grid container component="main" className={classes.root}>
@@ -76,7 +60,7 @@ const Signin = ({ i18n, loginApi, updateStore }) => {
                             <LockOutlinedIcon />
                         </Avatar>
                         <Typography component="h1" variant="h5">
-                            {i18n['Login']}
+                            {i18n['Reset Password']}
                         </Typography>
                         <form
                             className={classes.form}
@@ -87,7 +71,7 @@ const Signin = ({ i18n, loginApi, updateStore }) => {
                                     return;
                                 }
                                 setRequestState(true);
-                                const { email, password, remember } = form;
+                                const { email } = form;
                                 return loginApi({ email: email.value, password: password.value, remember: remember.value || undefined })
                                     .then(({ data: { success = false, user = null } }) => {
                                         updateStore({
@@ -123,30 +107,6 @@ const Signin = ({ i18n, loginApi, updateStore }) => {
                                 error={form.email.isError}
                                 helperText={form.email.message}
                             />
-                            <TextField
-                                inputRef={passwordRef}
-                                variant="outlined"
-                                margin="normal"
-                                required
-                                fullWidth
-                                name="password"
-                                label={i18n['Password']}
-                                type="password"
-                                id="password"
-                                autoComplete="current-password"
-                                inputProps={passwordInputProps}
-                                onChange={onChange('password')}
-                                onBlur={onBlur('password')}
-                                value={form.password.value}
-                                error={form.password.isError}
-                                helperText={form.password.message}
-                            />
-                            <FormControlLabel
-                                value={form.remember.value}
-                                control={<Checkbox value="remember" color="primary" />}
-                                label={i18n['Remember Me']}
-                                onChange={onChange('remember')}
-                            />
                             <Button
                                 type="submit"
                                 fullWidth
@@ -155,12 +115,12 @@ const Signin = ({ i18n, loginApi, updateStore }) => {
                                 className={classes.submit}
                                 disabled={requestSent}
                             >
-                                {i18n['Login']}
+                                {i18n['Send Password Reset Link']}
                             </Button>
                             <Grid container>
                                 <Grid item xs>
                                     <Box textAlign='right'>
-                                        <Link href="#" variant="body2">
+                                        <Link to='/reset-password' component={RouterLink} variant="body2">
                                             {i18n['Forgot Your Password?']}
                                         </Link>
                                     </Box>
@@ -204,4 +164,4 @@ const Signin = ({ i18n, loginApi, updateStore }) => {
     );
 };
 
-export default Signin;
+export default ForgotPassword;

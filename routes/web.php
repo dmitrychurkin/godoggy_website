@@ -17,8 +17,10 @@ Route::group([
     'prefix' => 'admin',
     'name' => 'admin.'
 ], function () {
-    Route::get('{any?}', 'AdminController')->where('any', '.*')->name('home');
-    Route::post('signin', 'AdminController@signin');
+    Route::view('{any?}', 'admin')->where('any', '.*');
+    Route::post('login', 'AdminController@login');
+    Route::post('reset-password', 'AdminController@sendPasswordReset');
+    Route::get('password/reset/{token}', 'AdminController@showResetForm')->name('password.reset');
 });
 
 Route::get('/', 'Landing');

@@ -18,9 +18,20 @@ class AppStore {
         return window.axios({
             method: 'post',
             baseURL: `${origin}/admin`,
-            url: '/signin',
+            url: '/login',
             data: {
                 email, password, remember
+            }
+        });
+    });
+
+    sendPasswordResetApi = flow(function* ({ email }) {
+        return window.axios({
+            method: 'post',
+            baseURL: `${origin}/admin`,
+            url: '/reset-password',
+            data: {
+                email
             }
         });
     });

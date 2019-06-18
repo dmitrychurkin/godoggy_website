@@ -7,10 +7,10 @@ import { observer } from 'mobx-react-lite';
 import theme from '../theme';
 import AppStore from '../AppStore';
 
-import SigninPage from '../pages/Signin';
+import EntranceForm from './EntranceForm';
 
 const App = () => {
-    const { initialState: { authenticated, i18n, user }, loginApi, updateStore } = useContext(AppStore);
+    const { initialState: { authenticated, i18n, user }, loginApi, updateStore, sendPasswordResetApi } = useContext(AppStore);
 
     return (
         <>
@@ -24,12 +24,13 @@ const App = () => {
                             render={() => <div>Admin dashboard -> {JSON.stringify({ user })}</div>}
                         />
                         <Route
-                            path='/login'
+                            path='/(login|reset-password)'
                             render={() => (
-                                <SigninPage
+                                <EntranceForm
                                     i18n={i18n}
                                     loginApi={loginApi}
                                     updateStore={updateStore}
+                                    sendPasswordResetApi={sendPasswordResetApi}
                                 />
                             )}
                         />

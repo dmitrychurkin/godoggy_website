@@ -23,6 +23,7 @@
     <!-- Styles -->
     <!-- <link href="{{ asset('css/admin.css') }}" rel="stylesheet"> -->
     @php
+        $user__tvar = Auth::user();
         $AppState__tvar = [
             'appName' => config('app.name', 'Laravel'),
             'locale' => app()->getLocale(),
@@ -38,10 +39,12 @@
                 'Password' => __('Password'),
                 'Remember Me' => __('Remember Me'),
                 'Forgot Your Password?' => __('Forgot Your Password?'),
-                
+                'Reset Password' => __('Reset Password'),
+                'Send Password Reset Link' => __('Send Password Reset Link')
             ],
-            'user' => Auth::user() ? [
-                'name' => Auth::user()->name
+            'user' => $user__tvar ? [
+                'name' => $user__tvar->name,
+                'email' => $user__tvar->email
             ] : null
         ]
     @endphp
