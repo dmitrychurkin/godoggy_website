@@ -21,6 +21,7 @@ Route::group([
     Route::post('login', 'AdminController@login');
     Route::post('reset-password', 'AdminController@sendPasswordReset');
     Route::get('password/reset/{token}', 'AdminController@showResetForm')->name('password.reset');
+    Route::post('password/reset', 'AdminController@passwordReset');
 });
 
 Route::get('/', 'Landing');

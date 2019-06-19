@@ -10,7 +10,7 @@ import AppStore from '../AppStore';
 import EntranceForm from './EntranceForm';
 
 const App = () => {
-    const { initialState: { authenticated, i18n, user }, loginApi, updateStore, sendPasswordResetApi } = useContext(AppStore);
+    const { initialState: { authenticated, i18n, user }, loginApi, updateStore, sendPasswordResetApi, resetPasswordApi, showToast } = useContext(AppStore);
 
     return (
         <>
@@ -18,21 +18,24 @@ const App = () => {
             <BrowserRouter basename='admin'>
                 <NoSsr defer>
                     <ThemeProvider theme={theme}>
-                        <Redirect to={`${authenticated ? '/dashboard' : '/login'}`} />
+                        {
+                            !['password/reset'].find(path => window.location.pathname.includes(path)) && <Redirect to={`${authenticated ? '/dashboard' : '/login'}`} />
+                        }
                         <Route
-                            path='/dashboard'
-                            render={() => <div>Admin dashboard -> {JSON.stringify({ user })}</div>}
-                        />
-                        <Route
-                            path='/(login|reset-password)'
+                            path={['/login', '/reset-password', '/password/reset/:password_reset?']}
                             render={() => (
                                 <EntranceForm
                                     i18n={i18n}
                                     loginApi={loginApi}
                                     updateStore={updateStore}
                                     sendPasswordResetApi={sendPasswordResetApi}
+                                    resetPasswordApi={resetPasswordApi}
                                 />
                             )}
+                        />
+                        <Route
+                            path='/dashboard'
+                            render={() => <div>Admin dashboard -> {JSON.stringify({ user })}</div>}
                         />
                     </ThemeProvider>
                 </NoSsr>

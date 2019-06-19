@@ -10,6 +10,12 @@ class AppStore {
 
     @observable initialState = {};
 
+    @observable toast = {
+        isOpen: false,
+        message: '',
+        variant: 'error'
+    };
+
     constructor(initialState) {
         this.updateStore(initialState);
     }
@@ -36,9 +42,25 @@ class AppStore {
         });
     });
 
+    resetPasswordApi = flow(function* ({ email, password, password_confirmation, token }) {
+        return window.axios({
+            method: 'post',
+            baseURL: `${origin}/admin`,
+            url: '/password/reset',
+            data: {
+                email, password, password_confirmation, token
+            }
+        });
+    });
+
     @action.bound
     updateStore(initialState = {}) {
         this.initialState = { ...this.initialState, ...initialState };
+    }
+
+    @action.bound
+    showToast({ isOpen= false, message= '', variant= 'error' }) {
+        this.toast = { ...this.toast, isOpen, message, variant };
     }
 
     // @action.bound

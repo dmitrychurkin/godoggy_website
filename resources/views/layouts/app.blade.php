@@ -40,7 +40,8 @@
                 'Remember Me' => __('Remember Me'),
                 'Forgot Your Password?' => __('Forgot Your Password?'),
                 'Reset Password' => __('Reset Password'),
-                'Send Password Reset Link' => __('Send Password Reset Link')
+                'Send Password Reset Link' => __('Send Password Reset Link'),
+                'Confirm Password' => __('Confirm Password')
             ],
             'user' => $user__tvar ? [
                 'name' => $user__tvar->name,

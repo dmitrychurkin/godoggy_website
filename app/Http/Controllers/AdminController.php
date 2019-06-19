@@ -10,7 +10,7 @@ use Illuminate\Foundation\Auth\ResetsPasswords;
 class AdminController extends Controller
 {
     use AuthenticatesUsers, SendsPasswordResetEmails, ResetsPasswords {
-        AuthenticatesUsers::credentials insteadof ResetsPasswords;
+        ResetsPasswords::credentials insteadof AuthenticatesUsers;
         AuthenticatesUsers::guard insteadof ResetsPasswords;
         AuthenticatesUsers::redirectPath insteadof ResetsPasswords;
         ResetsPasswords::broker insteadof SendsPasswordResetEmails;
@@ -79,5 +79,28 @@ class AdminController extends Controller
             'success' => false,
             'status' => trans($response)
         ]);
+    }
+
+    public function passwordReset(Request $request)
+    {
+        // user already registered
+        $guard = $this->guard();
+        if ($guard->check()) {
+            return response()->json([
+                'success' => true,
+                'user' => $guard->user()
+            ]);
+        }
+        return $this->reset($request);
+    }
+
+    protected function sendResetResponse(Request $request, $response)
+    {
+        return $this->sendResetLinkResponse($request, $response);
+    }
+
+    protected function sendResetFailedResponse(Request $request, $response)
+    {
+        return $this->sendResetLinkFailedResponse($request, $response);
     }
 }

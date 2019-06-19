@@ -29,7 +29,7 @@ const Toast = ({ isOpen, onClose, message, variant }) => {
                 horizontal: 'right',
             }}
             open={isOpen}
-            autoHideDuration={6000}
+            autoHideDuration={null}
             onClose={onClose}
         >
             <SnackbarContent

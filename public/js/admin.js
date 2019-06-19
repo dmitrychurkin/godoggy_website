@@ -61013,7 +61013,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var mobx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! mobx */ "./node_modules/mobx/lib/mobx.module.js");
 
 
-var _dec, _class, _descriptor, _temp;
+var _dec, _dec2, _class, _descriptor, _descriptor2, _temp;
 
 function _objectSpread(target) {
   for (var i = 1; i < arguments.length; i++) {
@@ -61119,13 +61119,15 @@ function _initializerWarningHelper(descriptor, context) {
 Object(mobx__WEBPACK_IMPORTED_MODULE_2__["configure"])({
   enforceActions: 'always'
 });
-var AppStore = (_dec = mobx__WEBPACK_IMPORTED_MODULE_2__["action"].bound, (_class = (_temp =
+var AppStore = (_dec = mobx__WEBPACK_IMPORTED_MODULE_2__["action"].bound, _dec2 = mobx__WEBPACK_IMPORTED_MODULE_2__["action"].bound, (_class = (_temp =
 /*#__PURE__*/
 function () {
   function AppStore(initialState) {
     _classCallCheck(this, AppStore);
 
     _initializerDefineProperty(this, "initialState", _descriptor, this);
+
+    _initializerDefineProperty(this, "toast", _descriptor2, this);
 
     this.loginApi = Object(mobx__WEBPACK_IMPORTED_MODULE_2__["flow"])(
     /*#__PURE__*/
@@ -61179,6 +61181,34 @@ function () {
         }
       }, _callee2);
     }));
+    this.resetPasswordApi = Object(mobx__WEBPACK_IMPORTED_MODULE_2__["flow"])(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(_ref3) {
+      var email, password, password_confirmation, token;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              email = _ref3.email, password = _ref3.password, password_confirmation = _ref3.password_confirmation, token = _ref3.token;
+              return _context3.abrupt("return", window.axios({
+                method: 'post',
+                baseURL: "".concat(origin, "/admin"),
+                url: '/password/reset',
+                data: {
+                  email: email,
+                  password: password,
+                  password_confirmation: password_confirmation,
+                  token: token
+                }
+              }));
+
+            case 2:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, _callee3);
+    }));
     this.updateStore(initialState);
   }
 
@@ -61187,6 +61217,21 @@ function () {
     value: function updateStore() {
       var initialState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
       this.initialState = _objectSpread({}, this.initialState, initialState);
+    }
+  }, {
+    key: "showToast",
+    value: function showToast(_ref4) {
+      var _ref4$isOpen = _ref4.isOpen,
+          isOpen = _ref4$isOpen === void 0 ? false : _ref4$isOpen,
+          _ref4$message = _ref4.message,
+          message = _ref4$message === void 0 ? '' : _ref4$message,
+          _ref4$variant = _ref4.variant,
+          variant = _ref4$variant === void 0 ? 'error' : _ref4$variant;
+      this.toast = _objectSpread({}, this.toast, {
+        isOpen: isOpen,
+        message: message,
+        variant: variant
+      });
     } // @action.bound
     // authenticate() {
     //     this.initialState.authenticated = true;
@@ -61203,7 +61248,18 @@ function () {
   initializer: function initializer() {
     return {};
   }
-}), _applyDecoratedDescriptor(_class.prototype, "updateStore", [_dec], Object.getOwnPropertyDescriptor(_class.prototype, "updateStore"), _class.prototype)), _class));
+}), _descriptor2 = _applyDecoratedDescriptor(_class.prototype, "toast", [mobx__WEBPACK_IMPORTED_MODULE_2__["observable"]], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    return {
+      isOpen: false,
+      message: '',
+      variant: 'error'
+    };
+  }
+}), _applyDecoratedDescriptor(_class.prototype, "updateStore", [_dec], Object.getOwnPropertyDescriptor(_class.prototype, "updateStore"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "showToast", [_dec2], Object.getOwnPropertyDescriptor(_class.prototype, "showToast"), _class.prototype)), _class));
 /* harmony default export */ __webpack_exports__["default"] = (Object(react__WEBPACK_IMPORTED_MODULE_1__["createContext"])(new AppStore(window.AppState)));
 
 /***/ }),
@@ -61245,7 +61301,9 @@ var App = function App() {
       user = _useContext$initialSt.user,
       loginApi = _useContext.loginApi,
       updateStore = _useContext.updateStore,
-      sendPasswordResetApi = _useContext.sendPasswordResetApi;
+      sendPasswordResetApi = _useContext.sendPasswordResetApi,
+      resetPasswordApi = _useContext.resetPasswordApi,
+      showToast = _useContext.showToast;
 
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_CssBaseline__WEBPACK_IMPORTED_MODULE_4__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["BrowserRouter"], {
     basename: "admin"
@@ -61253,24 +61311,27 @@ var App = function App() {
     defer: true
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_styles__WEBPACK_IMPORTED_MODULE_3__["ThemeProvider"], {
     theme: _theme__WEBPACK_IMPORTED_MODULE_6__["default"]
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Redirect"], {
+  }, !['password/reset'].find(function (path) {
+    return window.location.pathname.includes(path);
+  }) && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Redirect"], {
     to: "".concat(authenticated ? '/dashboard' : '/login')
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
+    path: ['/login', '/reset-password', '/password/reset/:password_reset?'],
+    render: function render() {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_EntranceForm__WEBPACK_IMPORTED_MODULE_8__["default"], {
+        i18n: i18n,
+        loginApi: loginApi,
+        updateStore: updateStore,
+        sendPasswordResetApi: sendPasswordResetApi,
+        resetPasswordApi: resetPasswordApi
+      });
+    }
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
     path: "/dashboard",
     render: function render() {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Admin dashboard -> ", JSON.stringify({
         user: user
       }));
-    }
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
-    path: "/(login|reset-password)",
-    render: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_EntranceForm__WEBPACK_IMPORTED_MODULE_8__["default"], {
-        i18n: i18n,
-        loginApi: loginApi,
-        updateStore: updateStore,
-        sendPasswordResetApi: sendPasswordResetApi
-      });
     }
   })))));
 };
@@ -61434,7 +61495,8 @@ var EntranceForm = function EntranceForm(_ref) {
   var i18n = _ref.i18n,
       loginApi = _ref.loginApi,
       updateStore = _ref.updateStore,
-      sendPasswordResetApi = _ref.sendPasswordResetApi;
+      sendPasswordResetApi = _ref.sendPasswordResetApi,
+      resetPasswordApi = _ref.resetPasswordApi;
   var classes = Object(_styles__WEBPACK_IMPORTED_MODULE_22__["default"])();
   var emailRef = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(null);
   var emailInputProps = {
@@ -61446,29 +61508,40 @@ var EntranceForm = function EntranceForm(_ref) {
     minLength: 8,
     maxLength: 255
   };
+  var confirmPasswordRef = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(null);
 
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
       _useState2 = _slicedToArray(_useState, 2),
       requestSent = _useState2[0],
       setRequestState = _useState2[1];
 
-  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({
-    email: {
-      value: '',
-      isError: false,
-      message: '',
-      elRef: emailRef
-    },
-    password: {
-      value: '',
-      isError: false,
-      message: '',
-      elRef: passwordRef
-    },
-    remember: {
-      value: false
-    }
-  }),
+  var initialInputState = function initialInputState() {
+    return {
+      email: {
+        value: '',
+        isError: false,
+        message: '',
+        elRef: emailRef
+      },
+      password: {
+        value: '',
+        isError: false,
+        message: '',
+        elRef: passwordRef
+      },
+      password_confirmation: {
+        value: '',
+        isError: false,
+        message: '',
+        elRef: confirmPasswordRef
+      },
+      remember: {
+        value: false
+      }
+    };
+  };
+
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(initialInputState()),
       _useState4 = _slicedToArray(_useState3, 2),
       form = _useState4[0],
       setState = _useState4[1];
@@ -61515,6 +61588,29 @@ var EntranceForm = function EntranceForm(_ref) {
     };
   };
 
+  var handleApiError = function handleApiError(err) {
+    console.dir(err);
+    var response = err.response;
+
+    if (_typeof(response.data) === 'object') {
+      var _response$data = response.data,
+          _response$data$messag = _response$data.message,
+          message = _response$data$messag === void 0 ? 'Error occured' : _response$data$messag,
+          _response$data$errors = _response$data.errors,
+          errors = _response$data$errors === void 0 ? {} : _response$data$errors;
+      setSnackbarState(function (prev) {
+        return _objectSpread({}, prev, {
+          message: "".concat(message, " ").concat(Object.values(errors).map(function (errArr) {
+            return errArr.join(' ');
+          })),
+          isOpen: true
+        });
+      });
+    }
+
+    setRequestState(false);
+  };
+
   var EmailField = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TextField__WEBPACK_IMPORTED_MODULE_5__["default"], {
     inputRef: emailRef,
     variant: "outlined",
@@ -61550,6 +61646,24 @@ var EntranceForm = function EntranceForm(_ref) {
     value: form.password.value,
     error: form.password.isError,
     helperText: form.password.message
+  });
+  var ConfirmPasswordField = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TextField__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    inputRef: confirmPasswordRef,
+    variant: "outlined",
+    margin: "normal",
+    required: true,
+    fullWidth: true,
+    name: "password_confirmation",
+    label: i18n['Confirm Password'],
+    type: "password",
+    id: "password_confirmation",
+    autoComplete: "current-password",
+    inputProps: passwordInputProps,
+    onChange: onChange('password_confirmation'),
+    onBlur: onBlur('password_confirmation'),
+    value: form.password_confirmation.value,
+    error: form.password_confirmation.isError,
+    helperText: form.password_confirmation.message
   });
 
   var SubmitButton = function SubmitButton(_ref3) {
@@ -61621,26 +61735,7 @@ var EntranceForm = function EntranceForm(_ref) {
               guest: !success,
               user: user
             });
-          })["catch"](function (_ref5) {
-            var response = _ref5.response;
-
-            if (_typeof(response.data) === 'object') {
-              var _response$data = response.data,
-                  _response$data$messag = _response$data.message,
-                  message = _response$data$messag === void 0 ? 'Error occured' : _response$data$messag,
-                  errors = _response$data.errors;
-              setSnackbarState(function (prev) {
-                return _objectSpread({}, prev, {
-                  message: "".concat(message, " ").concat(Object.values(errors).map(function (errArr) {
-                    return errArr.join(' ');
-                  })),
-                  isOpen: true
-                });
-              });
-            }
-
-            setRequestState(false);
-          });
+          })["catch"](handleApiError);
         }
       }, EmailField, PasswordField, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_FormControlLabel__WEBPACK_IMPORTED_MODULE_6__["default"], {
         value: form.remember.value,
@@ -61689,42 +61784,86 @@ var EntranceForm = function EntranceForm(_ref) {
             email: email.value
           }).then(function (response) {
             console.log('sendPasswordResetApi then response => ', response);
-            var _response$data2 = response.data,
-                status = _response$data2.status,
-                success = _response$data2.success;
+
+            var _ref5 = response && response.data || {},
+                _ref5$status = _ref5.status,
+                status = _ref5$status === void 0 ? '' : _ref5$status,
+                _ref5$success = _ref5.success,
+                success = _ref5$success === void 0 ? false : _ref5$success;
+
             setSnackbarState({
               isOpen: true,
-              message: status,
-              variant: success ? 'success' : 'warning'
+              message: status || 'Error occured while sending password rest link',
+              variant: status ? success ? 'success' : 'warning' : 'error'
             });
 
             if (!success) {
               setRequestState(false);
+            } else {
+              setState(initialInputState());
             }
-          })["catch"](function (_ref6) {
-            var response = _ref6.response;
-
-            if (_typeof(response.data) === 'object') {
-              var _response$data3 = response.data,
-                  _response$data3$messa = _response$data3.message,
-                  message = _response$data3$messa === void 0 ? 'Error occured' : _response$data3$messa,
-                  errors = _response$data3.errors;
-              setSnackbarState(function (prev) {
-                return _objectSpread({}, prev, {
-                  message: "".concat(message, " ").concat(Object.values(errors).map(function (errArr) {
-                    return errArr.join(' ');
-                  })),
-                  isOpen: true
-                });
-              });
-            }
-
-            console.log(response);
-            setRequestState(false);
-          });
+          })["catch"](handleApiError);
         }
       }, EmailField, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SubmitButton, {
         text: i18n['Send Password Reset Link']
+      })));
+    }
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
+    path: "/password/reset/:password_reset?",
+    render: function render(_ref6) {
+      var _ref6$match$params$pa = _ref6.match.params.password_reset,
+          password_reset = _ref6$match$params$pa === void 0 ? '' : _ref6$match$params$pa;
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, !password_reset && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Redirect"], {
+        to: "/login"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Avatar__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        className: classes.avatar
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_icons_VpnKey__WEBPACK_IMPORTED_MODULE_14___default.a, null)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Typography__WEBPACK_IMPORTED_MODULE_15__["default"], {
+        component: "h1",
+        variant: "h5"
+      }, i18n['Reset Password']), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        className: classes.form,
+        noValidate: true,
+        onSubmit: function onSubmit(e) {
+          e.preventDefault();
+
+          if (!e.target.checkValidity() || requestSent) {
+            return;
+          }
+
+          var email = form.email,
+              password = form.password,
+              password_confirmation = form.password_confirmation;
+          setRequestState(true);
+          return resetPasswordApi({
+            email: email.value,
+            password: password.value,
+            password_confirmation: password_confirmation.value,
+            token: window.location.pathname.split('/').slice(-1)[0]
+          }).then(function (response) {
+            console.log('resetPasswordApi then response => ', response);
+
+            var _ref7 = response && response.data || {},
+                _ref7$status = _ref7.status,
+                status = _ref7$status === void 0 ? '' : _ref7$status,
+                _ref7$success = _ref7.success,
+                success = _ref7$success === void 0 ? false : _ref7$success;
+
+            setSnackbarState({
+              isOpen: true,
+              message: status || 'Error occured while sending password rest link',
+              variant: status ? success ? 'success' : 'warning' : 'error'
+            });
+
+            if (!success) {
+              setRequestState(false);
+            } else {// setState(
+              //     initialInputState()
+              // );
+            }
+          })["catch"](handleApiError);
+        }
+      }, EmailField, PasswordField, ConfirmPasswordField, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SubmitButton, {
+        text: i18n['Reset Password']
       })));
     }
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Box__WEBPACK_IMPORTED_MODULE_10__["default"], {
@@ -61848,7 +61987,7 @@ var Toast = function Toast(_ref) {
       horizontal: 'right'
     },
     open: isOpen,
-    autoHideDuration: 6000,
+    autoHideDuration: null,
     onClose: onClose
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_SnackbarContent__WEBPACK_IMPORTED_MODULE_4__["default"], {
     className: classes[variant],

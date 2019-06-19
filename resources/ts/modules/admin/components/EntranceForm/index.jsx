@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import clsx from 'clsx';
-import { Link as RouterLink, Route } from 'react-router-dom';
+import { Link as RouterLink, Route, Redirect } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -23,25 +23,8 @@ import Toast from '../Toast';
 import { ToastType } from '../Toast';
 import useStyles from './styles';
 
-const initialInputState = () => ({
-    email: {
-        value: '',
-        isError: false,
-        message: '',
-        elRef: emailRef
-    },
-    password: {
-        value: '',
-        isError: false,
-        message: '',
-        elRef: passwordRef
-    },
-    remember: {
-        value: false
-    }
-});
 
-const EntranceForm = ({ i18n, loginApi, updateStore, sendPasswordResetApi }) => {
+const EntranceForm = ({ i18n, loginApi, updateStore, sendPasswordResetApi, resetPasswordApi }) => {
     const classes = useStyles();
     const emailRef = useRef(null);
     const emailInputProps = {
@@ -55,9 +38,34 @@ const EntranceForm = ({ i18n, loginApi, updateStore, sendPasswordResetApi }) => 
         maxLength: 255
     };
 
+    const confirmPasswordRef = useRef(null);
+
     const [requestSent, setRequestState] = useState(false);
+    const initialInputState = () => ({
+        email: {
+            value: '',
+            isError: false,
+            message: '',
+            elRef: emailRef
+        },
+        password: {
+            value: '',
+            isError: false,
+            message: '',
+            elRef: passwordRef
+        },
+        password_confirmation: {
+            value: '',
+            isError: false,
+            message: '',
+            elRef: confirmPasswordRef
+        },
+        remember: {
+            value: false
+        }
+    });
     const [form, setState] = useState(
-        ...initialInputState()
+        initialInputState()
     );
     const [snackbar, setSnackbarState] = useState({ message: '', isOpen: false, variant: 'error' });
     const closeSnakbar = () => setSnackbarState(prev => ({ ...prev, isOpen: false }));
@@ -73,6 +81,16 @@ const EntranceForm = ({ i18n, loginApi, updateStore, sendPasswordResetApi }) => 
         currentInput.message = current.validationMessage;
         currentInput.isError = !current.checkValidity();
         setState(prev => ({ ...prev, [inputName]: currentInput }));
+    };
+
+    const handleApiError = err => {
+        console.dir(err);
+        const { response } = err;
+        if (typeof response.data === 'object') {
+            const { message = 'Error occured', errors = {} } = response.data;
+            setSnackbarState(prev => ({ ...prev, message: `${message} ${Object.values(errors).map(errArr => errArr.join(' '))}`, isOpen: true }));
+        }
+        setRequestState(false);
     };
 
     const EmailField = (
@@ -114,6 +132,27 @@ const EntranceForm = ({ i18n, loginApi, updateStore, sendPasswordResetApi }) => 
             value={form.password.value}
             error={form.password.isError}
             helperText={form.password.message}
+        />
+    );
+
+    const ConfirmPasswordField = (
+        <TextField
+            inputRef={confirmPasswordRef}
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            name="password_confirmation"
+            label={i18n['Confirm Password']}
+            type="password"
+            id="password_confirmation"
+            autoComplete="current-password"
+            inputProps={passwordInputProps}
+            onChange={onChange('password_confirmation')}
+            onBlur={onBlur('password_confirmation')}
+            value={form.password_confirmation.value}
+            error={form.password_confirmation.isError}
+            helperText={form.password_confirmation.message}
         />
     );
 
@@ -164,13 +203,7 @@ const EntranceForm = ({ i18n, loginApi, updateStore, sendPasswordResetApi }) => 
                                                         user
                                                     });
                                                 })
-                                                .catch(({ response }) => {
-                                                    if (typeof response.data === 'object') {
-                                                        const { message = 'Error occured', errors } = response.data;
-                                                        setSnackbarState(prev => ({ ...prev, message: `${message} ${Object.values(errors).map(errArr => errArr.join(' '))}`, isOpen: true }));
-                                                    }
-                                                    setRequestState(false);
-                                                });
+                                                .catch(handleApiError);
                                         }}
                                     >
                                         {EmailField}
@@ -219,7 +252,7 @@ const EntranceForm = ({ i18n, loginApi, updateStore, sendPasswordResetApi }) => 
                                             return sendPasswordResetApi({ email: email.value })
                                                 .then(response => {
                                                     console.log('sendPasswordResetApi then response => ', response);
-                                                    const { status = '', success = false } = response.data || {};
+                                                    const { status = '', success = false } = (response && response.data) || {};
                                                     setSnackbarState({
                                                         isOpen: true,
                                                         message: status || 'Error occured while sending password rest link',
@@ -228,21 +261,71 @@ const EntranceForm = ({ i18n, loginApi, updateStore, sendPasswordResetApi }) => 
                                                     if (!success) {
                                                         setRequestState(false);
                                                     } else {
-                                                        setState(initialInputState());
+                                                        setState(
+                                                            initialInputState()
+                                                        );
                                                     }
                                                 })
-                                                .catch(({ response }) => {
-                                                    if (typeof response.data === 'object') {
-                                                        const { message = 'Error occured', errors } = response.data;
-                                                        setSnackbarState(prev => ({ ...prev, message: `${message} ${Object.values(errors).map(errArr => errArr.join(' '))}`, isOpen: true }));
-                                                    }
-                                                    console.log(response);
-                                                    setRequestState(false);
-                                                });
+                                                .catch(handleApiError);
                                         }}
                                     >
                                         {EmailField}
                                         <SubmitButton text={i18n['Send Password Reset Link']} />
+                                    </form>
+                                </>
+                            )}
+                        />
+                        <Route
+                            path='/password/reset/:password_reset?'
+                            render={({ match: { params: { password_reset = '' } } }) => (
+                                <>
+                                    { !password_reset && <Redirect to='/login' /> }
+                                    <Avatar className={classes.avatar}>
+                                        <VpnKey />
+                                    </Avatar>
+                                    <Typography component="h1" variant="h5">
+                                        {i18n['Reset Password']}
+                                    </Typography>
+                                    <form
+                                        className={classes.form}
+                                        noValidate
+                                        onSubmit={e => {
+                                            e.preventDefault();
+                                            if (!e.target.checkValidity() || requestSent) {
+                                                return;
+                                            }
+                                            const { email, password, password_confirmation } = form;
+                                            setRequestState(true);
+
+                                            return resetPasswordApi({
+                                                email: email.value,
+                                                password: password.value,
+                                                password_confirmation: password_confirmation.value,
+                                                token: window.location.pathname.split('/').slice(-1)[0]
+                                            })
+                                                .then(response => {
+                                                    console.log('resetPasswordApi then response => ', response);
+                                                    const { status = '', success = false } = (response && response.data) || {};
+                                                    setSnackbarState({
+                                                        isOpen: true,
+                                                        message: status || 'Error occured while sending password rest link',
+                                                        variant: status ? (success ? 'success' : 'warning') : 'error'
+                                                    });
+                                                    if (!success) {
+                                                        setRequestState(false);
+                                                    } else {
+                                                        // setState(
+                                                        //     initialInputState()
+                                                        // );
+                                                    }
+                                                })
+                                                .catch(handleApiError);
+                                        }}
+                                    >
+                                        {EmailField}
+                                        {PasswordField}
+                                        {ConfirmPasswordField}
+                                        <SubmitButton text={i18n['Reset Password']} />
                                     </form>
                                 </>
                             )}
