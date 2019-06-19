@@ -11,16 +11,14 @@ import CloseIcon from '@material-ui/icons/Close';
 
 import useStyles from './styles';
 
-export const ToastType = {
-    success: CheckCircleIcon,
-    warning: WarningIcon,
-    error: ErrorIcon,
-    info: InfoIcon,
-};
-
 const Toast = ({ isOpen, onClose, message, variant }) => {
     const classes = useStyles();
-    const Icon = ToastType[variant];
+    const Icon = {
+        success: CheckCircleIcon,
+        warning: WarningIcon,
+        error: ErrorIcon,
+        info: InfoIcon,
+    }[variant];
 
     return (
         <Snackbar
@@ -49,6 +47,6 @@ const Toast = ({ isOpen, onClose, message, variant }) => {
             />
         </Snackbar>
     );
-}
+};
 
 export default Toast;

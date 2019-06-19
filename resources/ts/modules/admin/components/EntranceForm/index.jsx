@@ -1,5 +1,4 @@
 import React, { useRef, useState } from 'react';
-import clsx from 'clsx';
 import { Link as RouterLink, Route, Redirect } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -14,17 +13,19 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Build from '@material-ui/icons/Build';
 import VpnKey from '@material-ui/icons/VpnKey';
 import Typography from '@material-ui/core/Typography';
-import Snackbar from '@material-ui/core/Snackbar';
-import SnackbarContent from '@material-ui/core/SnackbarContent';
-import ErrorIcon from '@material-ui/icons/Error';
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
-import Toast from '../Toast';
-import { ToastType } from '../Toast';
+
 import useStyles from './styles';
 
 
-const EntranceForm = ({ i18n, loginApi, updateStore, sendPasswordResetApi, resetPasswordApi }) => {
+const EntranceForm = ({
+    i18n,
+    loginApi,
+    updateStore,
+    sendPasswordResetApi,
+    resetPasswordApi,
+    setToast,
+    setRequest
+}) => {
     const classes = useStyles();
     const emailRef = useRef(null);
     const emailInputProps = {
@@ -67,8 +68,6 @@ const EntranceForm = ({ i18n, loginApi, updateStore, sendPasswordResetApi, reset
     const [form, setState] = useState(
         initialInputState()
     );
-    const [snackbar, setSnackbarState] = useState({ message: '', isOpen: false, variant: 'error' });
-    const closeSnakbar = () => setSnackbarState(prev => ({ ...prev, isOpen: false }));
     const onChange = (inputName) => ({ target: { value, checked } }) => {
         const currentInput = form[inputName];
         currentInput.value = (inputName === 'remember') ? checked : value;
@@ -88,7 +87,7 @@ const EntranceForm = ({ i18n, loginApi, updateStore, sendPasswordResetApi, reset
         const { response } = err;
         if (typeof response.data === 'object') {
             const { message = 'Error occured', errors = {} } = response.data;
-            setSnackbarState(prev => ({ ...prev, message: `${message} ${Object.values(errors).map(errArr => errArr.join(' '))}`, isOpen: true }));
+            setToast({ message: `${message} ${Object.values(errors).map(errArr => errArr.join(' '))}`, isOpen: true });
         }
         setRequestState(false);
     };
@@ -196,14 +195,24 @@ const EntranceForm = ({ i18n, loginApi, updateStore, sendPasswordResetApi, reset
                                             setRequestState(true);
                                             const { email, password, remember } = form;
                                             return loginApi({ email: email.value, password: password.value, remember: remember.value || undefined })
-                                                .then(({ data: { success = false, user = null } }) => {
+                                                .then(response => {
+                                                    const { success = false, user = null } = (response && response.data) || {};
                                                     updateStore({
                                                         authenticated: success,
                                                         guest: !success,
                                                         user
                                                     });
+
+                                                    if (!success) {
+                                                        setRequestState(false);
+                                                        setToast({
+                                                            isOpen: true,
+                                                            message: 'Error occured while logging in'
+                                                        });
+                                                    }
                                                 })
-                                                .catch(handleApiError);
+                                                .catch(handleApiError)
+                                                .finally(() => setRequest(false));
                                         }}
                                     >
                                         {EmailField}
@@ -253,20 +262,21 @@ const EntranceForm = ({ i18n, loginApi, updateStore, sendPasswordResetApi, reset
                                                 .then(response => {
                                                     console.log('sendPasswordResetApi then response => ', response);
                                                     const { status = '', success = false } = (response && response.data) || {};
-                                                    setSnackbarState({
+                                                    setToast({
                                                         isOpen: true,
-                                                        message: status || 'Error occured while sending password rest link',
+                                                        message: status || 'Error occured while sending password reset link',
                                                         variant: status ? (success ? 'success' : 'warning') : 'error'
                                                     });
-                                                    if (!success) {
-                                                        setRequestState(false);
-                                                    } else {
+                                                    if (success) {
                                                         setState(
                                                             initialInputState()
                                                         );
+                                                    } else {
+                                                        setRequestState(false);
                                                     }
                                                 })
-                                                .catch(handleApiError);
+                                                .catch(handleApiError)
+                                                .finally(() => setRequest(false));
                                         }}
                                     >
                                         {EmailField}
@@ -279,7 +289,7 @@ const EntranceForm = ({ i18n, loginApi, updateStore, sendPasswordResetApi, reset
                             path='/password/reset/:password_reset?'
                             render={({ match: { params: { password_reset = '' } } }) => (
                                 <>
-                                    { !password_reset && <Redirect to='/login' /> }
+                                    {!password_reset && <Redirect to='/login' />}
                                     <Avatar className={classes.avatar}>
                                         <VpnKey />
                                     </Avatar>
@@ -305,21 +315,28 @@ const EntranceForm = ({ i18n, loginApi, updateStore, sendPasswordResetApi, reset
                                             })
                                                 .then(response => {
                                                     console.log('resetPasswordApi then response => ', response);
-                                                    const { status = '', success = false } = (response && response.data) || {};
-                                                    setSnackbarState({
-                                                        isOpen: true,
-                                                        message: status || 'Error occured while sending password rest link',
-                                                        variant: status ? (success ? 'success' : 'warning') : 'error'
-                                                    });
-                                                    if (!success) {
-                                                        setRequestState(false);
+                                                    const { status = '', success = false, user = null } = (response && response.data) || {};
+
+                                                    if (!(success && !status)) {
+                                                        setToast({
+                                                            isOpen: true,
+                                                            message: status || 'Error occured while resetting password',
+                                                            variant: status ? (success ? 'success' : 'warning') : 'error'
+                                                        });
+                                                    }
+
+                                                    if (success) {
+                                                        updateStore({
+                                                            authenticated: success,
+                                                            guest: !success,
+                                                            user
+                                                        });
                                                     } else {
-                                                        // setState(
-                                                        //     initialInputState()
-                                                        // );
+                                                        setRequestState(false);
                                                     }
                                                 })
-                                                .catch(handleApiError);
+                                                .catch(handleApiError)
+                                                .finally(() => setRequest(false));
                                         }}
                                     >
                                         {EmailField}
@@ -338,12 +355,6 @@ const EntranceForm = ({ i18n, loginApi, updateStore, sendPasswordResetApi, reset
                     </div>
                 </Grid>
             </Grid>
-            <Toast
-                isOpen={snackbar.isOpen}
-                onClose={closeSnakbar}
-                variant={snackbar.variant}
-                message={snackbar.message}
-            />
         </>
     );
 };

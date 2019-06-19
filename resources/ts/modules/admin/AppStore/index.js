@@ -10,17 +10,20 @@ class AppStore {
 
     @observable initialState = {};
 
-    @observable toast = {
+    @observable appSnackbar = {
         isOpen: false,
         message: '',
         variant: 'error'
     };
+
+    @observable requestState = false;
 
     constructor(initialState) {
         this.updateStore(initialState);
     }
 
     loginApi = flow(function* ({ email, password, remember }) {
+        this.setRequest(true);
         return window.axios({
             method: 'post',
             baseURL: `${origin}/admin`,
@@ -29,9 +32,10 @@ class AppStore {
                 email, password, remember
             }
         });
-    });
+    }.bind(this));
 
     sendPasswordResetApi = flow(function* ({ email }) {
+        this.setRequest(true);
         return window.axios({
             method: 'post',
             baseURL: `${origin}/admin`,
@@ -40,9 +44,10 @@ class AppStore {
                 email
             }
         });
-    });
+    }.bind(this));
 
     resetPasswordApi = flow(function* ({ email, password, password_confirmation, token }) {
+        this.setRequest(true);
         return window.axios({
             method: 'post',
             baseURL: `${origin}/admin`,
@@ -51,7 +56,7 @@ class AppStore {
                 email, password, password_confirmation, token
             }
         });
-    });
+    }.bind(this));
 
     @action.bound
     updateStore(initialState = {}) {
@@ -59,8 +64,13 @@ class AppStore {
     }
 
     @action.bound
-    showToast({ isOpen= false, message= '', variant= 'error' }) {
-        this.toast = { ...this.toast, isOpen, message, variant };
+    setToast({ isOpen = false, message = '', variant = 'error' } = {}) {
+        this.appSnackbar = { isOpen, message, variant };
+    }
+
+    @action.bound
+    setRequest(state) {
+        this.requestState = state;
     }
 
     // @action.bound

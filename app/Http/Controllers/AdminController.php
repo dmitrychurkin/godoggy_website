@@ -10,25 +10,24 @@ use Illuminate\Foundation\Auth\ResetsPasswords;
 class AdminController extends Controller
 {
     use AuthenticatesUsers, SendsPasswordResetEmails, ResetsPasswords {
-        ResetsPasswords::credentials insteadof AuthenticatesUsers;
-        AuthenticatesUsers::guard insteadof ResetsPasswords;
-        AuthenticatesUsers::redirectPath insteadof ResetsPasswords;
-        ResetsPasswords::broker insteadof SendsPasswordResetEmails;
+    ResetsPasswords::credentials insteadof AuthenticatesUsers;
+    AuthenticatesUsers::guard insteadof ResetsPasswords;
+    AuthenticatesUsers::redirectPath insteadof ResetsPasswords;
+    ResetsPasswords::broker insteadof SendsPasswordResetEmails;
     }
-
-    // public function __invoke()
-    // {
-    //     return view('admin');
-    // }
 
     public function login(Request $request)
     {
         // user already registered
         $guard = $this->guard();
+        $user = $guard->user();
         if ($guard->check()) {
             return response()->json([
                 'success' => true,
-                'user' => $guard->user()
+                'user' => [
+                    'name' => $user->name,
+                    'email' => $user->email
+                ]
             ]);
         }
         return $this->login($request);
@@ -45,21 +44,18 @@ class AdminController extends Controller
         ]);
     }
 
-    public function showResetForm(Request $request, $token = null)
-    {
-        return view('admin')->with(
-            ['token' => $token, 'email' => $request->email]
-        );
-    }
-
     public function sendPasswordReset(Request $request)
     {
         // user already registered
         $guard = $this->guard();
+        $user = $guard->user();
         if ($guard->check()) {
             return response()->json([
                 'success' => true,
-                'user' => $guard->user()
+                'user' => [
+                    'name' => $user->name,
+                    'email' => $user->email
+                ]
             ]);
         }
         return $this->sendResetLinkEmail($request);
@@ -85,10 +81,14 @@ class AdminController extends Controller
     {
         // user already registered
         $guard = $this->guard();
+        $user = $guard->user();
         if ($guard->check()) {
             return response()->json([
                 'success' => true,
-                'user' => $guard->user()
+                'user' => [
+                    'name' => $user->name,
+                    'email' => $user->email
+                ]
             ]);
         }
         return $this->reset($request);
@@ -96,7 +96,15 @@ class AdminController extends Controller
 
     protected function sendResetResponse(Request $request, $response)
     {
-        return $this->sendResetLinkResponse($request, $response);
+        $user = $this->guard()->user();
+        return response()->json([
+            'success' => true,
+            'status' => trans($response),
+            'user' => [
+                'name' => $user->name,
+                'email' => $user->email
+            ]
+        ]);
     }
 
     protected function sendResetFailedResponse(Request $request, $response)

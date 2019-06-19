@@ -20,7 +20,7 @@ Route::group([
     Route::view('{any?}', 'admin')->where('any', '.*');
     Route::post('login', 'AdminController@login');
     Route::post('reset-password', 'AdminController@sendPasswordReset');
-    Route::get('password/reset/{token}', 'AdminController@showResetForm')->name('password.reset');
+    Route::view('password/reset/{token}', 'admin')->name('password.reset');
     Route::post('password/reset', 'AdminController@passwordReset');
 });
 
