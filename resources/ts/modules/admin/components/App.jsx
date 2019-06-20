@@ -9,6 +9,7 @@ import { observer } from 'mobx-react-lite';
 import theme from '../theme';
 import AppStore from '../AppStore';
 import EntranceForm from './EntranceForm';
+import DashboardLayout from './DashboardLayout';
 import Toast from './Toast';
 
 const App = () => {
@@ -23,12 +24,20 @@ const App = () => {
         setRequest,
         requestState
     } = useContext(AppStore);
-    const lastSegment = window.location.pathname.split('/admin').slice(-1)[0];
-    const lastSegmentArr = lastSegment.split('/');
-    if (!lastSegmentArr.slice(-1)[0]) {
-        lastSegmentArr.pop();
+    const BASE_PATH = '/admin';
+    const { location: { pathname }, history } = window;
+    let normalizedUrl = '';
+    const isOnlyBasePath = [`${BASE_PATH}/`, BASE_PATH].includes(pathname);
+    if (isOnlyBasePath) {
+        history.replaceState({} , '', BASE_PATH);
+    }else {
+        const lastSegment = pathname.split(BASE_PATH).slice(-1)[0];
+        const lastSegmentArr = lastSegment.split('/');
+        if (!lastSegmentArr.slice(-1)[0]) {
+            lastSegmentArr.pop();
+        }
+        normalizedUrl = lastSegmentArr.join('/');
     }
-    const normalizedUrl = lastSegmentArr.join('/');
 
     return (
         <>
@@ -45,9 +54,10 @@ const App = () => {
             <BrowserRouter basename='admin'>
                 <NoSsr defer>
                     <ThemeProvider theme={theme}>
-                        <Redirect strict from={`${normalizedUrl}/`} to={normalizedUrl} />
+                        { !isOnlyBasePath && <Redirect strict from={`${normalizedUrl}/`} to={normalizedUrl} /> }
                         <Switch>
                             <Route
+                                exact
                                 path={['/login', '/reset-password', '/password/reset/:password_reset?']}
                                 render={() => (
                                     <>
@@ -65,11 +75,12 @@ const App = () => {
                                 )}
                             />
                             <Route
+                                exact
                                 path='/dashboard'
                                 render={() => (
                                     <>
                                         {!authenticated && <Redirect to='/login' />}
-                                        <div>Admin dashboard -> {JSON.stringify({ user })}</div>
+                                        <DashboardLayout />
                                     </>
                                 )}
                             />

@@ -16,7 +16,7 @@ class AdminController extends Controller
     ResetsPasswords::broker insteadof SendsPasswordResetEmails;
     }
 
-    public function login(Request $request)
+    public function signin(Request $request)
     {
         // user already registered
         $guard = $this->guard();
@@ -110,5 +110,12 @@ class AdminController extends Controller
     protected function sendResetFailedResponse(Request $request, $response)
     {
         return $this->sendResetLinkFailedResponse($request, $response);
+    }
+
+    protected function loggedOut(Request $request)
+    {
+        return response()->json([
+            'success' => true
+        ]);
     }
 }

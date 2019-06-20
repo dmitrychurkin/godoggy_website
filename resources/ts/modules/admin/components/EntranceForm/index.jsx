@@ -83,12 +83,9 @@ const EntranceForm = ({
     };
 
     const handleApiError = err => {
-        console.dir(err);
-        const { response } = err;
-        if (typeof response.data === 'object') {
-            const { message = 'Error occured', errors = {} } = response.data;
-            setToast({ message: `${message} ${Object.values(errors).map(errArr => errArr.join(' '))}`, isOpen: true });
-        }
+        const { response = {} } = (err && err.response) || {};
+        const { message = 'Error occured', errors = {} } = response.data || {};
+        setToast({ message: `${message} ${Object.values(errors).map(errArr => errArr.join(' '))}`, isOpen: true });
         setRequestState(false);
     };
 
@@ -260,7 +257,6 @@ const EntranceForm = ({
 
                                             return sendPasswordResetApi({ email: email.value })
                                                 .then(response => {
-                                                    console.log('sendPasswordResetApi then response => ', response);
                                                     const { status = '', success = false } = (response && response.data) || {};
                                                     setToast({
                                                         isOpen: true,
@@ -314,9 +310,7 @@ const EntranceForm = ({
                                                 token: window.location.pathname.split('/').slice(-1)[0]
                                             })
                                                 .then(response => {
-                                                    console.log('resetPasswordApi then response => ', response);
                                                     const { status = '', success = false, user = null } = (response && response.data) || {};
-
                                                     if (!(success && !status)) {
                                                         setToast({
                                                             isOpen: true,
@@ -324,7 +318,6 @@ const EntranceForm = ({
                                                             variant: status ? (success ? 'success' : 'warning') : 'error'
                                                         });
                                                     }
-
                                                     if (success) {
                                                         updateStore({
                                                             authenticated: success,

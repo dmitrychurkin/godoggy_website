@@ -18,10 +18,11 @@ Route::group([
     'name' => 'admin.'
 ], function () {
     Route::view('{any?}', 'admin')->where('any', '.*');
-    Route::post('login', 'AdminController@login');
+    Route::post('login', 'AdminController@signin');
     Route::post('reset-password', 'AdminController@sendPasswordReset');
     Route::view('password/reset/{token}', 'admin')->name('password.reset');
     Route::post('password/reset', 'AdminController@passwordReset');
+    Route::post('logout', 'AdminController@logout');
 });
 
 Route::get('/', 'Landing');
