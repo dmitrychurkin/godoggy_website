@@ -64451,15 +64451,13 @@ var EntranceForm = function EntranceForm(_ref) {
 
   var handleApiError = function handleApiError(err) {
     var _ref3 = err && err.response || {},
-        _ref3$response = _ref3.response,
-        response = _ref3$response === void 0 ? {} : _ref3$response;
+        _ref3$data = _ref3.data,
+        data = _ref3$data === void 0 ? {} : _ref3$data;
 
-    var _ref4 = response.data || {},
-        _ref4$message = _ref4.message,
-        message = _ref4$message === void 0 ? 'Error occured' : _ref4$message,
-        _ref4$errors = _ref4.errors,
-        errors = _ref4$errors === void 0 ? {} : _ref4$errors;
-
+    var _data$message = data.message,
+        message = _data$message === void 0 ? 'Error occured' : _data$message,
+        _data$errors = data.errors,
+        errors = _data$errors === void 0 ? {} : _data$errors;
     setToast({
       message: "".concat(message, " ").concat(Object.values(errors).map(function (errArr) {
         return errArr.join(' ');
@@ -64524,8 +64522,8 @@ var EntranceForm = function EntranceForm(_ref) {
     helperText: form.password_confirmation.message
   });
 
-  var SubmitButton = function SubmitButton(_ref5) {
-    var text = _ref5.text;
+  var SubmitButton = function SubmitButton(_ref4) {
+    var text = _ref4.text;
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_3__["default"], {
       type: "submit",
       fullWidth: true,
@@ -64583,11 +64581,11 @@ var EntranceForm = function EntranceForm(_ref) {
             password: password.value,
             remember: remember.value || undefined
           }).then(function (response) {
-            var _ref6 = response && response.data || {},
-                _ref6$success = _ref6.success,
-                success = _ref6$success === void 0 ? false : _ref6$success,
-                _ref6$user = _ref6.user,
-                user = _ref6$user === void 0 ? null : _ref6$user;
+            var _ref5 = response && response.data || {},
+                _ref5$success = _ref5.success,
+                success = _ref5$success === void 0 ? false : _ref5$success,
+                _ref5$user = _ref5.user,
+                user = _ref5$user === void 0 ? null : _ref5$user;
 
             updateStore({
               authenticated: success,
@@ -64652,11 +64650,11 @@ var EntranceForm = function EntranceForm(_ref) {
           return sendPasswordResetApi({
             email: email.value
           }).then(function (response) {
-            var _ref7 = response && response.data || {},
-                _ref7$status = _ref7.status,
-                status = _ref7$status === void 0 ? '' : _ref7$status,
-                _ref7$success = _ref7.success,
-                success = _ref7$success === void 0 ? false : _ref7$success;
+            var _ref6 = response && response.data || {},
+                _ref6$status = _ref6.status,
+                status = _ref6$status === void 0 ? '' : _ref6$status,
+                _ref6$success = _ref6.success,
+                success = _ref6$success === void 0 ? false : _ref6$success;
 
             setToast({
               isOpen: true,
@@ -64679,9 +64677,9 @@ var EntranceForm = function EntranceForm(_ref) {
     }
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
     path: "/password/reset/:password_reset?",
-    render: function render(_ref8) {
-      var _ref8$match$params$pa = _ref8.match.params.password_reset,
-          password_reset = _ref8$match$params$pa === void 0 ? '' : _ref8$match$params$pa;
+    render: function render(_ref7) {
+      var _ref7$match$params$pa = _ref7.match.params.password_reset,
+          password_reset = _ref7$match$params$pa === void 0 ? '' : _ref7$match$params$pa;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, !password_reset && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Redirect"], {
         to: "/login"
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Avatar__WEBPACK_IMPORTED_MODULE_2__["default"], {
@@ -64709,13 +64707,13 @@ var EntranceForm = function EntranceForm(_ref) {
             password_confirmation: password_confirmation.value,
             token: window.location.pathname.split('/').slice(-1)[0]
           }).then(function (response) {
-            var _ref9 = response && response.data || {},
-                _ref9$status = _ref9.status,
-                status = _ref9$status === void 0 ? '' : _ref9$status,
-                _ref9$success = _ref9.success,
-                success = _ref9$success === void 0 ? false : _ref9$success,
-                _ref9$user = _ref9.user,
-                user = _ref9$user === void 0 ? null : _ref9$user;
+            var _ref8 = response && response.data || {},
+                _ref8$status = _ref8.status,
+                status = _ref8$status === void 0 ? '' : _ref8$status,
+                _ref8$success = _ref8.success,
+                success = _ref8$success === void 0 ? false : _ref8$success,
+                _ref8$user = _ref8.user,
+                user = _ref8$user === void 0 ? null : _ref8$user;
 
             if (!(success && !status)) {
               setToast({

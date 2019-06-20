@@ -83,8 +83,8 @@ const EntranceForm = ({
     };
 
     const handleApiError = err => {
-        const { response = {} } = (err && err.response) || {};
-        const { message = 'Error occured', errors = {} } = response.data || {};
+        const { data = {} } = (err && err.response) || {};
+        const { message = 'Error occured', errors = {} } = data;
         setToast({ message: `${message} ${Object.values(errors).map(errArr => errArr.join(' '))}`, isOpen: true });
         setRequestState(false);
     };
