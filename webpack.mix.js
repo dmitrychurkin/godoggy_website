@@ -25,5 +25,6 @@ mix.ts('resources/ts/modules/landing/index.ts', 'public/js/landing.js')
 if (mix.inProduction()) {
     mix.version();
 } else {
-    mix.browserSync('localhost:8000');
+    mix.browserSync('localhost:8000')
+        .sourceMaps();
 }

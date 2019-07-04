@@ -13,85 +13,31 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Build from '@material-ui/icons/Build';
 import VpnKey from '@material-ui/icons/VpnKey';
 import Typography from '@material-ui/core/Typography';
-
+import { onChange, onBlur, getForm, emailValidationConstraints, passwordValidationConstraints } from '../../lib/formHelpers';
 import useStyles from './styles';
 
+const inputs = [
+    { inputName: 'email' },
+    { inputName: 'password' },
+    { inputName: 'password_confirmation' },
+    { inputName: 'remember', ref: null, value: false }
+];
 
 const EntranceForm = ({
     i18n,
     loginApi,
-    updateStore,
     sendPasswordResetApi,
-    resetPasswordApi,
-    setToast,
-    setRequest
+    resetPasswordApi
 }) => {
     const classes = useStyles();
-    const emailRef = useRef(null);
-    const emailInputProps = {
-        maxLength: 255,
-        pattern: `[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$`
-    };
-
-    const passwordRef = useRef(null);
-    const passwordInputProps = {
-        minLength: 8,
-        maxLength: 255
-    };
-
-    const confirmPasswordRef = useRef(null);
-
-    const [requestSent, setRequestState] = useState(false);
-    const initialInputState = () => ({
-        email: {
-            value: '',
-            isError: false,
-            message: '',
-            elRef: emailRef
-        },
-        password: {
-            value: '',
-            isError: false,
-            message: '',
-            elRef: passwordRef
-        },
-        password_confirmation: {
-            value: '',
-            isError: false,
-            message: '',
-            elRef: confirmPasswordRef
-        },
-        remember: {
-            value: false
-        }
-    });
+    const requestState = useState(false);
     const [form, setState] = useState(
-        initialInputState()
+        getForm(...inputs)
     );
-    const onChange = (inputName) => ({ target: { value, checked } }) => {
-        const currentInput = form[inputName];
-        currentInput.value = (inputName === 'remember') ? checked : value;
-        setState(prev => ({ ...prev, [inputName]: currentInput }));
-    };
-
-    const onBlur = inputName => () => {
-        const currentInput = form[inputName];
-        const { current } = currentInput.elRef;
-        currentInput.message = current.validationMessage;
-        currentInput.isError = !current.checkValidity();
-        setState(prev => ({ ...prev, [inputName]: currentInput }));
-    };
-
-    const handleApiError = err => {
-        const { data = {} } = (err && err.response) || {};
-        const { message = 'Error occured', errors = {} } = data;
-        setToast({ message: `${message} ${Object.values(errors).map(errArr => errArr.join(' '))}`, isOpen: true });
-        setRequestState(false);
-    };
 
     const EmailField = (
         <TextField
-            inputRef={emailRef}
+            inputRef={form.email.ref}
             variant="outlined"
             margin="normal"
             required
@@ -101,18 +47,18 @@ const EntranceForm = ({
             name="email"
             autoComplete="email"
             autoFocus
-            inputProps={emailInputProps}
-            onChange={onChange('email')}
-            onBlur={onBlur('email')}
+            inputProps={emailValidationConstraints}
+            onChange={onChange('email', [form, setState])}
+            onBlur={onBlur('email', [form, setState])}
             value={form.email.value}
-            error={form.email.isError}
-            helperText={form.email.message}
+            error={form.email.isInvalid}
+            helperText={form.email.validationMessage}
         />
     );
 
     const PasswordField = (
         <TextField
-            inputRef={passwordRef}
+            inputRef={form.password.ref}
             variant="outlined"
             margin="normal"
             required
@@ -122,18 +68,18 @@ const EntranceForm = ({
             type="password"
             id="password"
             autoComplete="current-password"
-            inputProps={passwordInputProps}
-            onChange={onChange('password')}
-            onBlur={onBlur('password')}
+            inputProps={passwordValidationConstraints}
+            onChange={onChange('password', [form, setState])}
+            onBlur={onBlur('password', [form, setState])}
             value={form.password.value}
-            error={form.password.isError}
-            helperText={form.password.message}
+            error={form.password.isInvalid}
+            helperText={form.password.validationMessage}
         />
     );
 
     const ConfirmPasswordField = (
         <TextField
-            inputRef={confirmPasswordRef}
+            inputRef={form.password_confirmation.ref}
             variant="outlined"
             margin="normal"
             required
@@ -143,12 +89,12 @@ const EntranceForm = ({
             type="password"
             id="password_confirmation"
             autoComplete="current-password"
-            inputProps={passwordInputProps}
-            onChange={onChange('password_confirmation')}
-            onBlur={onBlur('password_confirmation')}
+            inputProps={passwordValidationConstraints}
+            onChange={onChange('password_confirmation', [form, setState])}
+            onBlur={onBlur('password_confirmation', [form, setState])}
             value={form.password_confirmation.value}
-            error={form.password_confirmation.isError}
-            helperText={form.password_confirmation.message}
+            error={form.password_confirmation.isInvalid}
+            helperText={form.password_confirmation.validationMessage}
         />
     );
 
@@ -159,7 +105,7 @@ const EntranceForm = ({
             variant="contained"
             color="primary"
             className={classes.submit}
-            disabled={requestSent}
+            disabled={requestState[0]}
         >
             {text}
         </Button>
@@ -185,31 +131,12 @@ const EntranceForm = ({
                                         className={classes.form}
                                         noValidate
                                         onSubmit={e => {
-                                            e.preventDefault();
-                                            if (!e.target.checkValidity() || requestSent) {
-                                                return;
-                                            }
-                                            setRequestState(true);
                                             const { email, password, remember } = form;
-                                            return loginApi({ email: email.value, password: password.value, remember: remember.value || undefined })
-                                                .then(response => {
-                                                    const { success = false, user = null } = (response && response.data) || {};
-                                                    updateStore({
-                                                        authenticated: success,
-                                                        guest: !success,
-                                                        user
-                                                    });
-
-                                                    if (!success) {
-                                                        setRequestState(false);
-                                                        setToast({
-                                                            isOpen: true,
-                                                            message: 'Error occured while logging in'
-                                                        });
-                                                    }
-                                                })
-                                                .catch(handleApiError)
-                                                .finally(() => setRequest(false));
+                                            loginApi(
+                                                { email: email.value, password: password.value, remember: remember.value || undefined },
+                                                requestState,
+                                                e
+                                            );
                                         }}
                                     >
                                         {EmailField}
@@ -218,7 +145,7 @@ const EntranceForm = ({
                                             value={form.remember.value}
                                             control={<Checkbox value="remember" color="primary" />}
                                             label={i18n['Remember Me']}
-                                            onChange={onChange('remember')}
+                                            onChange={onChange('remember', [form, setState], true)}
                                         />
                                         <SubmitButton text={i18n['Login']} />
                                         <Grid container>
@@ -248,31 +175,18 @@ const EntranceForm = ({
                                         className={classes.form}
                                         noValidate
                                         onSubmit={e => {
-                                            e.preventDefault();
-                                            if (!e.target.checkValidity() || requestSent) {
-                                                return;
-                                            }
                                             const { email } = form;
-                                            setRequestState(true);
-
-                                            return sendPasswordResetApi({ email: email.value })
-                                                .then(response => {
-                                                    const { status = '', success = false } = (response && response.data) || {};
-                                                    setToast({
-                                                        isOpen: true,
-                                                        message: status || 'Error occured while sending password reset link',
-                                                        variant: status ? (success ? 'success' : 'warning') : 'error'
-                                                    });
-                                                    if (success) {
+                                            sendPasswordResetApi(
+                                                { email: email.value },
+                                                requestState,
+                                                e)
+                                                .then(successfulResponse => {
+                                                    if (successfulResponse) {
                                                         setState(
-                                                            initialInputState()
+                                                            getForm(...inputs)
                                                         );
-                                                    } else {
-                                                        setRequestState(false);
                                                     }
-                                                })
-                                                .catch(handleApiError)
-                                                .finally(() => setRequest(false));
+                                                });
                                         }}
                                     >
                                         {EmailField}
@@ -296,40 +210,16 @@ const EntranceForm = ({
                                         className={classes.form}
                                         noValidate
                                         onSubmit={e => {
-                                            e.preventDefault();
-                                            if (!e.target.checkValidity() || requestSent) {
-                                                return;
-                                            }
                                             const { email, password, password_confirmation } = form;
-                                            setRequestState(true);
-
-                                            return resetPasswordApi({
-                                                email: email.value,
-                                                password: password.value,
-                                                password_confirmation: password_confirmation.value,
-                                                token: window.location.pathname.split('/').slice(-1)[0]
-                                            })
-                                                .then(response => {
-                                                    const { status = '', success = false, user = null } = (response && response.data) || {};
-                                                    if (!(success && !status)) {
-                                                        setToast({
-                                                            isOpen: true,
-                                                            message: status || 'Error occured while resetting password',
-                                                            variant: status ? (success ? 'success' : 'warning') : 'error'
-                                                        });
-                                                    }
-                                                    if (success) {
-                                                        updateStore({
-                                                            authenticated: success,
-                                                            guest: !success,
-                                                            user
-                                                        });
-                                                    } else {
-                                                        setRequestState(false);
-                                                    }
-                                                })
-                                                .catch(handleApiError)
-                                                .finally(() => setRequest(false));
+                                            resetPasswordApi(
+                                                {
+                                                    email: email.value,
+                                                    password: password.value,
+                                                    password_confirmation: password_confirmation.value,
+                                                    token: window.location.pathname.split('/').slice(-1)[0]
+                                                },
+                                                requestState,
+                                                e);
                                         }}
                                     >
                                         {EmailField}

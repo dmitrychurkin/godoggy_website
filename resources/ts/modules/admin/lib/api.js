@@ -11,3 +11,5 @@ export const apiSetup = () => {
     // }
     window.axios = axios;
 };
+
+export const getBaseURL = () => `${window.location.origin}/admin`;

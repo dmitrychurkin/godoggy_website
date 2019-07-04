@@ -16,12 +16,11 @@ const App = () => {
     const {
         initialState: { authenticated, i18n, user },
         loginApi,
-        updateStore,
         sendPasswordResetApi,
         resetPasswordApi,
+        logoutApi,
         setToast,
         appSnackbar,
-        setRequest,
         requestState
     } = useContext(AppStore);
     const BASE_PATH = '/admin';
@@ -29,8 +28,8 @@ const App = () => {
     let normalizedUrl = '';
     const isOnlyBasePath = [`${BASE_PATH}/`, BASE_PATH].includes(pathname);
     if (isOnlyBasePath) {
-        history.replaceState({} , '', BASE_PATH);
-    }else {
+        history.replaceState({}, '', BASE_PATH);
+    } else {
         const lastSegment = pathname.split(BASE_PATH).slice(-1)[0];
         const lastSegmentArr = lastSegment.split('/');
         if (!lastSegmentArr.slice(-1)[0]) {
@@ -54,7 +53,7 @@ const App = () => {
             <BrowserRouter basename='admin'>
                 <NoSsr defer>
                     <ThemeProvider theme={theme}>
-                        { !isOnlyBasePath && <Redirect strict from={`${normalizedUrl}/`} to={normalizedUrl} /> }
+                        {!isOnlyBasePath && <Redirect strict from={`${normalizedUrl}/`} to={normalizedUrl} />}
                         <Switch>
                             <Route
                                 exact
@@ -65,11 +64,8 @@ const App = () => {
                                         <EntranceForm
                                             i18n={i18n}
                                             loginApi={loginApi}
-                                            updateStore={updateStore}
                                             sendPasswordResetApi={sendPasswordResetApi}
                                             resetPasswordApi={resetPasswordApi}
-                                            setToast={setToast}
-                                            setRequest={setRequest}
                                         />
                                     </>
                                 )}
@@ -80,7 +76,9 @@ const App = () => {
                                 render={() => (
                                     <>
                                         {!authenticated && <Redirect to='/login' />}
-                                        <DashboardLayout />
+                                        <DashboardLayout
+                                            logoutApi={logoutApi}
+                                        />
                                     </>
                                 )}
                             />

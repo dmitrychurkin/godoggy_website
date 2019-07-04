@@ -31,6 +31,9 @@ const useStyles = makeStyles(theme => ({
     hide: {
         display: 'none',
     },
+    visibility: {
+        visibility: 'hidden'
+    },
     drawer: {
         width: drawerWidth,
         flexShrink: 0,
@@ -64,6 +67,19 @@ const useStyles = makeStyles(theme => ({
     content: {
         flexGrow: 1,
         padding: theme.spacing(3),
+    },
+    cardContainer: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexWrap: 'wrap',
+    },
+    card: {
+        minWidth: 345,
+        textAlign: 'center',
+    },
+    cardIcon: {
+        fontSize: '90px',
     },
 }));
 
