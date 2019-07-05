@@ -1,7 +1,7 @@
 import { createContext } from 'react';
 import { observable, configure, flow, action } from 'mobx';
 import { isFormValid } from '../lib/formHelpers';
-import { getBaseURL } from '../lib/api';
+import api, { getBaseURL } from '../lib/api';
 
 configure({
     enforceActions: 'always',
@@ -9,6 +9,8 @@ configure({
 });
 
 class AppStore {
+
+    static baseErrorMessage = 'Error occured';
 
     @observable initialState = {};
 
@@ -22,12 +24,17 @@ class AppStore {
 
     constructor(initialState) {
         this.updateStore(initialState);
+        api.interceptors.request.use(config => {
+            //config.headers.post['header1'] = 'value';
+            console.log(config);
+            return config;
+        });
     }
 
     handleError(errResponse, setRequestState) {
         const { data = {} } = (errResponse && errResponse.response) || {};
-        const { message = 'Error occured', errors = {} } = data;
-        this.setToast({ message: `${message} ${Object.values(errors).map(errArr => errArr.join(' '))}`, isOpen: true });
+        const { message, errors = {} } = data;
+        this.setToast({ message: `${message || AppStore.baseErrorMessage} ${Object.values(errors).map(errArr => errArr.join(' '))}`, isOpen: true });
         if (typeof setRequestState === 'function') {
             setRequestState(false);
         }
@@ -43,7 +50,7 @@ class AppStore {
         this.setRequest(true);
         setRequestState(true);
         try {
-            const response = yield window.axios({
+            const response = yield api({
                 method: 'post',
                 baseURL: getBaseURL(),
                 url: '/login',
@@ -57,12 +64,11 @@ class AppStore {
                 guest: !success,
                 user
             });
-
             if (!success) {
                 setRequestState(false);
                 this.setToast({
                     isOpen: true,
-                    message: 'Error occured while logging in'
+                    message: `${AppStore.baseErrorMessage} while logging in`
                 });
             }
         } catch (errResponse) {
@@ -83,7 +89,7 @@ class AppStore {
         setRequestState(true);
         let successfulResponse = false;
         try {
-            response = window.axios({
+            response = api({
                 method: 'post',
                 baseURL: getBaseURL(),
                 url: '/reset-password',
@@ -95,7 +101,7 @@ class AppStore {
             successfulResponse = success;
             this.setToast({
                 isOpen: true,
-                message: status || 'Error occured while sending password reset link',
+                message: status || `${AppStore.baseErrorMessage} while sending password reset link`,
                 variant: status ? (success ? 'success' : 'warning') : 'error'
             });
             if (!success) {
@@ -119,7 +125,7 @@ class AppStore {
         this.setRequest(true);
         setRequestState(true);
         try {
-            const response = yield window.axios({
+            const response = yield api({
                 method: 'post',
                 baseURL: getBaseURL(),
                 url: '/password/reset',
@@ -131,7 +137,7 @@ class AppStore {
             if (!(success && !status)) {
                 this.setToast({
                     isOpen: true,
-                    message: status || 'Error occured while resetting password',
+                    message: status || `${AppStore.baseErrorMessage} while resetting password`,
                     variant: status ? (success ? 'success' : 'warning') : 'error'
                 });
             }
@@ -152,9 +158,12 @@ class AppStore {
     }.bind(this));
 
     logoutApi = flow(function* () {
+        if (this.requestState) {
+            return;
+        }
         this.setRequest(true);
         try {
-            yield window.axios({
+            yield api({
                 method: 'post',
                 baseURL: getBaseURL(),
                 url: '/logout'
