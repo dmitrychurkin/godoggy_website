@@ -17,11 +17,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::group([
-    'prefix' => 'auth'
-], function () {
-    Route::post('login', 'AuthApiController@login')->name('login');
-    Route::post('logout', 'AuthApiController@logout');
-    Route::post('refresh', 'AuthApiController@refresh');
-    Route::post('me', 'AuthApiController@me');
+Route::namespace('Api')->group(function () {
+    Route::post('login', 'AuthController@login');
+    Route::post('logout', 'AuthController@logout');
+    Route::get('validate', 'AuthController@validateToken');
+    Route::post('password/email', 'ForgotPasswordController@sendResetLinkEmail');
 });

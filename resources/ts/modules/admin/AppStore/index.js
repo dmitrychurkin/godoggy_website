@@ -1,7 +1,8 @@
 import { createContext } from 'react';
 import { observable, configure, flow, action } from 'mobx';
 import { isFormValid } from '../lib/formHelpers';
-import api, { getBaseURL } from '../lib/api';
+import api from '../lib/api';
+import { AUTH_TOKEN } from '../constants';
 
 configure({
     enforceActions: 'always',
@@ -12,7 +13,11 @@ class AppStore {
 
     static baseErrorMessage = 'Error occured';
 
-    @observable initialState = {};
+    @observable appState = {
+        isAuthenticated: false,
+        isTokenExists: false,
+        isTokenValidated: false
+    };
 
     @observable appSnackbar = {
         isOpen: false,
@@ -22,23 +27,106 @@ class AppStore {
 
     @observable requestState = false;
 
-    constructor(initialState) {
-        this.updateStore(initialState);
+    constructor(initialState = {}) {
+        const isTokenExists = !!localStorage.getItem(AUTH_TOKEN);
+        this.updateStore({ ...initialState, isTokenExists });
         api.interceptors.request.use(config => {
             //config.headers.post['header1'] = 'value';
+            config.baseURL = `${window.location.origin}/api`;
             console.log(config);
+            const token = localStorage.getItem(AUTH_TOKEN);
+            if (token) {
+                config.headers.common['Authorization'] = `Bearer ${token}`;
+            }
             return config;
+        }, ({ message } = {}) => {
+            console.log('api.interceptors.request request error => ');
+            console.dir(error);
+            this.setToast({ message: `${message || AppStore.baseErrorMessage}`, isOpen: true });
+        });
+        api.interceptors.response.use(response => {
+            // Do something with response data
+            console.log('api.interceptors.response response => ');
+            console.dir(response);
+            this.handleAuth(response);
+            return response;
+        }, (error = {}) => {
+            // Do something with response error
+            console.log('api.interceptors.response response error => ');
+            console.dir(error);
+            const { status } = error.response || {};
+            if (status == 401) {
+                this.handleResetAuth();
+            }
+            return Promise.reject(error);
+        });
+        if (isTokenExists) {
+            this.validateTokenApi();
+        }
+    }
+
+    handleResetAuth() {
+        localStorage.removeItem(AUTH_TOKEN);
+        this.updateStore({
+            isAuthenticated: false,
+            isTokenValidated: false,
+            isTokenExists: false
         });
     }
 
-    handleError(errResponse, setRequestState) {
-        const { data = {} } = (errResponse && errResponse.response) || {};
-        const { message, errors = {} } = data;
-        this.setToast({ message: `${message || AppStore.baseErrorMessage} ${Object.values(errors).map(errArr => errArr.join(' '))}`, isOpen: true });
+    handleAuth({ headers } = {}) {
+        const { authorization } = headers;
+        const token = authorization ? authorization.split(' ').slice(-1)[0] : localStorage.getItem(AUTH_TOKEN);
+        if (token) {
+            localStorage.setItem(AUTH_TOKEN, token);
+            this.updateStore({
+                isAuthenticated: true,
+                isTokenValidated: true,
+                isTokenExists: true
+            });
+        }
+
+        /*if (token) {
+            localStorage.setItem(AUTH_TOKEN, token);
+            if (!this.appState.isAuthenticated) {
+                this.updateStore({
+                    isAuthenticated: true,
+                    isTokenValidated: true,
+                    isTokenExists: true
+                });
+            } else if (!this.appState.isTokenValidated) {
+                this.updateStore({
+                    isTokenValidated: true
+                });
+            }
+        } else {
+            this.handleResetAuth();
+        }*/
+    }
+
+    handleResponseError(err, setRequestState) {
+        /*
+            const { data = {} } = (errResponse && errResponse.response) || {};
+            const { message, errors = {} } = data;
+            this.setToast({ message: `${message || AppStore.baseErrorMessage} ${Object.values(errors).map(errArr => errArr.join(' '))}`, isOpen: true });
+            if (typeof setRequestState === 'function') {
+                setRequestState(false);
+            }
+        */
+        const { data: { message } = {}, statusText } = err.response || {};
+        this.setToast({ message: `${message || statusText || AppStore.baseErrorMessage}`, isOpen: true });
         if (typeof setRequestState === 'function') {
             setRequestState(false);
         }
     }
+
+    validateTokenApi = flow(function* () {
+        try {
+            yield api({
+                url: '/validate'
+            });
+        } catch { }
+    });
 
     loginApi = flow(function* (
         { email, password, remember },
@@ -52,13 +140,13 @@ class AppStore {
         try {
             const response = yield api({
                 method: 'post',
-                baseURL: getBaseURL(),
                 url: '/login',
                 data: {
                     email, password, remember
                 }
             });
-            const { success = false, user = null } = (response && response.data) || {};
+            console.log('response from loginApi => ', response);
+            /* const { success = false, user = null } = (response && response.data) || {};
             this.updateStore({
                 authenticated: success,
                 guest: !success,
@@ -70,15 +158,15 @@ class AppStore {
                     isOpen: true,
                     message: `${AppStore.baseErrorMessage} while logging in`
                 });
-            }
-        } catch (errResponse) {
-            this.handleError(errResponse, setRequestState);
+            } */
+        } catch (err) {
+            this.handleResponseError(err, setRequestState);
         } finally {
             this.setRequest(false);
         }
     }.bind(this));
 
-    sendPasswordResetApi = flow(function* (
+    /* sendPasswordResetApi = flow(function* (
         { email },
         [requestSent, setRequestState],
         e) {
@@ -91,7 +179,6 @@ class AppStore {
         try {
             response = api({
                 method: 'post',
-                baseURL: getBaseURL(),
                 url: '/reset-password',
                 data: {
                     email
@@ -127,7 +214,6 @@ class AppStore {
         try {
             const response = yield api({
                 method: 'post',
-                baseURL: getBaseURL(),
                 url: '/password/reset',
                 data: {
                     email, password, password_confirmation, token
@@ -155,34 +241,38 @@ class AppStore {
         } finally {
             this.setRequest(false);
         }
-    }.bind(this));
+    }.bind(this));*/
 
     logoutApi = flow(function* () {
-        if (this.requestState) {
-            return;
+        if (!localStorage.getItem(AUTH_TOKEN) || this.requestState) {
+            return this.handleResetAuth();
         }
         this.setRequest(true);
         try {
             yield api({
                 method: 'post',
-                baseURL: getBaseURL(),
                 url: '/logout'
             });
-            this.updateStore({
-                authenticated: false,
-                guest: true,
-                user: null
-            });
-        } catch (errResponse) {
-            this.handleError(errResponse);
+            this.handleResetAuth();
+            // this.updateStore({
+            //     authenticated: false,
+            //     guest: true,
+            //     user: null
+            // });
+        } catch (err) {
+            this.handleResponseError(err);
         } finally {
             this.setRequest(false);
         }
     }.bind(this));
 
     @action.bound
-    updateStore(initialState = {}) {
-        this.initialState = { ...this.initialState, ...initialState };
+    updateStore(newState = {}) {
+        for (const [key, value] of Object.entries(newState)) {
+            if (!Object.is(this.appState[key], value)) {
+                this.appState[key] = value;
+            }
+        }
     }
 
     @action.bound

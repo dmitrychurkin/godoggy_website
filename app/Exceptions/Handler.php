@@ -4,6 +4,8 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
+use Tymon\JWTAuth\Exceptions\TokenExpiredException as JWTExpiredException;
 
 class Handler extends ExceptionHandler
 {
@@ -46,6 +48,18 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof UnauthorizedHttpException) {
+            $preException = $exception->getPrevious();
+            if ($preException instanceof JWTExpiredException) {
+                $token = auth('api')->refresh(true, true);
+                return response(null, 204)->withHeaders([
+                    'Authorization' => 'Bearer ' . $token,
+                    'Cache-Control' => 'no-cache, no-store, must-revalidate',
+                    'Pragma' => 'no-cache',
+                    'Expires' => '0'
+                ]);
+            }
+        }
         return parent::render($request, $exception);
     }
 }

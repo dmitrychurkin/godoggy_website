@@ -10,11 +10,13 @@ import theme from '../theme';
 import AppStore from '../AppStore';
 import EntranceForm from './EntranceForm';
 import DashboardLayout from './DashboardLayout';
+import PreloaderLayout from './PreloaderLayout';
 import Toast from './Toast';
+import { BASE_PATH } from '../constants';
 
 const App = () => {
     const {
-        initialState: { authenticated, i18n, user },
+        appState: { isAuthenticated, isTokenValidated, isTokenExists, i18n, user },
         loginApi,
         sendPasswordResetApi,
         resetPasswordApi,
@@ -23,19 +25,13 @@ const App = () => {
         appSnackbar,
         requestState
     } = useContext(AppStore);
-    const BASE_PATH = '/admin';
     const { location: { pathname }, history } = window;
-    let normalizedUrl = '';
     const isOnlyBasePath = [`${BASE_PATH}/`, BASE_PATH].includes(pathname);
-    if (isOnlyBasePath) {
+    const hasTrailingSlash = pathname.slice(-1)[0].includes('/');
+    const normalizedPath = pathname.split(BASE_PATH).slice(-1)[0];
+
+    if (isOnlyBasePath && hasTrailingSlash) {
         history.replaceState({}, '', BASE_PATH);
-    } else {
-        const lastSegment = pathname.split(BASE_PATH).slice(-1)[0];
-        const lastSegmentArr = lastSegment.split('/');
-        if (!lastSegmentArr.slice(-1)[0]) {
-            lastSegmentArr.pop();
-        }
-        normalizedUrl = lastSegmentArr.join('/');
     }
 
     return (
@@ -50,17 +46,23 @@ const App = () => {
             >
                 <LinearProgress />
             </Box>
-            <BrowserRouter basename='admin'>
+            <BrowserRouter basename={BASE_PATH.slice(1)}>
                 <NoSsr defer>
                     <ThemeProvider theme={theme}>
-                        {!isOnlyBasePath && <Redirect strict from={`${normalizedUrl}/`} to={normalizedUrl} />}
                         <Switch>
+                            {(!isOnlyBasePath && hasTrailingSlash) && (
+                                <Redirect strict from={`${normalizedPath}`} to={normalizedPath.slice(0, -1)} />
+                            )}
+                            {(isTokenExists && !isTokenValidated) && (
+                                <Route component={PreloaderLayout} />
+                            )}
                             <Route
                                 exact
                                 path={['/login', '/reset-password', '/password/reset/:password_reset?']}
-                                render={() => (
+                                render={({ location: { state } }) => (
                                     <>
-                                        {authenticated && <Redirect to='/dashboard' />}
+                                        {console.log('{ location: { state } } => ', state)}
+                                        {(isAuthenticated && isTokenExists && isTokenValidated) && <Redirect to={(state && state.referrer) || '/dashboard'} />}
                                         <EntranceForm
                                             i18n={i18n}
                                             loginApi={loginApi}
@@ -73,16 +75,26 @@ const App = () => {
                             <Route
                                 exact
                                 path='/dashboard'
-                                render={() => (
+                                render={({ location }) => (
                                     <>
-                                        {!authenticated && <Redirect to='/login' />}
+                                        {console.log('{ location: { state } } => ', location.state)}
+                                        {(!isAuthenticated || !isTokenExists || !isTokenValidated) && (
+                                            <Redirect
+                                                to={{
+                                                    pathname: '/login',
+                                                    state: {
+                                                        referrer: location.pathname
+                                                    }
+                                                }}
+                                            />
+                                        )}
                                         <DashboardLayout
                                             logoutApi={logoutApi}
                                         />
                                     </>
                                 )}
                             />
-                            <Route render={() => <h2>This should be 404 route</h2>} />
+                            <Route render={({ ...rest }) => <h2>{console.log(rest)}This should be 404 route</h2>} />
                         </Switch>
                     </ThemeProvider>
                 </NoSsr>

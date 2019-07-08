@@ -148,16 +148,16 @@ const EntranceForm = ({
                                             onChange={onChange('remember', [form, setState], true)}
                                         />
                                         <SubmitButton text={i18n['Login']} />
-                                        <Grid container>
-                                            <Grid item xs>
-                                                <Box textAlign='right'>
-                                                    <Link to='/reset-password' component={RouterLink} variant="body2">
-                                                        {i18n['Forgot Your Password?']}
-                                                    </Link>
-                                                </Box>
-                                            </Grid>
-                                        </Grid>
                                     </form>
+                                    <Grid container>
+                                        <Grid item xs>
+                                            <Box textAlign='right'>
+                                                <Link to='/reset-password' component={RouterLink} variant="body2">
+                                                    {i18n['Forgot Your Password?']}
+                                                </Link>
+                                            </Box>
+                                        </Grid>
+                                    </Grid>
                                 </>
                             )}
                         />
@@ -192,6 +192,15 @@ const EntranceForm = ({
                                         {EmailField}
                                         <SubmitButton text={i18n['Send Password Reset Link']} />
                                     </form>
+                                    <Grid container>
+                                        <Grid item xs>
+                                            <Box textAlign='right'>
+                                                <Link to='/login' component={RouterLink} variant="body2">
+                                                    Login to account
+                                                </Link>
+                                            </Box>
+                                        </Grid>
+                                    </Grid>
                                 </>
                             )}
                         />
