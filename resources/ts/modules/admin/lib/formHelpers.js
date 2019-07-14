@@ -15,9 +15,10 @@ export const passwordValidationConstraints = {
 };
 
 export const getForm = (...args) => args.reduce(
-  (acc, { inputName, ref = useRef(null), value = '' }) => ({
+  (acc, { inputName, ref = useRef(null), value = '', ...rest }) => ({
     ...acc,
     [inputName]: {
+      ...rest,
       isInvalid: false,
       validationMessage: '',
       ref,
@@ -56,3 +57,5 @@ export function onBlur(
     setFormState(prev => ({ ...prev, [inputName]: currentInput }));
   };
 }
+
+export const restrictLinkFollow = isRequestInProcess => e => isRequestInProcess && e.preventDefault();

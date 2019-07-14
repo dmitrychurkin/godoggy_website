@@ -13,16 +13,20 @@ use Illuminate\Http\Request;
 |
 */
 
+Route::get('admin', 'AdminController')->name('admin');
 Route::group([
     'prefix' => 'admin',
     'name' => 'admin.'
 ], function () {
-    Route::view('{any?}', 'admin')->where('any', '.*');
+    Route::get('login', 'AdminController')->name('login');
+    Route::get('dashboard', 'AdminController')->name('dashboard');
+    Route::get('password/reset/{token?}', 'AdminController@showResetFormOrFail')->name('password.reset');
+    /*Route::view('{any?}', 'admin')->where('any', '.*');
     Route::post('login', 'AdminController@signin');
     Route::post('reset-password', 'AdminController@sendPasswordReset');
     Route::view('password/reset/{token}', 'admin')->name('password.reset');
     Route::post('password/reset', 'AdminController@passwordReset');
-    Route::post('logout', 'AdminController@logout');
+    Route::post('logout', 'AdminController@logout');*/
 });
 
 Route::get('/', 'Landing');

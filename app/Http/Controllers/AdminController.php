@@ -3,119 +3,56 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
-use Illuminate\Foundation\Auth\ResetsPasswords;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Password;
+use Hash;
+use DB;
 
 class AdminController extends Controller
 {
-    use AuthenticatesUsers, SendsPasswordResetEmails, ResetsPasswords {
-    ResetsPasswords::credentials insteadof AuthenticatesUsers;
-    AuthenticatesUsers::guard insteadof ResetsPasswords;
-    AuthenticatesUsers::redirectPath insteadof ResetsPasswords;
-    ResetsPasswords::broker insteadof SendsPasswordResetEmails;
+    public function __invoke()
+    {
+        return view('admin');
     }
 
-    public function signin(Request $request)
+    public function showResetFormOrFail(Request $request, $resetToken = null)
     {
-        // user already registered
-        $guard = $this->guard();
-        $user = $guard->user();
-        if ($guard->check()) {
-            return response()->json([
-                'success' => true,
-                'user' => [
-                    'name' => $user->name,
-                    'email' => $user->email
-                ]
-            ]);
+        $email = $request->query('email', null);
+        if ($resetToken && !$email) {
+            return abort(404);
         }
-        return $this->login($request);
-    }
-
-    protected function authenticated(Request $request, $user)
-    {
-        return response()->json([
-            'success' => true,
-            'user' => [
-                'name' => $user->name,
-                'email' => $user->email
-            ]
-        ]);
-    }
-
-    public function sendPasswordReset(Request $request)
-    {
-        // user already registered
-        $guard = $this->guard();
-        $user = $guard->user();
-        if ($guard->check()) {
-            return response()->json([
-                'success' => true,
-                'user' => [
-                    'name' => $user->name,
-                    'email' => $user->email
-                ]
-            ]);
+        if (!$resetToken) {
+            return view('admin');
         }
-        return $this->sendResetLinkEmail($request);
-    }
-
-    protected function sendResetLinkResponse(Request $request, $response)
-    {
-        return response()->json([
-            'success' => true,
-            'status' => trans($response)
+        $validator = Validator::make(['email' => $email], [
+            'email' => 'required|email'
         ]);
-    }
-
-    protected function sendResetLinkFailedResponse(Request $request, $response)
-    {
-        return response()->json([
-            'success' => false,
-            'status' => trans($response)
-        ]);
-    }
-
-    public function passwordReset(Request $request)
-    {
-        // user already registered
-        $guard = $this->guard();
-        $user = $guard->user();
-        if ($guard->check()) {
-            return response()->json([
-                'success' => true,
-                'user' => [
-                    'name' => $user->name,
-                    'email' => $user->email
-                ]
-            ]);
+        if ($validator->fails()) {
+            return abort(404);
         }
-        return $this->reset($request);
-    }
 
-    protected function sendResetResponse(Request $request, $response)
-    {
-        $user = $this->guard()->user();
-        return response()->json([
-            'success' => true,
-            'status' => trans($response),
-            'user' => [
-                'name' => $user->name,
-                'email' => $user->email
-            ]
-        ]);
-    }
+        // retrieve user
+        if (is_null($user = Password::broker()->getUser(['email' => $email]))) {
+            return abort(404);
+        }
 
-    protected function sendResetFailedResponse(Request $request, $response)
-    {
-        return $this->sendResetLinkFailedResponse($request, $response);
-    }
+        ['table' => $table, 'expire' => $expire] = config('auth.passwords.users');
+        $expires = $expire * 60;
 
-    protected function loggedOut(Request $request)
-    {
-        return response()->json([
-            'success' => true
-        ]);
+        $record = (array) DB::table($table)->where(
+            'email',
+            $user->getEmailForPasswordReset()
+        )->first();
+
+        $isTokenValid = $record &&
+            !Carbon::parse($record['created_at'])->addSeconds($expires)->isPast() &&
+            Hash::check($resetToken, $record['token']);
+
+        // remove expired tokens
+        $expiredAt = Carbon::now()->subSeconds($expires);
+        DB::table($table)->where('created_at', '<', $expiredAt)->delete();
+
+        return $isTokenValid ? view('admin') : abort(404);
     }
 }

@@ -38,9 +38,11 @@ const DashboardLayout = ({
     const handleMenuOpen = ({ target }) => {
         setMenuEl(target);
     };
-    const handleMenuClose = () => {
+    const handleMenuClose = isItem => () => {
         setMenuEl(null);
-        logoutApi();
+        if (isItem) {
+            logoutApi();
+        }
     };
     const [open, setOpen] = useState(false);
     const handleDrawerOpen = () => {
@@ -58,9 +60,9 @@ const DashboardLayout = ({
             keepMounted
             transformOrigin={{ vertical: 'top', horizontal: 'right' }}
             open={isMenuOpen}
-            onClose={handleMenuClose}
+            onClose={handleMenuClose()}
         >
-            <MenuItem onClick={handleMenuClose}>
+            <MenuItem onClick={handleMenuClose(true)}>
                 <IconButton
                     aria-label="Logout"
                     aria-controls={menuId}

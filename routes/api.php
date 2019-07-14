@@ -22,4 +22,5 @@ Route::namespace('Api')->group(function () {
     Route::post('logout', 'AuthController@logout');
     Route::get('validate', 'AuthController@validateToken');
     Route::post('password/email', 'ForgotPasswordController@sendResetLinkEmail');
+    Route::post('password/reset', 'ResetPasswordController@reset');
 });

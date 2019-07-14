@@ -12,7 +12,7 @@ import EntranceForm from './EntranceForm';
 import DashboardLayout from './DashboardLayout';
 import PreloaderLayout from './PreloaderLayout';
 import Toast from './Toast';
-import { BASE_PATH } from '../constants';
+import { BASE_PATH, DASHBOARD_ROUTE, LOGIN_ROUTE, RESET_PWD_ROUTE } from '../constants';
 
 const App = () => {
     const {
@@ -25,14 +25,11 @@ const App = () => {
         appSnackbar,
         requestState
     } = useContext(AppStore);
-    const { location: { pathname }, history } = window;
+    const { location: { pathname } } = window;
     const isOnlyBasePath = [`${BASE_PATH}/`, BASE_PATH].includes(pathname);
-    const hasTrailingSlash = pathname.slice(-1)[0].includes('/');
+    const hasTrailingSlash = pathname.slice(-1)[0] === '/';
     const normalizedPath = pathname.split(BASE_PATH).slice(-1)[0];
-
-    if (isOnlyBasePath && hasTrailingSlash) {
-        history.replaceState({}, '', BASE_PATH);
-    }
+    const canShowDashboard = (isAuthenticated && isTokenExists && isTokenValidated);
 
     return (
         <>
@@ -50,38 +47,46 @@ const App = () => {
                 <NoSsr defer>
                     <ThemeProvider theme={theme}>
                         <Switch>
+                            <Redirect
+                                exact
+                                from='/'
+                                to={canShowDashboard ? DASHBOARD_ROUTE : LOGIN_ROUTE}
+                            />
                             {(!isOnlyBasePath && hasTrailingSlash) && (
-                                <Redirect strict from={`${normalizedPath}`} to={normalizedPath.slice(0, -1)} />
+                                <Redirect
+                                    strict
+                                    from={`${normalizedPath}`}
+                                    to={normalizedPath.slice(0, -1)}
+                                />
                             )}
                             {(isTokenExists && !isTokenValidated) && (
                                 <Route component={PreloaderLayout} />
                             )}
                             <Route
                                 exact
-                                path={['/login', '/reset-password', '/password/reset/:password_reset?']}
+                                path={[LOGIN_ROUTE, `${RESET_PWD_ROUTE}/:password_reset?`]}
                                 render={({ location: { state } }) => (
                                     <>
-                                        {console.log('{ location: { state } } => ', state)}
-                                        {(isAuthenticated && isTokenExists && isTokenValidated) && <Redirect to={(state && state.referrer) || '/dashboard'} />}
+                                        {canShowDashboard && <Redirect to={(state && state.referrer) || DASHBOARD_ROUTE} />}
                                         <EntranceForm
                                             i18n={i18n}
                                             loginApi={loginApi}
                                             sendPasswordResetApi={sendPasswordResetApi}
                                             resetPasswordApi={resetPasswordApi}
+                                            isRequestSent={requestState}
                                         />
                                     </>
                                 )}
                             />
                             <Route
                                 exact
-                                path='/dashboard'
+                                path={DASHBOARD_ROUTE}
                                 render={({ location }) => (
                                     <>
-                                        {console.log('{ location: { state } } => ', location.state)}
                                         {(!isAuthenticated || !isTokenExists || !isTokenValidated) && (
                                             <Redirect
                                                 to={{
-                                                    pathname: '/login',
+                                                    pathname: LOGIN_ROUTE,
                                                     state: {
                                                         referrer: location.pathname
                                                     }

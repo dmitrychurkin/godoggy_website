@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
@@ -27,7 +28,9 @@ class AuthController extends Controller
         $credentials = $request->only(['email', 'password']);
         $remember_me = $request->input('remember', false);
         if (!$token = auth('api')->setTTL($remember_me ? 525960 : config('jwt.ttl'))->attempt($credentials)) {
-            return response(null, 401);
+            throw ValidationException::withMessages([
+                'status' => [trans('auth.failed')],
+            ]);
         }
         return response(null, 204)
             ->withHeaders($this->headers(['Authorization' => 'Bearer ' . $token]));
