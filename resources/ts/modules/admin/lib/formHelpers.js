@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef } from "react";
 
 export const booleanInputNames = [
   'remember'
@@ -14,18 +14,49 @@ export const passwordValidationConstraints = {
   maxLength: 255
 };
 
-export const getForm = (...args) => args.reduce(
-  (acc, { inputName, ref = useRef(null), value = '', ...rest }) => ({
+const defaultFieldValues = {
+  isInvalid: false,
+  validationMessage: '',
+  value: ''
+};
+const defaultFormFields = [
+  { inputName: 'email', ...defaultFieldValues },
+  { inputName: 'password', ...defaultFieldValues },
+  { inputName: 'password_confirmation', ...defaultFieldValues },
+  { inputName: booleanInputNames[0], ref: null, value: false }
+];
+
+export const setDefaultFormFields = (fieldValuesToSet = {}) => defaultFormFields.reduce(
+  (acc, { inputName, ...rest }) => ({
     ...acc,
     [inputName]: {
       ...rest,
-      isInvalid: false,
-      validationMessage: '',
-      ref,
-      value
+      ...(fieldValuesToSet[inputName] || {}),
     }
   }),
   {}
+);
+
+export const getForm = (formFields = setDefaultFormFields()) => Object.keys(formFields).reduce(
+  (acc, fieldName) => ({
+    ...acc,
+    [fieldName]: {
+      ...acc[fieldName],
+      ref: useRef(null)
+    }
+  }),
+  { ...formFields, isRequestSent: false }
+);
+
+export const resetFormFields = (formFields = setDefaultFormFields()) => prevState => Object.keys(formFields).reduce(
+  (acc, fieldName) => ({
+    ...acc,
+    [fieldName]: {
+      ...acc[fieldName],
+      ...formFields[fieldName]
+    }
+  }),
+  { ...prevState, isRequestSent: false }
 );
 
 export function isFormValid(e) {

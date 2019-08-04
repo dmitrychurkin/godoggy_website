@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Link as RouterLink, Route, Redirect } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link as RouterLink, Route } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -13,17 +13,17 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Build from '@material-ui/icons/Build';
 import VpnKey from '@material-ui/icons/VpnKey';
 import Typography from '@material-ui/core/Typography';
-import { onChange, onBlur, getForm, emailValidationConstraints, passwordValidationConstraints, restrictLinkFollow } from '../../lib/formHelpers';
+import { onChange, onBlur, getForm, emailValidationConstraints, passwordValidationConstraints, restrictLinkFollow, setDefaultFormFields } from '../../lib/formHelpers';
 import useStyles from './styles';
 import { RESET_PWD_ROUTE, LOGIN_ROUTE } from '../../constants';
+import { login, resetPassword, sendPasswordReset } from '../../lib/api';
 
 const EntranceForm = ({
     i18n,
-    loginApi,
-    sendPasswordResetApi,
-    resetPasswordApi,
-    isRequestSent
+    isAppRequestSent,
+    setAppState
 }) => {
+    const classes = useStyles();
     const emailResetPwdAttrs = {};
     const { pathname } = window.location;
     if (pathname.includes('/admin/password/reset/')) {
@@ -33,16 +33,17 @@ const EntranceForm = ({
             emailResetPwdAttrs.disabled = true;
         }
     }
-    const classes = useStyles();
-    const requestState = useState(false);
-    const [form, setState] = useState(
+
+    const [form, setLocalState] = useState(
         getForm(
-            { inputName: 'email', ...emailResetPwdAttrs },
-            { inputName: 'password' },
-            { inputName: 'password_confirmation' },
-            { inputName: 'remember', ref: null, value: false }
+            setDefaultFormFields({ email: emailResetPwdAttrs })
         )
     );
+
+    const apiCbArgs = [
+        [isAppRequestSent, setAppState],
+        [form, setLocalState]
+    ];
 
     const EmailField = (
         <TextField
@@ -57,8 +58,8 @@ const EntranceForm = ({
             autoComplete='email'
             autoFocus
             inputProps={emailValidationConstraints}
-            onChange={onChange('email', [form, setState])}
-            onBlur={onBlur('email', [form, setState])}
+            onChange={onChange('email', [form, setLocalState])}
+            onBlur={onBlur('email', [form, setLocalState])}
             value={form.email.value}
             error={form.email.isInvalid}
             helperText={form.email.validationMessage}
@@ -79,8 +80,8 @@ const EntranceForm = ({
             id='password'
             autoComplete='current-password'
             inputProps={passwordValidationConstraints}
-            onChange={onChange('password', [form, setState])}
-            onBlur={onBlur('password', [form, setState])}
+            onChange={onChange('password', [form, setLocalState])}
+            onBlur={onBlur('password', [form, setLocalState])}
             value={form.password.value}
             error={form.password.isInvalid}
             helperText={form.password.validationMessage}
@@ -100,8 +101,8 @@ const EntranceForm = ({
             id='password_confirmation'
             autoComplete='current-password'
             inputProps={passwordValidationConstraints}
-            onChange={onChange('password_confirmation', [form, setState])}
-            onBlur={onBlur('password_confirmation', [form, setState])}
+            onChange={onChange('password_confirmation', [form, setLocalState])}
+            onBlur={onBlur('password_confirmation', [form, setLocalState])}
             value={form.password_confirmation.value}
             error={form.password_confirmation.isInvalid}
             helperText={form.password_confirmation.validationMessage}
@@ -115,7 +116,7 @@ const EntranceForm = ({
             variant='contained'
             color='primary'
             className={classes.submit}
-            disabled={requestState[0]}
+            disabled={form.isRequestSent}
         >
             {text}
         </Button>
@@ -140,14 +141,7 @@ const EntranceForm = ({
                                     <form
                                         className={classes.form}
                                         noValidate
-                                        onSubmit={e => {
-                                            const { email, password, remember } = form;
-                                            loginApi(
-                                                { email: email.value, password: password.value, remember: remember.value || undefined },
-                                                requestState,
-                                                e
-                                            );
-                                        }}
+                                        onSubmit={e => login(e, ...apiCbArgs)}
                                     >
                                         {EmailField}
                                         {PasswordField}
@@ -155,7 +149,7 @@ const EntranceForm = ({
                                             value={form.remember.value}
                                             control={<Checkbox value='remember' color='primary' />}
                                             label={i18n['Remember Me']}
-                                            onChange={onChange('remember', [form, setState], true)}
+                                            onChange={onChange('remember', [form, setLocalState], true)}
                                         />
                                         <SubmitButton text={i18n['Login']} />
                                     </form>
@@ -163,7 +157,7 @@ const EntranceForm = ({
                                         <Grid item xs>
                                             <Box textAlign='right'>
                                                 <Link
-                                                    onClick={restrictLinkFollow(isRequestSent)}
+                                                    onClick={restrictLinkFollow(isAppRequestSent)}
                                                     to={RESET_PWD_ROUTE}
                                                     component={RouterLink}
                                                     variant='body2'
@@ -190,18 +184,7 @@ const EntranceForm = ({
                                         <form
                                             className={classes.form}
                                             noValidate
-                                            onSubmit={e => {
-                                                const { email, password, password_confirmation } = form;
-                                                resetPasswordApi(
-                                                    {
-                                                        email: email.value,
-                                                        password: password.value,
-                                                        password_confirmation: password_confirmation.value,
-                                                        token: window.location.pathname.split('/').slice(-1)[0]
-                                                    },
-                                                    requestState,
-                                                    e);
-                                            }}
+                                            onSubmit={e => resetPassword(e, ...apiCbArgs)}
                                         >
                                             {EmailField}
                                             {PasswordField}
@@ -219,27 +202,7 @@ const EntranceForm = ({
                                         <form
                                             className={classes.form}
                                             noValidate
-                                            onSubmit={e => {
-                                                const { email } = form;
-                                                sendPasswordResetApi(
-                                                    { email: email.value },
-                                                    requestState,
-                                                    e)
-                                                    .then(successfulResponse => {
-                                                        if (successfulResponse) {
-                                                            setState(prev => ({
-                                                                ...prev, email: {
-                                                                    ...email,
-                                                                    isInvalid: false,
-                                                                    validationMessage: '',
-                                                                    value: ''
-                                                                }
-                                                            }));
-                                                            requestState[1](false);
-                                                            history.replace(LOGIN_ROUTE);
-                                                        }
-                                                    });
-                                            }}
+                                            onSubmit={e => sendPasswordReset(e, ...[...apiCbArgs, () => history.replace(LOGIN_ROUTE)])}
                                         >
                                             {EmailField}
                                             <SubmitButton text={i18n['Send Password Reset Link']} />
@@ -248,7 +211,7 @@ const EntranceForm = ({
                                             <Grid item xs>
                                                 <Box textAlign='right'>
                                                     <Link
-                                                        onClick={restrictLinkFollow(isRequestSent)}
+                                                        onClick={restrictLinkFollow(isAppRequestSent)}
                                                         to={LOGIN_ROUTE}
                                                         component={RouterLink}
                                                         variant='body2'

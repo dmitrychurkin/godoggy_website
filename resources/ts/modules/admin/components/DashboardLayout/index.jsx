@@ -29,7 +29,7 @@ import Link from '@material-ui/core/Link';
 import useStyles from './styles';
 
 const DashboardLayout = ({
-    logoutApi
+    logout
 }) => {
     const classes = useStyles();
     const theme = useTheme();
@@ -38,10 +38,10 @@ const DashboardLayout = ({
     const handleMenuOpen = ({ target }) => {
         setMenuEl(target);
     };
-    const handleMenuClose = isItem => () => {
+    const handleMenuClose = isItem => async () => {
         setMenuEl(null);
         if (isItem) {
-            logoutApi();
+            logout();
         }
     };
     const [open, setOpen] = useState(false);

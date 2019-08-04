@@ -1,6 +1,7 @@
 export const BASE_PATH = '/admin';
 export const AUTH_TOKEN = 'auth';
 
+export const LOGOUT_LOUTE = '/logout';
 export const LOGIN_ROUTE = '/login';
 export const VALIDATE_AUTH = '/validate';
 export const RESET_PWD_ROUTE = '/password/reset';

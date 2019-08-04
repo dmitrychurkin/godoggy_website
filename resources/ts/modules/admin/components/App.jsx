@@ -1,35 +1,53 @@
-import React, { useContext } from 'react';
-import { BrowserRouter, Route, Redirect, Switch, withRouter } from 'react-router-dom';
+import React, { memo, useContext, useEffect, useState, useCallback } from 'react';
+import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 import NoSsr from '@material-ui/core/NoSsr';
 import { ThemeProvider } from '@material-ui/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Box from '@material-ui/core/Box';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import { observer } from 'mobx-react-lite';
+// import { observer } from 'mobx-react-lite';
 import theme from '../theme';
-import AppStore from '../AppStore';
+// import AppStore from '../AppStore';
 import EntranceForm from './EntranceForm';
 import DashboardLayout from './DashboardLayout';
 import PreloaderLayout from './PreloaderLayout';
 import Toast from './Toast';
-import { BASE_PATH, DASHBOARD_ROUTE, LOGIN_ROUTE, RESET_PWD_ROUTE } from '../constants';
+import { BASE_PATH, DASHBOARD_ROUTE, LOGIN_ROUTE, RESET_PWD_ROUTE, AUTH_TOKEN } from '../constants';
+import { logout, setInterceptors, validateToken } from '../lib/api';
 
-const App = () => {
+const App = ({ initialState: { i18n } }) => {
+
+    const [appState, setAppState] = useState({
+        isTokenExists: !!localStorage.getItem(AUTH_TOKEN),
+        isTokenValidated: false,
+        isAuthenticated: false,
+        isOpen: false,
+        message: '',
+        variant: 'error',
+        isAppRequestSent: false
+    });
     const {
-        appState: { isAuthenticated, isTokenValidated, isTokenExists, i18n, user },
-        loginApi,
-        sendPasswordResetApi,
-        resetPasswordApi,
-        logoutApi,
-        setToast,
-        appSnackbar,
-        requestState
-    } = useContext(AppStore);
+        isTokenExists, isTokenValidated, isAuthenticated,
+        isOpen, message, variant, isAppRequestSent
+    } = appState;
+
     const { location: { pathname } } = window;
     const isOnlyBasePath = [`${BASE_PATH}/`, BASE_PATH].includes(pathname);
     const hasTrailingSlash = pathname.slice(-1)[0] === '/';
     const normalizedPath = pathname.split(BASE_PATH).slice(-1)[0];
     const canShowDashboard = (isAuthenticated && isTokenExists && isTokenValidated);
+
+    const closeSnackbar = useCallback(() => {
+        setAppState(prev => ({ ...prev, isOpen: false }));
+    }, []);
+    const logoutCb = useCallback(() => {
+        logout([isAppRequestSent, setAppState]);
+    }, [isAppRequestSent]);
+
+    useEffect(() => {
+        setInterceptors(setAppState);
+        validateToken(isTokenExists);
+    }, []);
 
     return (
         <>
@@ -38,7 +56,7 @@ const App = () => {
                 width={1}
                 component="div"
                 position="fixed"
-                display={requestState ? 'block' : 'none'}
+                display={isAppRequestSent ? 'block' : 'none'}
                 zIndex="tooltip"
             >
                 <LinearProgress />
@@ -47,11 +65,6 @@ const App = () => {
                 <NoSsr defer>
                     <ThemeProvider theme={theme}>
                         <Switch>
-                            <Redirect
-                                exact
-                                from='/'
-                                to={canShowDashboard ? DASHBOARD_ROUTE : LOGIN_ROUTE}
-                            />
                             {(!isOnlyBasePath && hasTrailingSlash) && (
                                 <Redirect
                                     strict
@@ -62,6 +75,11 @@ const App = () => {
                             {(isTokenExists && !isTokenValidated) && (
                                 <Route component={PreloaderLayout} />
                             )}
+                            <Redirect
+                                exact
+                                from='/'
+                                to={canShowDashboard ? DASHBOARD_ROUTE : LOGIN_ROUTE}
+                            />
                             <Route
                                 exact
                                 path={[LOGIN_ROUTE, `${RESET_PWD_ROUTE}/:password_reset?`]}
@@ -70,10 +88,8 @@ const App = () => {
                                         {canShowDashboard && <Redirect to={(state && state.referrer) || DASHBOARD_ROUTE} />}
                                         <EntranceForm
                                             i18n={i18n}
-                                            loginApi={loginApi}
-                                            sendPasswordResetApi={sendPasswordResetApi}
-                                            resetPasswordApi={resetPasswordApi}
-                                            isRequestSent={requestState}
+                                            isAppRequestSent={isAppRequestSent}
+                                            setAppState={setAppState}
                                         />
                                     </>
                                 )}
@@ -83,7 +99,7 @@ const App = () => {
                                 path={DASHBOARD_ROUTE}
                                 render={({ location }) => (
                                     <>
-                                        {(!isAuthenticated || !isTokenExists || !isTokenValidated) && (
+                                        {!canShowDashboard && (
                                             <Redirect
                                                 to={{
                                                     pathname: LOGIN_ROUTE,
@@ -94,7 +110,7 @@ const App = () => {
                                             />
                                         )}
                                         <DashboardLayout
-                                            logoutApi={logoutApi}
+                                            logout={logoutCb}
                                         />
                                     </>
                                 )}
@@ -105,13 +121,17 @@ const App = () => {
                 </NoSsr>
             </BrowserRouter>
             <Toast
-                isOpen={appSnackbar.isOpen}
-                onClose={() => setToast({ ...appSnackbar, isOpen: false })}
-                variant={appSnackbar.variant}
-                message={appSnackbar.message}
+                isOpen={isOpen}
+                onClose={closeSnackbar}
+                variant={variant}
+                message={message}
             />
         </>
     );
 };
 
-export default observer(App);
+App.defaultProps = {
+    initialState: {}
+};
+
+export default memo(App, () => true);//observer(App);
