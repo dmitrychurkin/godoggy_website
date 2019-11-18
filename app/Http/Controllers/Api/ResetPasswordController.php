@@ -18,6 +18,11 @@ class ResetPasswordController extends Controller
 
   public function reset(Request $request)
   {
+    if (auth('api')->user()) {
+      $user = $this->broker()->getUser($this->credentials($request));
+      $this->broker()->deleteToken($user);
+      return response(null, 403);
+    }
     $request->validate($this->rules(), $this->validationErrorMessages());
 
     $token = null;

@@ -18,5 +18,5 @@ return [
     'sent' => 'We have e-mailed your password reset link!',
     'token' => 'This password reset token is invalid.',
     'user' => "We can't find a user with that e-mail address.",
-
+    'alreadySent' => '{1} We already sent password reset link, try again after :min minute|[2,*] We already sent password reset link, try again after :min minutes',
 ];

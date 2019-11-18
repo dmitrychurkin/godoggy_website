@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 
+Route::get('test', 'AdminController')->name('test');
 Route::get('admin', 'AdminController')->name('admin');
 Route::group([
     'prefix' => 'admin',
@@ -20,7 +21,10 @@ Route::group([
 ], function () {
     Route::get('login', 'AdminController')->name('login');
     Route::get('dashboard', 'AdminController')->name('dashboard');
+    Route::get('password/email', 'AdminController')->name('password.email');
     Route::get('password/reset/{token?}', 'AdminController@showResetFormOrFail')->name('password.reset');
+    Route::get('customize/general', 'AdminController')->name('customize.general');
+    Route::get('customize/accommodation', 'AdminController')->name('customize.accommodation');
     /*Route::view('{any?}', 'admin')->where('any', '.*');
     Route::post('login', 'AdminController@signin');
     Route::post('reset-password', 'AdminController@sendPasswordReset');

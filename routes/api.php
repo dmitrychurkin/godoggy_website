@@ -19,8 +19,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::namespace('Api')->group(function () {
     Route::post('login', 'AuthController@login');
-    Route::post('logout', 'AuthController@logout');
+    Route::get('logout', 'AuthController@logout');
     Route::get('validate', 'AuthController@validateToken');
     Route::post('password/email', 'ForgotPasswordController@sendResetLinkEmail');
     Route::post('password/reset', 'ResetPasswordController@reset');
+
+    // test api controller
+    Route::get('test/400', 'TestApi@badRequest');
 });

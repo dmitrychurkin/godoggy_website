@@ -1,3 +1,3 @@
 @push('styles')
-<link href="{{ mix('/css/app.css') }}" rel='stylesheet'>
+<link href="{{ mix('/css/landing.css') }}" rel='stylesheet'>
 @endpush

@@ -19,11 +19,14 @@ class AdminController extends Controller
     public function showResetFormOrFail(Request $request, $resetToken = null)
     {
         $email = $request->query('email', null);
-        if ($resetToken && !$email) {
+        /* if ($resetToken && !$email) {
             return abort(404);
         }
         if (!$resetToken) {
             return view('admin');
+        } */
+        if (!$resetToken || !$email) {
+            return abort(404);
         }
         $validator = Validator::make(['email' => $email], [
             'email' => 'required|email'
