@@ -30,13 +30,13 @@
         cols=12
       )
         v-form(
-          ref='form'
+          :ref='formRef'
           v-model='isFormValid'
           @submit.stop.prevent='onPasswordReset'
         )
           v-text-field(
             v-model.trim='email'
-            ref='emailField'
+            :id='emailId'
             :rules='emailValidators'
             type='email'
             label='Email Address *'
@@ -48,7 +48,7 @@
           )
           v-text-field(
             v-model.trim='password'
-            ref='passwordField'
+            :id='passwordId'
             :rules='passwordValidators'
             :type="showPassword ? 'text' : 'password'"
             :append-icon="showPassword ? visibilityOffIcon : visibilityIcon"
@@ -63,7 +63,7 @@
           )
           v-text-field(
             v-model.trim='confirmPassword'
-            ref='confirmPasswordField'
+            :id='confirmPasswordId'
             :rules='confirmPasswordValidators'
             :type="showConfirmPassword ? 'text' : 'password'"
             :append-icon="showConfirmPassword ? visibilityOffIcon : visibilityIcon"
@@ -96,8 +96,8 @@
         ) Go to login
 </template>
 <script lang="ts">
-import { Component, Vue, Ref, Mixins } from "vue-property-decorator";
-import { Getter, namespace, Action } from "vuex-class";
+import { Component, Vue, Mixins } from "vue-property-decorator";
+import { namespace } from "vuex-class";
 import { mdiLockReset, mdiEye, mdiEyeOff } from "@mdi/js";
 import {
   LOGIN_ROUTE,
@@ -105,7 +105,6 @@ import {
   DASHBOARD_ROUTE
 } from "admin/constants";
 import { formFieldValidator } from "admin/utils/form-helpers";
-import { IRequestEntity } from "admin/lib/api";
 import { PWD_RESET } from "admin/store/modules/auth/action-types";
 import { IPasswordResetForm } from "admin/interfaces";
 import axios, { AxiosResponse } from "axios";
@@ -116,6 +115,8 @@ const Auth = namespace("auth");
 
 @Component
 export default class PasswordResetRoute extends Mixins(AuthMixin) {
+  private readonly passwordId = "password";
+  private readonly confirmPasswordId = "confirmPassword";
   private readonly mdiLockResetIcon = mdiLockReset;
   private readonly visibilityIcon = mdiEye;
   private readonly visibilityOffIcon = mdiEyeOff;
@@ -126,11 +127,8 @@ export default class PasswordResetRoute extends Mixins(AuthMixin) {
   private showConfirmPassword = false;
 
   private email = this.searchParams.get("email") || "";
-  @Ref()
-  private readonly passwordField!: Vue;
+
   private password = "";
-  @Ref()
-  private readonly confirmPasswordField!: Vue;
   private confirmPassword = "";
 
   @Auth.Action(PWD_RESET)
@@ -155,11 +153,11 @@ export default class PasswordResetRoute extends Mixins(AuthMixin) {
 
   mounted() {
     this.passwordValidators = [
-      formFieldValidator(this.passwordField),
+      formFieldValidator(this.passwordId),
       this.equalityRule()
     ];
     this.confirmPasswordValidators = [
-      formFieldValidator(this.confirmPasswordField),
+      formFieldValidator(this.confirmPasswordId),
       this.equalityRule()
     ];
   }

@@ -58,6 +58,8 @@
                         ) {{amendedLocalesCount}}
                       LanguageMenu(
                         v-model='selectedLocale'
+                        :isOpen.sync='isLanguageMenuOpen'
+                        @request-open='onLocaleClick'
                       )
                     v-toolbar-items
                       v-btn(
@@ -1113,7 +1115,6 @@
 import { Component, Vue, Ref } from "vue-property-decorator";
 import { mdiClose, mdiRulerSquareCompass, mdiRecord } from "@mdi/js";
 import LanguageMenu from "admin/components/common/LanguageMenu.vue";
-import { checkValidity } from "admin/utils/form-helpers";
 import { Locales } from "admin/constants";
 import getAccommodationModel, {
   BedTypes,
@@ -1156,6 +1157,7 @@ export default class Accommodation extends Vue {
     this.amendedLocalesCount += 1;
     console.log("selectedLocale => ", locale);
   }
+  private isLanguageMenuOpen = false;
   private dialog = true;
   private contentLoaded = true;
   private expansionModel: number | null = null;
@@ -1277,6 +1279,16 @@ export default class Accommodation extends Vue {
     }
   }
 
+  private onLocaleClick() {
+    console.log("Attempt to open");
+    this.expansionModel = this.validateForm();
+    if (this.expansionModel !== null) {
+      return;
+    }
+    this.isLanguageMenuOpen = true;
+    console.log(this.isLanguageMenuOpen, this.expansionModel);
+  }
+
   /*{
     categoryRoomCount: {
       order: 1,
@@ -1343,11 +1355,22 @@ export default class Accommodation extends Vue {
   }
 
   private validateForm() {
-    if (this.accommodationFormRef.validate()) {
-      console.log("form valid", this.expansionModel);
-    } else {
-      console.log("form invalid", this.expansionModel);
+    if (!this.accommodationFormRef.validate()) {
+      const { category, count, bed, meals } = this.accommodationModel;
+      for (const { rules = [], expansionIndex = null } of [
+        category,
+        count,
+        bed,
+        meals
+      ]) {
+        for (const rule of rules) {
+          if (rule() !== true) {
+            return expansionIndex;
+          }
+        }
+      }
     }
+    return null;
   }
   /* private validateForm() {
     console.log("validateForm", this.accommodationFormRef);

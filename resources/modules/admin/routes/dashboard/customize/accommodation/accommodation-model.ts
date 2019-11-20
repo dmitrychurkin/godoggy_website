@@ -1,5 +1,5 @@
 import { Locales } from "admin/constants";
-import { checkValidity, checkOnRequired } from "admin/utils/form-helpers";
+import { formFieldValidator } from "admin/utils/form-helpers";
 export const enum UnitSystems {
   SQ_FT,
   SQ_M
@@ -125,24 +125,26 @@ export default (locale: Locales, data = initialRoomData) => {
   const category: IDataField = {
     // isRequired: true,
     value: data.category[locale], // input text
+    expansionIndex: 0,
+    rules: [formFieldValidator('category')]
   };
-  category.rules = [validationRule(category, 'category')];
 
   const count: IDataField = {
     // isRequired: true,
-    value: data.count // input number
+    value: data.count, // input number
+    expansionIndex: 2,
+    rules: [formFieldValidator('count')]
   };
-  count.rules = [validationRule(count, 'count')];
 
   const bed: IDataField = {
-    value: [...data.bed[locale]] // combo
+    value: [...data.bed[locale]], // combo
+    expansionIndex: 4
   };
-  bed.rules = [
-    validateCombos(bed, 'bed')
-  ];
+  bed.rules = [validateCombos(bed, 'bed')];
 
   const meals: IDataField = {
-    value: [...data.meals[locale]] // combo
+    value: [...data.meals[locale]], // combo
+    expansionIndex: 7
   };
   meals.rules = [
     validateCombos(meals, 'meals')
@@ -242,37 +244,19 @@ export default (locale: Locales, data = initialRoomData) => {
 function validateCombos(dataObj: IDataField, id: string) {
   return () => {
     if (dataObj.value.length == 0) {
-      const el = document.getElementById(id) as (HTMLInputElement | null);
-      return Boolean(el) && (el!.validationMessage);
+      return formFieldValidator(id)();
     }
-    return false;
-  };
-}
-
-function validationRule(dataObj: IDataField, id?: string, customValidators?: Function[]) {
-  return () => {
-    const inputEl = (id ? document.getElementById(id) : null) as (HTMLInputElement | null);
-    if (inputEl) {
-      return checkValidity(inputEl);
-    }
-    if (Array.isArray(customValidators)) {
-      for (const validator of customValidators) {
-        const validationResult = validator(dataObj.value);
-        if (typeof validationResult === 'string') {
-          return validationResult;
-        }
-      }
-    }
-    return checkOnRequired(dataObj.value);
+    return true;
   };
 }
 
 interface IDataField {
-  value: any;
+  readonly value: any;
   rules?: Array<Function>;
+  readonly expansionIndex?: number;
 }
 
 export interface IFeatureField {
-  value: Array<string>;
-  activeFeature: { [index: string]: number };
+  readonly value: Array<string>;
+  readonly activeFeature: { [index: string]: number };
 }

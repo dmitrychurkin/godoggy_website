@@ -30,13 +30,13 @@
         cols=12
       )
         v-form(
-          ref='form'
+          :ref='formRef'
           v-model='isFormValid'
           @submit.stop.prevent='onSendPasswordEmail'
         )
           v-text-field(
             v-model.trim='email'
-            ref='emailField'
+            :id='emailId'
             :rules='emailValidators'
             type='email'
             label='Email Address *'
@@ -66,13 +66,11 @@
         ) Back to login
 </template>
 <script lang="ts">
-import { Component, Vue, Ref, Mixins } from "vue-property-decorator";
+import { Component, Vue, Mixins } from "vue-property-decorator";
 import { mdiEmailNewsletter } from "@mdi/js";
-import { Getter, namespace } from "vuex-class";
+import { namespace } from "vuex-class";
 import { LOGIN_ROUTE, NotificationLevel } from "admin/constants";
 import { UPDATE_EMAIL } from "admin/store/modules/auth/mutation-types";
-import { formFieldValidator } from "admin/utils/form-helpers";
-import { IRequestEntity } from "admin/lib/api";
 import { EMAIL_PWD_RESET } from "admin/store/modules/auth/action-types";
 import { IPasswordResetEmailForm } from "admin/interfaces";
 import axios, { AxiosResponse } from "axios";

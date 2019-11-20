@@ -5,6 +5,8 @@ import { IRequestEntity } from 'admin/lib/api';
 
 @Component
 export default class AuthMixin extends Vue {
+  protected readonly formRef = 'form';
+  protected readonly emailId = 'email';
   protected isFormValid = false;
   protected isSuccess = false;
   protected isNavigatedAway = false;
@@ -12,15 +14,13 @@ export default class AuthMixin extends Vue {
   @Ref()
   protected readonly form!: HTMLFormElement;
 
-  @Ref()
-  private readonly emailField!: Vue;
   protected emailValidators: Array<() => string | boolean> = [];
 
   @Getter("requests")
   private requests!: Array<IRequestEntity>;
 
   mounted() {
-    this.emailValidators = [formFieldValidator(this.emailField)];
+    this.emailValidators = [formFieldValidator(this.emailId)];
   }
 
   beforeDestroy() {

@@ -30,13 +30,13 @@
         cols=12
       )
         v-form(
-          ref='form'
+          :ref='formRef'
           v-model='isFormValid'
           @submit.stop.prevent='onLogin'
         )
           v-text-field(
             v-model.trim='email'
-            ref='emailField'
+            :id='emailId'
             :rules='emailValidators'
             type='email'
             label='Email Address *'
@@ -48,7 +48,7 @@
           )
           v-text-field(
             v-model.trim='password'
-            ref='passwordField'
+            :id='passwordId'
             :rules='passwordValidators'
             :type="showPassword ? 'text' : 'password'"
             :append-icon="showPassword ? visibilityOffIcon : visibilityIcon"
@@ -88,7 +88,7 @@
         ) Forgot password?
 </template>
 <script lang="ts">
-import { Component, Vue, Ref, Mixins } from "vue-property-decorator";
+import { Component, Vue, Mixins } from "vue-property-decorator";
 import { Getter, namespace } from "vuex-class";
 import axios, { AxiosResponse } from "axios";
 import { mdiAccount, mdiEye, mdiEyeOff } from "@mdi/js";
@@ -101,7 +101,6 @@ import { setNotification } from "admin/lib/notificator";
 import { formFieldValidator } from "admin/utils/form-helpers";
 import { LOGIN_USER } from "admin/store/modules/auth/action-types";
 import { UPDATE_EMAIL } from "admin/store/modules/auth/mutation-types";
-import { IRequestEntity } from "admin/lib/api";
 import { ILoginForm } from "admin/interfaces";
 import AuthMixin from "admin/mixins/auth.mixin";
 
@@ -109,6 +108,7 @@ const Auth = namespace("auth");
 
 @Component
 export default class LoginRoute extends Mixins(AuthMixin) {
+  private readonly passwordId = "password";
   private readonly mdiAccountIcon = mdiAccount;
   private readonly visibilityIcon = mdiEye;
   private readonly visibilityOffIcon = mdiEyeOff;
@@ -122,8 +122,7 @@ export default class LoginRoute extends Mixins(AuthMixin) {
   private set email(str: string) {
     this.updateEmail(str);
   }
-  @Ref()
-  private readonly passwordField!: Vue;
+
   private password = "";
   private remember = false;
 
@@ -139,7 +138,7 @@ export default class LoginRoute extends Mixins(AuthMixin) {
   private readonly redirectTo!: string;
 
   mounted() {
-    this.passwordValidators = [formFieldValidator(this.passwordField)];
+    this.passwordValidators = [formFieldValidator(this.passwordId)];
   }
 
   private async onLogin() {

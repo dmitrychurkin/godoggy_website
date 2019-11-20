@@ -1,13 +1,14 @@
 <template lang="pug">
   v-menu(
+    :value='isOpen'
+    @input='$emit("update:isOpen", $event)'
     max-height='calc(100% - 16px)'
   )
     template(
-      v-slot:activator='{ on }'
+      #activator='_'
     )
       v-btn(
-        v-on='on'
-        :disabled='disabled'
+        @click.stop='$emit("request-open")'
         icon
       )
         v-img(
@@ -82,21 +83,24 @@ const defaultLocales = [
 export default class LanguageMenu extends Vue {
   @Model("change", { type: String })
   private readonly value!: string;
+
+  @Prop({
+    type: Boolean,
+    default: false
+  })
+  private readonly isOpen!: boolean;
+
   @Prop({
     type: Array,
     default: () => defaultLocales
   })
   private readonly locales!: Array<ILocale>;
-  @Prop({
-    type: Boolean,
-    default: false
-  })
-  private readonly disabled!: boolean;
+
   private activeLocale = this.locales.find(({ code }) => code === this.value);
+
   @Emit("change")
   private onSelectLocale(locale: ILocale) {
     this.activeLocale = locale;
-    console.log("locale => ", locale);
     return locale.code;
   }
 }
