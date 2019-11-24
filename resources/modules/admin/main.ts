@@ -4,13 +4,11 @@ import { Plugin } from 'vue-fragment';
 import store from './plugins/vuex';
 import vuetify from './plugins/vuetify';
 import router from './plugins/router';
-// import { api } from './lib/api';
 import App from './components/App.vue';
-import { LOGIN_ROUTE, BASE_URL } from './constants';
+import { LOGIN_ROUTE } from './constants';
 import { SET_REDIRECT } from './store/mutation-types';
 
 Vue.use(Plugin);
-// Vue.prototype.$axios = api;
 
 new Vue({
   vuetify,
@@ -22,13 +20,16 @@ new Vue({
       return getters['auth/isAuthenticated'];
     }, isAuthenticated => {
       if (!isAuthenticated) {
-        // TODO: change to meta
-        const currentLocation = location.pathname.split(BASE_URL).slice(-1)[0].trim();
+        /* const currentLocation = location.pathname.split(BASE_URL).slice(-1)[0].trim();
         const redirectTo = (!currentLocation ||
           (currentLocation === '/') ||
-          (currentLocation === LOGIN_ROUTE.path)) ? '' : `/${currentLocation}`;
+          (currentLocation === LOGIN_ROUTE.path)) ? '' : `/${currentLocation}`;*/
+        const redirectTo = this.$route.matched.find(({ meta }) => meta.requiresAuth) ?
+          this.$route.fullPath : '';
         this.$store.commit(SET_REDIRECT, redirectTo);
-        this.$router.replace(LOGIN_ROUTE.path);
+        if (this.$route.name !== LOGIN_ROUTE.name) {
+          this.$router.replace(LOGIN_ROUTE.path);
+        }
       }
     });
   },

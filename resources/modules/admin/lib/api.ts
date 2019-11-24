@@ -2,7 +2,7 @@ import axios, { AxiosRequestConfig, AxiosInstance, AxiosError, CancelTokenSource
 import { Store } from 'vuex';
 import store from 'admin/plugins/vuex';
 import { SEND_REQUEST, RESOLVE_REQUEST, UPDATE_RETRY_COUNTER } from 'admin/store/mutation-types';
-import { API_PREFIX, AUTH_ERROR_CODES, NotificationLevel } from 'admin/constants';
+import { API_PREFIX, AUTH_ERROR_CODES } from 'admin/constants';
 import { App } from 'admin/store/state';
 import { signToken, unSignToken } from './auth-adapter';
 // import { setNotification } from './notificator';
@@ -13,13 +13,13 @@ const apiInstance = axios.create({
   }
 });
 
-apiInstance.interceptors.request.use(config => {
+/*apiInstance.interceptors.request.use(config => {
   const token = store.getters['auth/getToken'];
   if (token) {
     config.headers.common['Authorization'] = `Bearer ${token}`;
   }
   return config;
-}, error => Promise.reject(error));
+}, error => Promise.reject(error));*/
 
 apiInstance.interceptors.response.use(response => {
   const { headers: { authorization } } = response;
@@ -62,12 +62,24 @@ export async function api<T>({
   $requestId = '',
   $blockUntilResolved = false,
   $isRetry = false,
+  $auth = false,
+  $authToken = null,
   $retryConfig,
   baseURL = API_PREFIX,
   ...requestOptions
 }: ApiArgs): Promise<AxiosResponse<T> | undefined> {
   const id = $requestId || idRequestEncoder(requestOptions);
   const isRetry = ($retryConfig instanceof Object) || $isRetry;
+  let headersConfig = {};
+  const authToken: string = $authToken || ($auth && $store.getters['auth/getToken']) || '';
+  if (authToken) {
+    headersConfig = {
+      headers: {
+        ...(requestOptions.headers || {}),
+        Authorization: `Bearer ${authToken}`
+      }
+    };
+  }
   const propagateReqToStore = () => {
     if ($propagateReqToStore) {
       const requestEntity: IRequestEntity = {
@@ -80,7 +92,8 @@ export async function api<T>({
     $axiosInstance({
       baseURL,
       cancelToken: $cancelTokenSource.token,
-      ...requestOptions
+      ...requestOptions,
+      ...headersConfig
     });
   const isRequestExists = $store.getters.request(id);
 
@@ -171,6 +184,8 @@ type ApiArgs = {
   readonly $isRetry?: boolean;
   readonly $retryConfig?: IRetryConfig;
   readonly $blockUntilResolved?: boolean;
+  readonly $auth?: boolean;
+  readonly $authToken?: string | null | undefined;
 } & AxiosRequestConfig;
 
 export default apiInstance;

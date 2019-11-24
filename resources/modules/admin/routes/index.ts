@@ -1,4 +1,6 @@
-// import store from 'admin/plugins/vuex';
+import { RouteConfig } from 'vue-router';
+import store from 'admin/plugins/vuex';
+import { GET_ACCOMMODATION } from 'admin/store/modules/rooms/action-types';
 import {
   LOGIN_ROUTE,
   DASHBOARD_ROUTE,
@@ -6,7 +8,6 @@ import {
   RESET_PWD_ROUTE,
   CUSTOMIZE_ROUTES,
 } from 'admin/constants';
-import { RouteConfig } from 'vue-router';
 
 const routes: RouteConfig[] = [
   {
@@ -46,7 +47,12 @@ const routes: RouteConfig[] = [
       },
       {
         ...CUSTOMIZE_ROUTES.child.ACCOMMODATION,
-        component: () => import('./dashboard/customize/accommodation')
+        component: () => import('./dashboard/customize/accommodation'),
+        beforeEnter: (...args) => {
+          const [, , next] = args;
+          next();
+          store.dispatch(`rooms/${GET_ACCOMMODATION}`);
+        }
       },
     ],
     meta: {

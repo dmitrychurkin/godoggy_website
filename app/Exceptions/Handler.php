@@ -48,7 +48,7 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        if ($exception instanceof UnauthorizedHttpException) {
+        /* if ($exception instanceof UnauthorizedHttpException) {
             $preException = $exception->getPrevious();
             if ($preException instanceof JWTExpiredException) {
                 $token = auth('api')->refresh(true, true);
@@ -59,7 +59,7 @@ class Handler extends ExceptionHandler
                     'Expires' => '0'
                 ]);
             }
-        }
+        } */
         return parent::render($request, $exception);
     }
 }

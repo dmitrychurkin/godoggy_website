@@ -24,6 +24,8 @@ Route::namespace('Api')->group(function () {
     Route::post('password/email', 'ForgotPasswordController@sendResetLinkEmail');
     Route::post('password/reset', 'ResetPasswordController@reset');
 
+    Route::get('customize/accommodation', 'RoomController@getAccommodation');
+
     // test api controller
     Route::get('test/400', 'TestApi@badRequest');
 });

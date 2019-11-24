@@ -43,45 +43,46 @@ export const enum Amenities {
 };
 const locale: string = Locales.EN;
 const initialRoomData = {
-  category: {
+  category: { // -> done
     [locale]: ''
   },
   //images
   // floorPlan
-  description: {
+  // Room code
+  description: { // -> done
     [locale]: ''
   },
-  size: {
+  size: { // -> done
     value: 0,
-    unitSystem: UnitSystems.SQ_M
+    unitSystem: UnitSystems.SQ_M // refactor to separate field // -> done
   },
-  count: 1,
-  bed: {
+  count: 1, // -> done
+  bed: { // -> done
     [locale]: [BedTypes.KING, BedTypes.TWIN]
   },
-  extraBed: true,
-  occupancy: OccupancyTypes.TPL,
-  meals: {
+  extraBed: true, // -> done
+  occupancy: OccupancyTypes.TPL, // -> done
+  meals: { // -> done
     [locale]: [MealTypes.BB, MealTypes.HB, MealTypes.FB]
   },
-  roomType: RoomTypes.ROOM,
-  roomView: {
+  roomType: RoomTypes.ROOM, // -> done
+  roomView: { // -> done
     [locale]: []
   },
-  bathroom: {
+  bathroom: { // -> done
     [locale]: ''
   },
-  wifi: true,
-  minibar: true,
-  safe: true,
-  phone: true,
-  balcony: false,
-  jacuzzi: false,
-  satellite: true,
-  view: {
+  wifi: true, // -> done
+  minibar: true, // -> done
+  safe: true, // -> done
+  phone: true, // -> done
+  balcony: false, // -> done
+  jacuzzi: false, // -> done
+  satellite: true, // -> done
+  view: { // -> done
     [locale]: ''
   },
-  features: {
+  features: { // -> done
     [locale]: []
   },
   amenities: {

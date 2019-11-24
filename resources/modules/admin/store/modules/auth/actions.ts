@@ -13,7 +13,8 @@ export default {
         await api({
           url: $VALIDATE_AUTH_ROUTE,
           method: 'head',
-          $isRetry: true
+          $isRetry: true,
+          $auth: true,
         });
       } catch { }
     } else {
@@ -59,7 +60,8 @@ export default {
         await api({
           url: $LOGOUT_LOUTE,
           method: 'head',
-          $blockUntilResolved: true
+          $blockUntilResolved: true,
+          $auth: true
         });
       }
     } catch { }

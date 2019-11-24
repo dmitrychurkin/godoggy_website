@@ -17,9 +17,7 @@ const router = new VueRouter({
   base: BASE_URL
 });
 
-router.beforeEach(async (...args) => {
-  const [to, , next] = args;
-
+router.beforeEach(async (to, from, next) => {
   if (to.matched.some(record => record.meta.redirectIfTokenExists) && getters['auth/getToken']) {
     next({ ...DASHBOARD_ROUTE, replace: true });
     return;
@@ -34,7 +32,9 @@ router.beforeEach(async (...args) => {
       next();
       commit(SET_REDIRECT);
     } else {
-      next({ ...LOGIN_ROUTE, replace: true });
+      next(
+        (from.name !== LOGIN_ROUTE.name) && ({ ...LOGIN_ROUTE, replace: true })
+      );
       commit(SET_REDIRECT, to.fullPath);
     }
     return;

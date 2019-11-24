@@ -27,7 +27,10 @@ class AuthController extends Controller
     {
         $credentials = $request->only(['email', 'password']);
         $remember_me = $request->input('remember', false);
-        if (!$token = auth('api')->setTTL($remember_me ? 525960 : config('jwt.ttl'))->attempt($credentials)) {
+        // $ttl = $remember_me ? 525960 : config('jwt.ttl');
+        $jwt = $remember_me ?
+            auth('api')->claims(['r' => true])->setTTL(525960) : auth('api');
+        if (!$token = $jwt->attempt($credentials)) {
             throw ValidationException::withMessages([
                 'status' => [trans('auth.failed')],
             ]);
