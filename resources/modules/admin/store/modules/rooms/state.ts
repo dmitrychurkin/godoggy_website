@@ -5,7 +5,4 @@ type Rooms = {
   readonly rooms?: Array<any>;
 };
 
-export {
-  rooms as default,
-  Rooms
-};
+export { rooms as default, Rooms };

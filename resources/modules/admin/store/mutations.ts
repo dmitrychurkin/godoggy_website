@@ -1,21 +1,29 @@
-import { SEND_REQUEST, RESOLVE_REQUEST, SET_REDIRECT, SET_NOTIFICATION, UNSET_NOTIFICATION, UPDATE_RETRY_COUNTER, IS_SHOW_APP_LOADER } from './mutation-types';
-import { App } from './state';
-import { IRequestEntity } from 'admin/lib/api';
-import { INotification } from 'admin/interfaces';
+import {
+  SEND_REQUEST,
+  RESOLVE_REQUEST,
+  SET_REDIRECT,
+  SET_NOTIFICATION,
+  UNSET_NOTIFICATION,
+  UPDATE_RETRY_COUNTER,
+  IS_SHOW_APP_LOADER
+} from "./mutation-types";
+import { App } from "./state";
+import { IRequestEntity } from "admin/lib/api";
+import { INotification } from "admin/App/common/AppNotificator";
 
 export default {
   [SEND_REQUEST]: (state: App, requestEntity: IRequestEntity) => {
     state.requests = [...state.requests, requestEntity];
   },
-  [RESOLVE_REQUEST]: (state: App, id = '') => {
+  [RESOLVE_REQUEST]: (state: App, id = "") => {
     if (id) {
-      state.requests = state.requests.filter(req => (id !== req.id));
+      state.requests = state.requests.filter(req => id !== req.id);
     }
   },
-  [UPDATE_RETRY_COUNTER]: (state: App, { id = '', timerId = 0 }) => {
+  [UPDATE_RETRY_COUNTER]: (state: App, { id = "", timerId = 0 }) => {
     if (id) {
       state.requests = state.requests.map(req => {
-        if ((id === req.id) && req.isRetry) {
+        if (id === req.id && req.isRetry) {
           req.timerId = timerId;
         }
         return req;
@@ -26,14 +34,16 @@ export default {
     state.notifications = [...state.notifications, notification];
   },
   [UNSET_NOTIFICATION]: (state: App, id: string | number) => {
-    state.notifications = state.notifications.filter((n: INotification, i: number) => {
-      if (typeof id === 'number') {
-        return id !== i;
+    state.notifications = state.notifications.filter(
+      (n: INotification, i: number) => {
+        if (typeof id === "number") {
+          return id !== i;
+        }
+        return n.id !== id;
       }
-      return n.id !== id;
-    });
+    );
   },
-  [SET_REDIRECT]: (state: App, redirectTo = '') => {
+  [SET_REDIRECT]: (state: App, redirectTo = "") => {
     state.redirect = redirectTo.trim();
   },
   [IS_SHOW_APP_LOADER]: (state: App, isShow = false) => {

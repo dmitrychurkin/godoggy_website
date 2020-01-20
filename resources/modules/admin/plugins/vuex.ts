@@ -1,12 +1,10 @@
-import Vuex from 'vuex';
-import { Vue } from 'vue-property-decorator';
-import store from 'admin/store';
+import { Vue } from "vue-property-decorator";
+import Vuex from "vuex";
+import store from "admin/store";
 
 Vue.use(Vuex);
 
-export const debug = process.env.NODE_ENV !== 'production';
-
 export default new Vuex.Store({
-  strict: debug,
+  strict: process.env.NODE_ENV !== "production",
   ...store
 });

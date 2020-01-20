@@ -1,4 +1,7 @@
-import { ACCOMMODATION_LOADED_SUCCESS, ACCOMMODATION_LOADED_FAIL } from "./mutation-types";
+import {
+  ACCOMMODATION_LOADED_SUCCESS,
+  ACCOMMODATION_LOADED_FAIL
+} from "./mutation-types";
 import { Rooms } from "./state";
 
 export default {

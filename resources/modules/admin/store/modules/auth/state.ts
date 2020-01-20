@@ -1,14 +1,11 @@
 import { getAuthToken } from "admin/lib/auth-adapter";
 
 const auth = {
-  authToken: '',
+  authToken: "",
   localStorageToken: getAuthToken(),
-  email: ''
+  email: ""
 };
 
 type Auth = typeof auth;
 
-export {
-  auth as default,
-  Auth
-};
+export { auth as default, Auth };

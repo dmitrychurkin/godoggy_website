@@ -1,10 +1,24 @@
 import { ActionContext } from "vuex";
-import { VERIFY_TOKEN, LOGIN_USER, LOGOUT_USER, EMAIL_PWD_RESET, PWD_RESET } from "./action-types";
+import {
+  VERIFY_TOKEN,
+  LOGIN_USER,
+  LOGOUT_USER,
+  EMAIL_PWD_RESET,
+  PWD_RESET
+} from "./action-types";
 import { api } from "admin/lib/api";
-import { LOGIN_ROUTE, $VALIDATE_AUTH_ROUTE, $LOGOUT_LOUTE, RESET_PWD_EMAIL, RESET_PWD_ROUTE } from "admin/constants";
+import {
+  LOGIN_ROUTE,
+  $VALIDATE_AUTH_ROUTE,
+  $LOGOUT_LOUTE,
+  RESET_PWD_EMAIL,
+  RESET_PWD_ROUTE
+} from "admin/constants";
 import { App } from "admin/store/state";
-import { unSignToken } from 'admin/lib/auth-adapter';
-import { ILoginForm, IPasswordResetEmailForm, IPasswordResetForm } from "admin/interfaces";
+import { unSignToken } from "admin/lib/auth-adapter";
+import { ILoginForm } from "admin/App/Auth/Login";
+import { IPasswordResetEmailForm } from "admin/App/Auth/Email";
+import { IPasswordResetForm } from "admin/App/Auth/Reset";
 
 export default {
   [VERIFY_TOKEN]: async ({ getters }: ActionContext<App, App>) => {
@@ -12,31 +26,35 @@ export default {
       try {
         await api({
           url: $VALIDATE_AUTH_ROUTE,
-          method: 'head',
+          method: "head",
           $isRetry: true,
-          $auth: true,
+          $auth: true
         });
-      } catch { }
+      } catch {}
     } else {
       unSignToken();
     }
   },
   [LOGIN_USER]: (...args: [ActionContext<App, App>, ILoginForm]) => {
-    const [, { email = '', password = '', remember = false }] = args;
+    const [, { email = "", password = "", remember = false }] = args;
     return api({
       url: LOGIN_ROUTE.path,
-      method: 'post',
+      method: "post",
       $blockUntilResolved: true,
       data: {
-        email, password, remember
+        email,
+        password,
+        remember
       }
     });
   },
-  [EMAIL_PWD_RESET]: (...args: [ActionContext<App, App>, IPasswordResetEmailForm]) => {
-    const [, { email = '' }] = args;
+  [EMAIL_PWD_RESET]: (
+    ...args: [ActionContext<App, App>, IPasswordResetEmailForm]
+  ) => {
+    const [, { email = "" }] = args;
     return api({
       url: RESET_PWD_EMAIL.path,
-      method: 'post',
+      method: "post",
       $blockUntilResolved: true,
       data: {
         email
@@ -44,13 +62,19 @@ export default {
     });
   },
   [PWD_RESET]: (...args: [ActionContext<App, App>, IPasswordResetForm]) => {
-    const [, { email = '', password = '', password_confirmation = '', token }] = args;
+    const [
+      ,
+      { email = "", password = "", password_confirmation = "", token }
+    ] = args;
     return api({
       url: RESET_PWD_ROUTE.path,
-      method: 'post',
+      method: "post",
       $blockUntilResolved: true,
       data: {
-        email, password, password_confirmation, token
+        email,
+        password,
+        password_confirmation,
+        token
       }
     });
   },
@@ -59,14 +83,14 @@ export default {
       if (getters.isAuthenticated) {
         await api({
           url: $LOGOUT_LOUTE,
-          method: 'head',
+          method: "head",
           $blockUntilResolved: true,
           $auth: true
         });
       }
-    } catch { }
-    finally {
+    } catch {
+    } finally {
       unSignToken();
     }
   }
-}
+};

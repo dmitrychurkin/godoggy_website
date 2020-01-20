@@ -1,15 +1,27 @@
-import axios, { AxiosRequestConfig, AxiosInstance, AxiosError, CancelTokenSource, AxiosResponse } from 'axios';
-import { Store } from 'vuex';
-import store from 'admin/plugins/vuex';
-import { SEND_REQUEST, RESOLVE_REQUEST, UPDATE_RETRY_COUNTER } from 'admin/store/mutation-types';
-import { API_PREFIX, AUTH_ERROR_CODES } from 'admin/constants';
-import { App } from 'admin/store/state';
-import { signToken, unSignToken } from './auth-adapter';
+import axios, {
+  AxiosRequestConfig,
+  AxiosInstance,
+  AxiosError,
+  CancelTokenSource,
+  AxiosResponse
+} from "axios";
+import { Store } from "vuex";
+import store from "admin/plugins/vuex";
+import {
+  SEND_REQUEST,
+  RESOLVE_REQUEST,
+  UPDATE_RETRY_COUNTER
+} from "admin/store/mutation-types";
+import { API_PREFIX } from "admin/constants";
+import { App } from "admin/store/state";
+import { signToken, unSignToken } from "./auth-adapter";
 // import { setNotification } from './notificator';
+
+const AUTH_ERROR_CODES = [401, 422];
 
 const apiInstance = axios.create({
   headers: {
-    'X-Requested-With': 'XMLHttpRequest'
+    "X-Requested-With": "XMLHttpRequest"
   }
 });
 
@@ -21,36 +33,43 @@ const apiInstance = axios.create({
   return config;
 }, error => Promise.reject(error));*/
 
-apiInstance.interceptors.response.use(response => {
-  const { headers: { authorization } } = response;
+apiInstance.interceptors.response.use(
+  response => {
+    const {
+      headers: { authorization }
+    } = response;
 
-  const token = authorization ?
-    authorization.split(' ').slice(-1)[0] :
-    store.getters['auth/getToken'];
-  if (token) {
-    signToken(token);
-  } else {
-    unSignToken();
-  }
-
-  return response;
-}, error => {
-  if (!axios.isCancel(error)) {
-    const { status } = error.response;
-    if (AUTH_ERROR_CODES.includes(status)) {
+    const token = authorization
+      ? authorization.split(" ").slice(-1)[0]
+      : store.getters["auth/getToken"];
+    if (token) {
+      signToken(token);
+    } else {
       unSignToken();
     }
+
+    return response;
+  },
+  error => {
+    if (!axios.isCancel(error)) {
+      const { status } = error.response;
+      if (AUTH_ERROR_CODES.includes(status)) {
+        unSignToken();
+      }
+    }
+    return Promise.reject(error);
   }
-  return Promise.reject(error);
-});
+);
 
 export const retryDefaultConfig: IRetryConfig = {
   retries: Number.POSITIVE_INFINITY,
   isNeedRetry(err: AxiosError, currentRetryCount: number) {
-    return ![...AUTH_ERROR_CODES, 404].includes(err.response!.status) &&
-      (this.retries >= currentRetryCount);
+    return (
+      ![...AUTH_ERROR_CODES, 404].includes(err.response!.status) &&
+      this.retries >= currentRetryCount
+    );
   },
-  retryDelay: (currentRetryCount: number) => 5000,
+  retryDelay: (currentRetryCount: number) => 5000
 };
 
 export async function api<T>({
@@ -59,7 +78,7 @@ export async function api<T>({
   $propagateReqToStore = true,
   $propagateErrToStore = false,
   $cancelTokenSource = axios.CancelToken.source(),
-  $requestId = '',
+  $requestId = "",
   $blockUntilResolved = false,
   $isRetry = false,
   $auth = false,
@@ -69,9 +88,10 @@ export async function api<T>({
   ...requestOptions
 }: ApiArgs): Promise<AxiosResponse<T> | undefined> {
   const id = $requestId || idRequestEncoder(requestOptions);
-  const isRetry = ($retryConfig instanceof Object) || $isRetry;
+  const isRetry = $retryConfig instanceof Object || $isRetry;
   let headersConfig = {};
-  const authToken: string = $authToken || ($auth && $store.getters['auth/getToken']) || '';
+  const authToken: string =
+    $authToken || ($auth && $store.getters["auth/getToken"]) || "";
   if (authToken) {
     headersConfig = {
       headers: {
@@ -83,7 +103,10 @@ export async function api<T>({
   const propagateReqToStore = () => {
     if ($propagateReqToStore) {
       const requestEntity: IRequestEntity = {
-        id, isRetry, cancelToken: $cancelTokenSource, timerId: 0
+        id,
+        isRetry,
+        cancelToken: $cancelTokenSource,
+        timerId: 0
       };
       $store.commit(SEND_REQUEST, requestEntity);
     }
@@ -112,7 +135,10 @@ export async function api<T>({
             $store.commit(RESOLVE_REQUEST, id);
             resolve(response);
           } catch (err) {
-            if (axios.isCancel(err) || !retryConfig.isNeedRetry(err, retryCount)) {
+            if (
+              axios.isCancel(err) ||
+              !retryConfig.isNeedRetry(err, retryCount)
+            ) {
               const request: IRequestEntity = $store.getters.request(id);
               clearTimeout(request.timerId);
               $store.commit(RESOLVE_REQUEST, id);
@@ -125,7 +151,10 @@ export async function api<T>({
               reject(err);
             } else {
               retryCount += 1;
-              const timerId = setTimeout(retrySession, retryConfig.retryDelay(retryCount));
+              const timerId = setTimeout(
+                retrySession,
+                retryConfig.retryDelay(retryCount)
+              );
               $store.commit(UPDATE_RETRY_COUNTER, { id, timerId });
             }
           }
@@ -138,8 +167,8 @@ export async function api<T>({
   } else {
     propagateReqToStore();
     try {
-      return (await sendRequest());
-    }/*  catch (err) {
+      return await sendRequest();
+    } /*  catch (err) {
       if ($propagateErrToStore) {
         setNotification({
           subject: err,
@@ -153,7 +182,7 @@ export async function api<T>({
   }
 }
 
-export function idRequestEncoder({ method = 'get', url }: AxiosRequestConfig) {
+export function idRequestEncoder({ method = "get", url }: AxiosRequestConfig) {
   return `${method}:${url}`;
 }
 

@@ -1,6 +1,9 @@
-import store from 'admin/plugins/vuex';
-import { AUTH_TOKEN } from 'admin/constants';
-import { SET_SESSION, UNSET_SESSION } from 'admin/store/modules/auth/mutation-types';
+import store from "admin/plugins/vuex";
+import { AUTH_TOKEN } from "admin/constants";
+import {
+  SET_SESSION,
+  UNSET_SESSION
+} from "admin/store/modules/auth/mutation-types";
 
 export const getAuthToken = () => localStorage.getItem(AUTH_TOKEN);
 export const signToken = (authToken: string) => {
