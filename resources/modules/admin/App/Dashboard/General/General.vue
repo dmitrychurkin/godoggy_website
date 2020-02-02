@@ -54,10 +54,10 @@
                 ) save
 </template>
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+  import { Component, Vue } from "vue-property-decorator";
 
-@Component
-export default class General extends Vue {
-  private businessName = "";
-}
+  @Component
+  export default class General extends Vue {
+    businessName = "";
+  }
 </script>

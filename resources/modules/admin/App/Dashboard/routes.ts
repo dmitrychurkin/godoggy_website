@@ -1,7 +1,5 @@
+import { CUSTOMIZE_ROUTES, DASHBOARD_ROUTE } from "admin/constants";
 import { RouteConfig } from "vue-router";
-import { GET_ACCOMMODATION } from "admin/store/modules/rooms/action-types";
-import { DASHBOARD_ROUTE, CUSTOMIZE_ROUTES } from "admin/constants";
-import store from "admin/plugins/vuex";
 
 export const routes: RouteConfig[] = [
   {
@@ -18,7 +16,7 @@ export const routes: RouteConfig[] = [
     beforeEnter: (...args) => {
       const [, , next] = args;
       next();
-      store.dispatch(`rooms/${GET_ACCOMMODATION}`);
+      // store.dispatch(`rooms/${GET_ACCOMMODATION}`);
     }
   }
 ];

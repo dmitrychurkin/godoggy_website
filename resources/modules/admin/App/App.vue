@@ -15,19 +15,19 @@
     AppNotificator
 </template>
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import { Getter } from "vuex-class";
+  import { Component, Vue } from "vue-property-decorator";
+  import { Getter } from "vuex-class";
 
-// const Auth = namespace("auth");
+  // const Auth = namespace("auth");
 
-@Component
-export default class App extends Vue {
-  @Getter("isShowAppLoader")
-  private readonly isShowAppLoader!: boolean;
-  // @Auth.Getter("isAuthenticated")
-  // private readonly isAuthenticated!: boolean;
+  @Component
+  export default class App extends Vue {
+    @Getter("isShowAppLoader")
+    readonly isShowAppLoader!: boolean;
+    // @Auth.Getter("isAuthenticated")
+    // private readonly isAuthenticated!: boolean;
 
-  // @Auth.Getter("getToken")
-  // private readonly storageToken!: string | null;
-}
+    // @Auth.Getter("getToken")
+    // private readonly storageToken!: string | null;
+  }
 </script>

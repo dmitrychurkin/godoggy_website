@@ -1,56 +1,38 @@
-import vuex from "admin/plugins/vuex";
-import { AxiosResponse, AxiosError } from "axios";
+import store from "admin/plugins/vuex";
+import { SHOW_NOTIFICATION } from "admin/store/modules/notifications/mutation-types";
 import {
-  SET_NOTIFICATION,
-  UNSET_NOTIFICATION
-} from "admin/store/mutation-types";
-import { idRequestEncoder } from "admin/lib/api";
-import {
-  Notification,
-  SetNotificationArgs,
-  RemoveNotificationArgs
-} from "./types";
+  INotification,
+  NotificationLevel
+} from "admin/store/modules/notifications/state";
+import axios, { AxiosError, AxiosResponse } from "axios";
 
-const defaultFormatter = ({
-  data: { message = "", status: supportedText = "", errors = {} } = {},
-  statusText = ""
-}: AxiosResponse) => {
-  let notificationText = supportedText || message || statusText;
-  const errTextDescription = Object.values(errors); // (<Array<string[]>>Object.values(errors)).map((e: string[]) => e.join(' '));
-  if (errTextDescription.length > 0) {
-    notificationText += ` - ${errTextDescription}`;
+export function showNotification(
+  config = {},
+  r?: AxiosError | AxiosResponse,
+  $store = store
+) {
+  const show = (notification: INotification) => {
+    if (notification.text) {
+      $store.commit(SHOW_NOTIFICATION, notification);
+    }
+  };
+  const notification: INotification = {
+    type: NotificationLevel.ERROR,
+    ...config
+  };
+  if (!r) {
+    return show(notification);
   }
-  return notificationText;
-};
-
-function parser(res: AxiosResponse | AxiosError, formatter: Function): string {
-  const { response } = res as AxiosError;
-  if (response) {
-    return parser(response, formatter);
+  if (axios.isCancel(r)) {
+    return;
   }
-  return formatter(res);
-}
-
-export function setNotification({
-  subject,
-  type,
-  id,
-  formatter = defaultFormatter,
-  store = vuex
-}: SetNotificationArgs) {
-  let notificationRestArgs: [string, string | undefined] =
-    typeof subject === "string"
-      ? [subject, id]
-      : [parser(subject, formatter), id || idRequestEncoder(subject.config)];
-  store.commit(
-    SET_NOTIFICATION,
-    new Notification(type, ...notificationRestArgs)
-  );
-}
-
-export function removeNotification({
-  id,
-  store = vuex
-}: RemoveNotificationArgs) {
-  store.commit(UNSET_NOTIFICATION, id);
+  if ("response" in r) {
+    for (const { detail: text } of r.response?.data.errors ?? []) {
+      show({ text, ...notification });
+    }
+  } else if ("data" in r) {
+    for (const text of r.data?.meta?.messages ?? []) {
+      show({ text, ...notification });
+    }
+  }
 }

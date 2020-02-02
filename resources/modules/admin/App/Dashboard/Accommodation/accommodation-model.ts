@@ -15,14 +15,14 @@ const enum RoomTypes {
   ROOM,
   SUITE
 }
-const enum RoomViews {
-  OCEAN,
-  SEA,
-  MOUNTAIN,
-  LAKE,
-  CITY,
-  NONE
-}
+// const enum RoomViews {
+//   OCEAN,
+//   SEA,
+//   MOUNTAIN,
+//   LAKE,
+//   CITY,
+//   NONE
+// }
 export const enum BedTypes {
   KING = "KING",
   TWIN = "TWIN",

@@ -1,7 +1,7 @@
 <template lang="pug">
   v-snackbar(
     v-model='isShowSnackbar'
-    :color='currentNotification.colors.snackbar'
+    :color='currentNotification.color'
   )
     | {{currentNotification.text}}
     v-btn(
@@ -10,29 +10,24 @@
     ) ok
 </template>
 <script lang="ts">
-import { Component, Vue, Watch } from "vue-property-decorator";
-import { Getter } from "vuex-class";
-import { removeNotification, setNotification } from "./util";
-import { INotification, NotificationLevel } from "./types";
+  import { Component, Vue, Watch } from "vue-property-decorator";
+  import { Getter, Mutation } from "vuex-class";
+  import {
+    INotification,
+    NotificationLevel
+  } from "admin/store/modules/notifications/state";
+  import { HIDE_NOTIFICATION } from "admin/store/modules/notifications/mutation-types";
 
-@Component
-export default class AppNotificator extends Vue {
-  private static colorMaps = {
-    [NotificationLevel.ERROR]: {
-      snackbar: "error"
-    },
-    [NotificationLevel.WARN]: {
-      snackbar: "warning"
-    },
-    [NotificationLevel.SUCCESS]: {
-      snackbar: "success"
-    },
-    [NotificationLevel.INFO]: {
-      snackbar: "info"
-    }
+  const COLORS = {
+    [NotificationLevel.ERROR]: "error",
+    [NotificationLevel.WARN]: "amber",
+    [NotificationLevel.SUCCESS]: "success",
+    [NotificationLevel.INFO]: "info"
   };
 
-  /*
+  @Component
+  export default class AppNotificator extends Vue {
+    /*
   // test case
   private mounted() {
     // begin create notifications
@@ -69,46 +64,47 @@ export default class AppNotificator extends Vue {
   }
 */
 
-  @Getter("notifications")
-  private readonly appNotifications!: Array<INotification>;
+    @Getter("notifications")
+    readonly appNotifications!: Array<INotification>;
 
-  @Watch("appNotifications", { immediate: true })
-  private onAppNotificationsStateChange(
-    notifications: Array<INotification>,
-    oldValue: Array<INotification>
-  ) {
-    if (notifications.length > 0 && oldValue.length === 0) {
-      this.isShowSnackbar = true;
-    }
-  }
+    @Mutation(HIDE_NOTIFICATION)
+    readonly hideNotification!: (id: number | string) => void;
 
-  private showShackbar = false;
-  private get isShowSnackbar() {
-    return this.showShackbar;
-  }
-
-  private set isShowSnackbar(value: boolean) {
-    if (!value) {
-      removeNotification({ id: 0 });
-      if (this.appNotifications.length > 0) {
-        setTimeout(() => (this.isShowSnackbar = true), 1000);
+    @Watch("appNotifications", { immediate: true })
+    onAppNotificationsStateChange(
+      notifications: Array<INotification>,
+      oldValue: Array<INotification>
+    ) {
+      if (notifications.length > 0 && oldValue.length === 0) {
+        this.isShowSnackbar = true;
       }
     }
-    this.showShackbar = value;
-  }
 
-  private get currentNotification() {
-    const notification = this.appNotifications[0] || {};
-    return {
-      ...notification,
-      colors: {
-        ...AppNotificator.colorMaps[notification.type]
+    showShackbar = false;
+    get isShowSnackbar() {
+      return this.showShackbar;
+    }
+
+    set isShowSnackbar(value: boolean) {
+      if (!value) {
+        this.hideNotification(0);
+        if (this.appNotifications.length > 0) {
+          setTimeout(() => (this.isShowSnackbar = true), 1000);
+        }
       }
-    };
-  }
+      this.showShackbar = value;
+    }
 
-  private onClose() {
-    this.isShowSnackbar = false;
+    get currentNotification() {
+      const { type, text } = this.appNotifications[0] ?? {};
+      return {
+        text,
+        color: COLORS[type]
+      };
+    }
+
+    onClose() {
+      this.isShowSnackbar = false;
+    }
   }
-}
 </script>

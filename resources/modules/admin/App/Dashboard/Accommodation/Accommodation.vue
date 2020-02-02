@@ -1112,183 +1112,179 @@
 
 </template>
 <script lang="ts">
-import { Component, Vue, Ref } from "vue-property-decorator";
-import { mdiClose, mdiRulerSquareCompass, mdiRecord } from "@mdi/js";
-import LanguageMenu, { Locales } from "admin/App/common/LanguageMenu";
-import getAccommodationModel, {
-  BedTypes,
-  UnitSystems,
-  OccupancyTypes,
-  MealTypes,
-  IFeatureField,
-  Amenities
-} from "./accommodation-model";
+  import { Component, Vue, Ref } from "vue-property-decorator";
+  import { mdiClose, mdiRulerSquareCompass, mdiRecord } from "@mdi/js";
+  import LanguageMenu, { Locales } from "admin/App/common/LanguageMenu";
+  import getAccommodationModel, {
+    BedTypes,
+    UnitSystems,
+    OccupancyTypes,
+    MealTypes,
+    IFeatureField,
+    Amenities
+  } from "./accommodation-model";
 
-const CATEGORY_MAX_LENGTH = 1_000;
-const DESCRIPTION_MAX_LENGTH = 100_000;
-const MAX_COUNT = 1_000_000;
-const FEATURE_MAX_LENGTH = 1_000;
+  const CATEGORY_MAX_LENGTH = 1_000;
+  const DESCRIPTION_MAX_LENGTH = 100_000;
+  const MAX_COUNT = 1_000_000;
+  const FEATURE_MAX_LENGTH = 1_000;
 
-@Component({
-  components: {
-    LanguageMenu
-  }
-})
-export default class Accommodation extends Vue {
-  // Probably this from server as a general template data;
-  private readonly CATEGORY_MAX_LENGTH = CATEGORY_MAX_LENGTH;
-  private readonly DESCRIPTION_MAX_LENGTH = DESCRIPTION_MAX_LENGTH;
-  private readonly MAX_COUNT = MAX_COUNT;
-  private readonly FEATURE_MAX_LENGTH = FEATURE_MAX_LENGTH;
-  private readonly mdiCloseIcon = mdiClose;
-  private readonly mdiRulerSquareCompassIcon = mdiRulerSquareCompass;
-  private readonly mdiRecordIcon = mdiRecord;
-  // todo: take value of locale from vuex
-  private readonly locale = Locales.EN;
-  // this is used for flags
-  private amendedLocalesCount = 0;
-  private sLocale = this.locale;
-  private get selectedLocale() {
-    return this.sLocale;
-  }
-  private set selectedLocale(locale: Locales) {
-    this.sLocale = locale;
-    this.amendedLocalesCount += 1;
-    console.log("selectedLocale => ", locale);
-  }
-  private isLanguageMenuOpen = false;
-  private dialog = true;
-  private contentLoaded = true;
-  private expansionModel: number | null = null;
-  @Ref()
-  private readonly accommodationFormRef!: HTMLFormElement;
-  private readonly accommodationModel = getAccommodationModel(this.locale);
-  private readonly booleanMappings = ["No", "Yes"];
-  private readonly unitSystemItems = [
-    { text: "SQ FT", value: UnitSystems.SQ_FT },
-    { text: "SQ M", value: UnitSystems.SQ_M }
-  ];
-  private readonly bedTypeItems = [
-    // --> translated
-    BedTypes.KING,
-    BedTypes.TWIN,
-    BedTypes.FRENCH
-  ];
-  private readonly occupancyTypeItems = ["SGL", "DBL", "TPL", "QPL"];
-  private readonly mealTypeItems = [
-    // --> translated
-    MealTypes.BB,
-    MealTypes.HB,
-    MealTypes.HB_Plus,
-    MealTypes.FB,
-    MealTypes.AI
-  ];
-  private readonly roomTypeMappings = ["Room", "Suite"];
-  private readonly viewTypeItems = [
-    "Ocean",
-    "Sea",
-    "Mountain",
-    "Lake",
-    "City",
-    "None"
-  ];
-  private readonly amenities = [
-    {
-      type: Amenities.BATH_PERSONAL_CARE,
-      text: "Bath personal care"
-    },
-    {
-      type: Amenities.OFFICE_EQUIPMENT_STATIONERY,
-      text: "Office equipment stationery"
-    },
-    {
-      type: Amenities.MEDIA_ENTERTAINMENT,
-      text: "Media entertainment"
-    },
-    {
-      type: Amenities.REFRESHMENTS,
-      text: "Refreshments"
-    },
-    {
-      type: Amenities.OTHER,
-      text: "Other"
+  @Component({
+    components: {
+      LanguageMenu
     }
-  ];
-  private get unitSystem() {
-    return this.unitSystemItems.find(
-      ({ value }) => value === this.accommodationModel.size.unitSystem
-    );
-  }
-  private get supportedBedTypes() {
-    return this.accommodationModel.bed.value.join(" / ");
-  }
-  private get maxOccupancy() {
-    const { value } = this.accommodationModel.occupancy;
-    if (value <= OccupancyTypes.QPL) {
-      return this.occupancyTypeItems[value - 1];
+  })
+  export default class Accommodation extends Vue {
+    // Probably this from server as a general template data;
+    readonly CATEGORY_MAX_LENGTH = CATEGORY_MAX_LENGTH;
+    readonly DESCRIPTION_MAX_LENGTH = DESCRIPTION_MAX_LENGTH;
+    readonly MAX_COUNT = MAX_COUNT;
+    readonly FEATURE_MAX_LENGTH = FEATURE_MAX_LENGTH;
+    readonly mdiCloseIcon = mdiClose;
+    readonly mdiRulerSquareCompassIcon = mdiRulerSquareCompass;
+    readonly mdiRecordIcon = mdiRecord;
+    // todo: take value of locale from vuex
+    readonly locale = Locales.EN;
+    // this is used for flags
+    amendedLocalesCount = 0;
+    sLocale = this.locale;
+    get selectedLocale() {
+      return this.sLocale;
     }
-    return value;
-  }
-  private get supportedMealPlans() {
-    return this.accommodationModel.meals.value.join(" / ");
-  }
-  private get roomViews() {
-    return this.accommodationModel.roomView.value.join(", ");
-  }
-
-  private get view() {
-    return (
-      this.accommodationModel.view.value || this.viewTypeItems.slice(-1)[0]
-    );
-  }
-  private set view(value: string) {
-    this.accommodationModel.view.value = value;
-  }
-  private feature = "";
-  private addFeature(feature: IFeatureField) {
-    if (this.feature && !feature.value.includes(this.feature)) {
-      const length = feature.value.push(
-        this.feature.trim().slice(0, this.FEATURE_MAX_LENGTH)
+    set selectedLocale(locale: Locales) {
+      this.sLocale = locale;
+      this.amendedLocalesCount += 1;
+      console.log("selectedLocale => ", locale);
+    }
+    isLanguageMenuOpen = false;
+    dialog = true;
+    contentLoaded = true;
+    expansionModel: number | null = null;
+    @Ref()
+    readonly accommodationFormRef!: HTMLFormElement;
+    readonly accommodationModel = getAccommodationModel(this.locale);
+    readonly booleanMappings = ["No", "Yes"];
+    readonly unitSystemItems = [
+      { text: "SQ FT", value: UnitSystems.SQ_FT },
+      { text: "SQ M", value: UnitSystems.SQ_M }
+    ];
+    readonly bedTypeItems = [
+      // --> translated
+      BedTypes.KING,
+      BedTypes.TWIN,
+      BedTypes.FRENCH
+    ];
+    readonly occupancyTypeItems = ["SGL", "DBL", "TPL", "QPL"];
+    readonly mealTypeItems = [
+      // --> translated
+      MealTypes.BB,
+      MealTypes.HB,
+      MealTypes.HB_Plus,
+      MealTypes.FB,
+      MealTypes.AI
+    ];
+    readonly roomTypeMappings = ["Room", "Suite"];
+    readonly viewTypeItems = [
+      "Ocean",
+      "Sea",
+      "Mountain",
+      "Lake",
+      "City",
+      "None"
+    ];
+    readonly amenities = [
+      {
+        type: Amenities.BATH_PERSONAL_CARE,
+        text: "Bath personal care"
+      },
+      {
+        type: Amenities.OFFICE_EQUIPMENT_STATIONERY,
+        text: "Office equipment stationery"
+      },
+      {
+        type: Amenities.MEDIA_ENTERTAINMENT,
+        text: "Media entertainment"
+      },
+      {
+        type: Amenities.REFRESHMENTS,
+        text: "Refreshments"
+      },
+      {
+        type: Amenities.OTHER,
+        text: "Other"
+      }
+    ];
+    get unitSystem() {
+      return this.unitSystemItems.find(
+        ({ value }) => value === this.accommodationModel.size.unitSystem
       );
-      this.feature = "";
+    }
+    get supportedBedTypes() {
+      return this.accommodationModel.bed.value.join(" / ");
+    }
+    get maxOccupancy() {
+      const { value } = this.accommodationModel.occupancy;
+      if (value <= OccupancyTypes.QPL) {
+        return this.occupancyTypeItems[value - 1];
+      }
+      return value;
+    }
+    get supportedMealPlans() {
+      return this.accommodationModel.meals.value.join(" / ");
+    }
+    get roomViews() {
+      return this.accommodationModel.roomView.value.join(", ");
+    }
+
+    get view() {
+      return (
+        this.accommodationModel.view.value || this.viewTypeItems.slice(-1)[0]
+      );
+    }
+    set view(value: string) {
+      this.accommodationModel.view.value = value;
+    }
+    feature = "";
+    addFeature(feature: IFeatureField) {
+      if (this.feature && !feature.value.includes(this.feature)) {
+        const length = feature.value.push(
+          this.feature.trim().slice(0, this.FEATURE_MAX_LENGTH)
+        );
+        this.feature = "";
+        this.$nextTick(() => {
+          feature.activeFeature[this.selectedLocale] = length - 1;
+        });
+      }
+    }
+    removeFeature(feature: IFeatureField, index: number, dismiss: Function) {
+      dismiss();
+      feature.value.splice(index, 1);
       this.$nextTick(() => {
-        feature.activeFeature[this.selectedLocale] = length - 1;
+        feature.activeFeature[this.selectedLocale] = index - 1;
       });
     }
-  }
-  private removeFeature(
-    feature: IFeatureField,
-    index: number,
-    dismiss: Function
-  ) {
-    dismiss();
-    feature.value.splice(index, 1);
-    this.$nextTick(() => {
-      feature.activeFeature[this.selectedLocale] = index - 1;
-    });
-  }
 
-  private amenitiesTab = 1;
-  private toggleAmenitiesTab() {
-    this.feature = "";
-    if (this.amenitiesTab > 0) {
-      setTimeout(() => {
-        this.amenitiesTab = 0;
-      });
+    amenitiesTab = 1;
+    toggleAmenitiesTab() {
+      this.feature = "";
+      if (this.amenitiesTab > 0) {
+        setTimeout(() => {
+          this.amenitiesTab = 0;
+        });
+      }
     }
-  }
 
-  private onLocaleClick() {
-    console.log("Attempt to open");
-    this.expansionModel = this.validateForm();
-    if (this.expansionModel !== null) {
-      return;
+    onLocaleClick() {
+      console.log("Attempt to open");
+      this.expansionModel = this.validateForm();
+      if (this.expansionModel !== null) {
+        return;
+      }
+      this.isLanguageMenuOpen = true;
+      console.log(this.isLanguageMenuOpen, this.expansionModel);
     }
-    this.isLanguageMenuOpen = true;
-    console.log(this.isLanguageMenuOpen, this.expansionModel);
-  }
 
-  /*{
+    /*{
     categoryRoomCount: {
       order: 1,
       initialValue: 1,
@@ -1328,50 +1324,50 @@ export default class Accommodation extends Vue {
       ]
     }
   };*/
-  // todo: need to take data from vuex
+    // todo: need to take data from vuex
 
-  // private categoryName = "";
-  // private categoryNameValidators: Array<() => string | boolean> = [];
+    // private categoryName = "";
+    // private categoryNameValidators: Array<() => string | boolean> = [];
 
-  // private categoryRoomCount = 1;
-  // private categoryRoomCountValidators: Array<() => string | boolean> = [];
-  mounted() {
-    console.log(Locales.RU, this.bedTypeItems);
-    // setTimeout(() => {
-    //   this.contentLoaded = true;
-    // }, 7000);
-    // this.categoryNameValidators = [
-    //   formFieldValidator(
-    //     () => document.getElementById("categoryNameField") as HTMLInputElement
-    //   )
-    // ];
-    // this.categoryRoomCountValidators = [
-    //   formFieldValidator(
-    //     () =>
-    //       document.getElementById("categoryRoomCountField") as HTMLInputElement
-    //   )
-    // ];
-  }
+    // private categoryRoomCount = 1;
+    // private categoryRoomCountValidators: Array<() => string | boolean> = [];
+    mounted() {
+      console.log(Locales.RU, this.bedTypeItems);
+      // setTimeout(() => {
+      //   this.contentLoaded = true;
+      // }, 7000);
+      // this.categoryNameValidators = [
+      //   formFieldValidator(
+      //     () => document.getElementById("categoryNameField") as HTMLInputElement
+      //   )
+      // ];
+      // this.categoryRoomCountValidators = [
+      //   formFieldValidator(
+      //     () =>
+      //       document.getElementById("categoryRoomCountField") as HTMLInputElement
+      //   )
+      // ];
+    }
 
-  private validateForm() {
-    if (!this.accommodationFormRef.validate()) {
-      const { category, count, bed, meals } = this.accommodationModel;
-      for (const { rules = [], expansionIndex = null } of [
-        category,
-        count,
-        bed,
-        meals
-      ]) {
-        for (const rule of rules) {
-          if (rule() !== true) {
-            return expansionIndex;
+    validateForm() {
+      if (!this.accommodationFormRef.validate()) {
+        const { category, count, bed, meals } = this.accommodationModel;
+        for (const { rules = [], expansionIndex = null } of [
+          category,
+          count,
+          bed,
+          meals
+        ]) {
+          for (const rule of rules) {
+            if (rule() !== true) {
+              return expansionIndex;
+            }
           }
         }
       }
+      return null;
     }
-    return null;
-  }
-  /* private validateForm() {
+    /* private validateForm() {
     console.log("validateForm", this.accommodationFormRef);
     if (this.accommodationFormRef && this.accommodationFormRef.validate()) {
       console.log("form valid", this.expansionModel);
@@ -1399,9 +1395,9 @@ export default class Accommodation extends Vue {
       console.log("this.expansionModel => ", this.expansionModel);
     }
   } */
-  private get isContentLoading() {
-    return !this.contentLoaded;
+    get isContentLoading() {
+      return !this.contentLoaded;
+    }
+    // private rooms = [];
   }
-  // private rooms = [];
-}
 </script>

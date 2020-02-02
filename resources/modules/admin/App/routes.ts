@@ -1,13 +1,5 @@
+import { LOGIN_ROUTE } from "admin/constants";
 import { RouteConfig } from "vue-router";
-// import store from "admin/plugins/vuex";
-import { GET_ACCOMMODATION } from "admin/store/modules/rooms/action-types";
-import {
-  LOGIN_ROUTE,
-  DASHBOARD_ROUTE,
-  RESET_PWD_EMAIL,
-  RESET_PWD_ROUTE,
-  CUSTOMIZE_ROUTES
-} from "admin/constants";
 import { routes as authRoutes } from "./Auth";
 import { routes as dashboardRoutes } from "./Dashboard";
 
@@ -18,7 +10,7 @@ export const routes: RouteConfig[] = [
     redirect: LOGIN_ROUTE,
     children: authRoutes,
     meta: {
-      redirectIfTokenExists: true
+      redirectIfAuthenticated: true
     }
   },
   {

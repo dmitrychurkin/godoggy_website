@@ -1,10 +1,10 @@
+import { routes } from "admin/App";
+import { BASE_URL, DASHBOARD_ROUTE, LOGIN_ROUTE } from "admin/constants";
+import store from "admin/plugins/vuex";
+import { VERIFY_TOKEN } from "admin/store/modules/auth/action-types";
+import { SET_REDIRECT } from "admin/store/modules/auth/mutation-types";
 import { Vue } from "vue-property-decorator";
 import VueRouter, { RouteConfig } from "vue-router";
-import { routes } from "admin/App";
-import store from "admin/plugins/vuex";
-import { LOGIN_ROUTE, BASE_URL, DASHBOARD_ROUTE } from "admin/constants";
-import { SET_REDIRECT, IS_SHOW_APP_LOADER } from "admin/store/mutation-types";
-import { VERIFY_TOKEN } from "admin/store/modules/auth/action-types";
 
 const { dispatch, getters, commit } = store;
 
@@ -17,31 +17,32 @@ const router = new VueRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
+  // verify for the first time
+  await dispatch(`auth/${VERIFY_TOKEN}`);
   if (
-    to.matched.some(record => record.meta.redirectIfTokenExists) &&
-    getters["auth/getToken"]
+    to.matched.some(record => record.meta.redirectIfAuthenticated) &&
+    getters["auth/user"]
   ) {
     next({ ...DASHBOARD_ROUTE, replace: true });
     return;
   }
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (getters["auth/getToken"] && !getters["auth/isAuthenticated"]) {
-      commit(IS_SHOW_APP_LOADER, true);
-    }
-    await dispatch(`auth/${VERIFY_TOKEN}`);
-    commit(IS_SHOW_APP_LOADER);
-    if (getters["auth/isAuthenticated"]) {
+    // if user authenticated
+    if (getters["auth/user"]) {
       next();
-      commit(SET_REDIRECT);
-    } else {
-      next(
-        from.name !== LOGIN_ROUTE.name && {
-          ...LOGIN_ROUTE,
-          replace: true
-        }
-      );
-      commit(SET_REDIRECT, to.fullPath);
+      if (getters["auth/redirect"]) {
+        commit(`auth/${SET_REDIRECT}`);
+      }
+      return;
     }
+    // if user is not authenticated
+    next(
+      from.name !== LOGIN_ROUTE.name && {
+        ...LOGIN_ROUTE,
+        replace: true
+      }
+    );
+    commit(`auth/${SET_REDIRECT}`, to.fullPath);
     return;
   }
   next();
@@ -50,24 +51,16 @@ router.beforeEach(async (to, from, next) => {
 store.watch(
   (...args: Array<any>) => {
     const [, getters] = args;
-    return getters["auth/isAuthenticated"];
+    return Boolean(getters["auth/user"]);
   },
   isAuthenticated => {
-    if (!isAuthenticated) {
-      /* const currentLocation = location.pathname.split(BASE_URL).slice(-1)[0].trim();
-    const redirectTo = (!currentLocation ||
-      (currentLocation === '/') ||
-      (currentLocation === LOGIN_ROUTE.path)) ? '' : `/${currentLocation}`;*/
-      const { currentRoute } = router;
-      const redirectTo = currentRoute.matched.find(
-        ({ meta }) => meta.requiresAuth
-      )
-        ? currentRoute.fullPath
-        : "";
-      commit(SET_REDIRECT, redirectTo);
-      if (currentRoute.name !== LOGIN_ROUTE.name) {
-        router.replace(LOGIN_ROUTE.path);
-      }
+    const { currentRoute } = router;
+    if (
+      !isAuthenticated &&
+      currentRoute.matched.find(({ meta }) => meta.requiresAuth)
+    ) {
+      commit(`auth/${SET_REDIRECT}`, currentRoute.fullPath);
+      router.replace(LOGIN_ROUTE.path);
     }
   }
 );

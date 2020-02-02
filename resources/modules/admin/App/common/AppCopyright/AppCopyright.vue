@@ -9,26 +9,26 @@
     | {{year}}.
 </template>
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+  import { Component, Vue } from "vue-property-decorator";
 
-@Component
-export default class Copyright extends Vue {
-  private readonly location = window.location;
-  private year = this.getYear();
-  private timerId!: number;
+  @Component
+  export default class Copyright extends Vue {
+    readonly location = window.location;
+    year = this.getYear();
+    timerId!: number;
 
-  private created() {
-    this.timerId = window.setInterval(() => {
-      this.year = this.getYear();
-    }, 1000);
+    created() {
+      this.timerId = window.setInterval(() => {
+        this.year = this.getYear();
+      }, 1000);
+    }
+
+    beforeDestroy() {
+      window.clearInterval(this.timerId);
+    }
+
+    getYear() {
+      return new Date().getFullYear();
+    }
   }
-
-  private beforeDestroy() {
-    window.clearInterval(this.timerId);
-  }
-
-  private getYear() {
-    return new Date().getFullYear();
-  }
-}
 </script>

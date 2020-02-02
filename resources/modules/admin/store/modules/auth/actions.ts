@@ -1,96 +1,105 @@
-import { ActionContext } from "vuex";
+import { IPasswordResetEmailForm } from "admin/App/Auth/Email";
+import { ILoginForm } from "admin/App/Auth/Login";
+import { IPasswordResetForm } from "admin/App/Auth/Reset";
 import {
-  VERIFY_TOKEN,
-  LOGIN_USER,
-  LOGOUT_USER,
-  EMAIL_PWD_RESET,
-  PWD_RESET
-} from "./action-types";
-import { api } from "admin/lib/api";
-import {
-  LOGIN_ROUTE,
-  $VALIDATE_AUTH_ROUTE,
   $LOGOUT_LOUTE,
+  $VALIDATE_AUTH_ROUTE,
+  LOGIN_ROUTE,
   RESET_PWD_EMAIL,
   RESET_PWD_ROUTE
 } from "admin/constants";
+import api from "admin/lib/api";
+import {
+  EmailPasswordResponse,
+  LogoutResponse,
+  ResetPasswordResponse,
+  UserResponse
+} from "admin/lib/api/schema/responses/auth";
+import { IS_SHOW_APP_LOADER } from "admin/store/mutation-types";
 import { App } from "admin/store/state";
-import { unSignToken } from "admin/lib/auth-adapter";
-import { ILoginForm } from "admin/App/Auth/Login";
-import { IPasswordResetEmailForm } from "admin/App/Auth/Email";
-import { IPasswordResetForm } from "admin/App/Auth/Reset";
+import { ActionContext } from "vuex";
+import { NotificationLevel } from "../notifications/state";
+import {
+  EMAIL_PWD_RESET,
+  LOGIN_USER,
+  LOGOUT_USER,
+  PWD_RESET,
+  VERIFY_TOKEN
+} from "./action-types";
+import {
+  SET_AUTH_VERIFIED,
+  SET_SESSION,
+  UNSET_SESSION
+} from "./mutation-types";
 
 export default {
-  [VERIFY_TOKEN]: async ({ getters }: ActionContext<App, App>) => {
-    if (getters.getToken) {
-      try {
-        await api({
-          url: $VALIDATE_AUTH_ROUTE,
-          method: "head",
-          $isRetry: true,
-          $auth: true
-        });
-      } catch {}
-    } else {
-      unSignToken();
+  [VERIFY_TOKEN]: async ({ commit, getters }: ActionContext<App, App>) => {
+    if (getters.verified) {
+      return;
+    }
+    const resolveRequest = () => {
+      commit(IS_SHOW_APP_LOADER, false, { root: true });
+      commit(SET_AUTH_VERIFIED, true);
+    };
+    commit(IS_SHOW_APP_LOADER, true, { root: true });
+    try {
+      const res = await api<UserResponse>({
+        url: $VALIDATE_AUTH_ROUTE,
+        $retry: true
+      });
+      if (res != null) {
+        commit(SET_SESSION, res.data.data);
+        resolveRequest();
+      }
+    } catch {
+      resolveRequest();
     }
   },
-  [LOGIN_USER]: (...args: [ActionContext<App, App>, ILoginForm]) => {
-    const [, { email = "", password = "", remember = false }] = args;
-    return api({
+  [LOGIN_USER]: async (
+    { commit }: ActionContext<App, App>,
+    loginFormData: ILoginForm
+  ) => {
+    const res = await api<UserResponse>({
       url: LOGIN_ROUTE.path,
-      method: "post",
-      $blockUntilResolved: true,
-      data: {
-        email,
-        password,
-        remember
-      }
+      method: "POST",
+      data: loginFormData,
+      $showNotification: true
     });
+    commit(SET_SESSION, res?.data.data);
   },
   [EMAIL_PWD_RESET]: (
     ...args: [ActionContext<App, App>, IPasswordResetEmailForm]
   ) => {
-    const [, { email = "" }] = args;
-    return api({
+    const [, passwordResetEmailFormData] = args;
+    return api<EmailPasswordResponse>({
       url: RESET_PWD_EMAIL.path,
-      method: "post",
-      $blockUntilResolved: true,
-      data: {
-        email
-      }
+      method: "POST",
+      data: passwordResetEmailFormData,
+      $notificationConfig: { type: NotificationLevel.WARN }
     });
   },
-  [PWD_RESET]: (...args: [ActionContext<App, App>, IPasswordResetForm]) => {
-    const [
-      ,
-      { email = "", password = "", password_confirmation = "", token }
-    ] = args;
-    return api({
+  [PWD_RESET]: async (
+    { commit }: ActionContext<App, App>,
+    passwordResetFormData: IPasswordResetForm
+  ) => {
+    const res = await api<ResetPasswordResponse>({
       url: RESET_PWD_ROUTE.path,
-      method: "post",
-      $blockUntilResolved: true,
-      data: {
-        email,
-        password,
-        password_confirmation,
-        token
-      }
+      method: "POST",
+      data: passwordResetFormData
     });
+    commit(SET_SESSION, res?.data.data);
   },
-  [LOGOUT_USER]: async ({ getters }: ActionContext<App, App>) => {
+  [LOGOUT_USER]: async ({ commit }: ActionContext<App, App>) => {
     try {
-      if (getters.isAuthenticated) {
-        await api({
-          url: $LOGOUT_LOUTE,
-          method: "head",
-          $blockUntilResolved: true,
-          $auth: true
-        });
+      const res = await api<LogoutResponse>({
+        url: $LOGOUT_LOUTE,
+        method: "HEAD"
+      });
+      if (res != null) {
+        commit(UNSET_SESSION);
       }
     } catch {
-    } finally {
-      unSignToken();
+      commit(UNSET_SESSION);
     }
   }
 };

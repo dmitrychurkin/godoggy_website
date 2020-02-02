@@ -1,11 +1,21 @@
-import { getAuthToken } from "admin/lib/auth-adapter";
+interface IUser {
+  readonly id: string;
+  readonly name: string;
+  readonly email: string;
+}
+
+type Auth = {
+  redirect: string;
+  user: IUser | null;
+  email: string;
+  verified: boolean;
+};
 
 const auth = {
-  authToken: "",
-  localStorageToken: getAuthToken(),
+  verified: false,
+  redirect: "",
+  user: null,
   email: ""
 };
 
-type Auth = typeof auth;
-
-export { auth as default, Auth };
+export { auth as default, Auth, IUser };

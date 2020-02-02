@@ -1,9 +1,8 @@
 import { Auth } from "./state";
 
 export default {
-  isAuthenticated: ({ authToken }: Auth) => Boolean(authToken),
-  authToken: ({ authToken }: Auth) => authToken,
-  getToken: ({ authToken, localStorageToken }: Auth) =>
-    authToken || localStorageToken,
+  verified: ({ verified }: Auth) => verified,
+  redirect: ({ redirect }: Auth) => redirect,
+  user: ({ user }: Auth) => user,
   email: ({ email }: Auth) => email
 };

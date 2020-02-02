@@ -3,13 +3,16 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use Exception;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\Request;
-use Hash;
-use Str;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Cookie;
+use App\Http\Resources\User as UserResource;
+use Illuminate\Support\Str;
 
 class ResetPasswordController extends Controller
 {
@@ -18,11 +21,35 @@ class ResetPasswordController extends Controller
 
   public function reset(Request $request)
   {
-    if (auth('api')->user()) {
+    /* if (auth('api')->user()) {
       $user = $this->broker()->getUser($this->credentials($request));
       $this->broker()->deleteToken($user);
       return response(null, 403);
+    } */
+    $user = auth('api')->user();
+    if ($user) {
+      $cookie = null;
+      try {
+        $payload = auth('api')->payload();
+        $token = isset($payload['r']) && ($payload['r'] === true) ?
+          auth('api')->setTTL(525960)->refresh(true) :
+          auth('api')->refresh(true);
+        $cookie = $token ?
+          cookie('token', $token, $payload['r'] ? 525960 : config('jwt.ttl'), null, null, false, true) :
+          Cookie::forget('token');
+      } catch (Exception $e) {
+        $token = auth('api')->login($user);
+        $cookie = cookie('token', $token, config('jwt.ttl'), null, null, false, true);
+      } finally {
+        $this->broker()->deleteToken(
+          $this->broker()->getUser($this->credentials($request))
+        );
+        return (new UserResource($user))
+          ->response()
+          ->withCookie($cookie);
+      }
     }
+    // TODO: according to updated spec this should be redo
     $request->validate($this->rules(), $this->validationErrorMessages());
 
     $token = null;

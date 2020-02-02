@@ -8,6 +8,10 @@ use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Cookie;
+use App\Http\Resources\User as UserResource;
+use Illuminate\Support\Facades\Validator;
+use Exception;
 
 class ForgotPasswordController extends Controller
 {
@@ -15,9 +19,33 @@ class ForgotPasswordController extends Controller
 
   public function sendResetLinkEmail(Request $request)
   {
-    if (auth('api')->user()) {
-      return response(null, 403);
+    $user = auth('api')->user();
+    if ($user) {
+      $cookie = null;
+      try {
+        $payload = auth('api')->payload();
+        $token = isset($payload['r']) && ($payload['r'] === true) ?
+          auth('api')->setTTL(525960)->refresh(true) :
+          auth('api')->refresh(true);
+        $cookie = $token ?
+          cookie('token', $token, $payload['r'] ? 525960 : config('jwt.ttl'), null, null, false, true) :
+          Cookie::forget('token');
+      } catch (Exception $e) {
+        $token = auth('api')->login($user);
+        $cookie = cookie('token', $token, config('jwt.ttl'), null, null, false, true);
+      } finally {
+        return (new UserResource($user))
+          ->response()
+          ->withCookie($cookie);
+      }
     }
+
+    if (Validator::make($request->all(), [
+      'email' => 'required|email'
+    ])->fails()) {
+      return $this->sendResetLinkFailedResponse($request, Password::INVALID_USER);
+    }
+
     $TIME_FRAME = 15;
     $table = config('auth.passwords.users.table');
     $email = $request->only('email');
@@ -27,7 +55,12 @@ class ForgotPasswordController extends Controller
       if ($timeDiffMinutes < $TIME_FRAME) {
         $minutes = $TIME_FRAME - $timeDiffMinutes;
         return response()->json([
-          'status' => trans_choice('passwords.alreadySent', $minutes, ['min' => $minutes])
+          'errors' => [
+            [
+              'status' => '409',
+              'detail' => trans_choice('passwords.alreadySent', $minutes, ['min' => $minutes])
+            ]
+          ]
         ], 409);
       }
     }
@@ -49,14 +82,23 @@ class ForgotPasswordController extends Controller
   private function sendResetLinkResponse(Request $request, $response)
   {
     return response()->json([
-      'status' => trans($response)
+      'meta' => [
+        'messages' => [
+          trans($response)
+        ]
+      ]
     ]);
   }
 
   private function sendResetLinkFailedResponse(Request $request, $response)
   {
     return response()->json([
-      'status' => trans($response)
+      'errors' => [
+        [
+          'status' => '400',
+          'detail' => trans($response)
+        ]
+      ]
     ], 400);
   }
 }

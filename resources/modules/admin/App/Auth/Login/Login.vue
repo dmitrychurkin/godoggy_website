@@ -84,84 +84,73 @@
         router-link(
           :to='resetPwdRoute'
           event=''
-          @click.native.stop='onNavigateTo($event, resetPwdRoute)'
+          @click.native.prevent='onNavigateTo(resetPwdRoute)'
         ) Forgot password?
 </template>
 <script lang="ts">
-import { Component, Vue, Mixins } from "vue-property-decorator";
-import { Getter, namespace } from "vuex-class";
-import axios, { AxiosResponse } from "axios";
-import { mdiAccount, mdiEye, mdiEyeOff } from "@mdi/js";
-import { RESET_PWD_EMAIL, DASHBOARD_ROUTE } from "admin/constants";
-import { formFieldValidator } from "admin/lib/form-helpers";
-import { LOGIN_USER } from "admin/store/modules/auth/action-types";
-import { UPDATE_EMAIL } from "admin/store/modules/auth/mutation-types";
-import {
-  NotificationLevel,
-  setNotification
-} from "admin/App/common/AppNotificator";
-import AuthMixin from "../mixins/auth.mixin";
-import { ILoginForm } from "./types";
+  import { Component, Mixins } from "vue-property-decorator";
+  import { namespace } from "vuex-class";
+  import { mdiAccount, mdiEye, mdiEyeOff } from "@mdi/js";
+  import { RESET_PWD_EMAIL, DASHBOARD_ROUTE } from "admin/constants";
+  import { formFieldValidator } from "admin/lib/form-helpers";
+  import { LOGIN_USER } from "admin/store/modules/auth/action-types";
+  import { UPDATE_EMAIL } from "admin/store/modules/auth/mutation-types";
+  import AuthMixin from "../mixins/auth.mixin";
+  import { ILoginForm } from "./types";
+  import { UserResponse } from "admin/lib/api/schema/responses/auth";
 
-const Auth = namespace("auth");
+  const Auth = namespace("auth");
 
-@Component
-export default class LoginRoute extends Mixins(AuthMixin) {
-  private readonly passwordId = "password";
-  private readonly mdiAccountIcon = mdiAccount;
-  private readonly visibilityIcon = mdiEye;
-  private readonly visibilityOffIcon = mdiEyeOff;
-  private readonly resetPwdRoute = RESET_PWD_EMAIL;
+  @Component
+  export default class LoginRoute extends Mixins(AuthMixin) {
+    readonly passwordId = "password";
+    readonly mdiAccountIcon = mdiAccount;
+    readonly visibilityIcon = mdiEye;
+    readonly visibilityOffIcon = mdiEyeOff;
+    readonly resetPwdRoute = RESET_PWD_EMAIL;
 
-  private showPassword = false;
+    showPassword = false;
 
-  private get email() {
-    return this.userEmail;
-  }
-  private set email(str: string) {
-    this.updateEmail(str);
-  }
+    get email() {
+      return this.userEmail;
+    }
+    set email(str: string) {
+      this.updateEmail(str);
+    }
 
-  private password = "";
-  private remember = false;
+    password = "";
+    remember = false;
 
-  private passwordValidators: Array<() => string | boolean> = [];
+    passwordValidators: Array<() => string | boolean> = [];
 
-  @Auth.Action(LOGIN_USER)
-  private readonly loginUser!: (args: ILoginForm) => Promise<AxiosResponse>;
-  @Auth.Getter("email")
-  private readonly userEmail!: string;
-  @Auth.Mutation(UPDATE_EMAIL)
-  private readonly updateEmail!: (email: string) => void;
-  @Getter("redirect")
-  private readonly redirectTo!: string;
+    @Auth.Action(LOGIN_USER)
+    readonly loginUser!: (args: ILoginForm) => Promise<UserResponse>;
+    @Auth.Getter("email")
+    readonly userEmail!: string;
+    @Auth.Mutation(UPDATE_EMAIL)
+    readonly updateEmail!: (email: string) => void;
+    @Auth.Getter("redirect")
+    readonly redirect!: string;
 
-  mounted() {
-    this.passwordValidators = [formFieldValidator(this.passwordId)];
-  }
+    mounted() {
+      this.passwordValidators = [formFieldValidator(this.passwordId)];
+    }
 
-  private async onLogin() {
-    if (!this.isSubmitDisabled) {
-      try {
-        await this.loginUser({
-          email: this.email,
-          password: this.password,
-          remember: this.remember
-        });
-        this.isSuccess = true;
-        this.isNavigatedAway = true;
-        this.$router.replace(this.redirectTo || DASHBOARD_ROUTE.path);
-      } catch (err) {
-        if (!axios.isCancel(err)) {
-          setNotification({
-            subject: err,
-            type: NotificationLevel.ERROR
+    async onLogin() {
+      if (!this.isSubmitDisabled) {
+        try {
+          await this.loginUser({
+            email: this.email,
+            password: this.password,
+            remember: this.remember
           });
+          this.isSuccess = this.isNavigatedAway = true;
+          this.$router.replace(this.redirect || DASHBOARD_ROUTE);
+        } catch {
+        } finally {
+          this.form.reset();
         }
-      } finally {
-        this.form.reset();
       }
     }
   }
-}
 </script>

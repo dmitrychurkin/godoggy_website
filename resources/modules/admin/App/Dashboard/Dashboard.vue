@@ -103,62 +103,60 @@
     router-view
 </template>
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import { namespace } from "vuex-class";
-import {
-  mdiChevronLeft,
-  mdiHomeCity,
-  mdiSettings,
-  mdiAccountGroupOutline,
-  mdiLogout,
-  mdiDotsVertical
-} from "@mdi/js";
-import { LOGOUT_USER } from "admin/store/modules/auth/action-types";
-import { AxiosResponse } from "axios";
-import { retryDefaultConfig } from "admin/lib/api";
-import { DASHBOARD_ROUTE, CUSTOMIZE_ROUTES } from "admin/constants";
+  import { Component, Vue } from "vue-property-decorator";
+  import { namespace } from "vuex-class";
+  import {
+    mdiChevronLeft,
+    mdiHomeCity,
+    mdiSettings,
+    mdiAccountGroupOutline,
+    mdiLogout,
+    mdiDotsVertical
+  } from "@mdi/js";
+  import { LOGOUT_USER } from "admin/store/modules/auth/action-types";
+  import { DASHBOARD_ROUTE, CUSTOMIZE_ROUTES } from "admin/constants";
 
-const Auth = namespace("auth");
+  const Auth = namespace("auth");
 
-@Component
-export default class Dashboard extends Vue {
-  private readonly mdiChevronLeftIcon = mdiChevronLeft;
-  private readonly mdiDotsVerticalIcon = mdiDotsVertical;
+  @Component
+  export default class Dashboard extends Vue {
+    readonly mdiChevronLeftIcon = mdiChevronLeft;
+    readonly mdiDotsVerticalIcon = mdiDotsVertical;
 
-  @Auth.Action(LOGOUT_USER)
-  private readonly logout!: () => Promise<AxiosResponse>;
-  private readonly drawerMenu = [
-    {
-      title: "Home",
-      icon: mdiHomeCity,
-      to: DASHBOARD_ROUTE
-    },
-    {
-      title: "Customize",
-      icon: mdiSettings,
-      // isActive: false,
-      group: CUSTOMIZE_ROUTES.self.path,
-      sub: [
-        {
-          title: "General Settings",
-          to: CUSTOMIZE_ROUTES.child.GENERAL
-        },
-        {
-          title: "Accommodation",
-          to: CUSTOMIZE_ROUTES.child.ACCOMMODATION
-        },
-        { title: "Personalize" },
-        { title: "Site Settings" }
-      ]
-    },
-    { title: "Users", icon: mdiAccountGroupOutline }
-  ];
-  private readonly dropDownMenu = [
-    { title: "Logout", icon: mdiLogout, action: () => this.logout() }
-  ];
-  private isMini = false;
+    @Auth.Action(LOGOUT_USER)
+    readonly logout!: () => Promise<undefined>;
+    readonly drawerMenu = [
+      {
+        title: "Home",
+        icon: mdiHomeCity,
+        to: DASHBOARD_ROUTE
+      },
+      {
+        title: "Customize",
+        icon: mdiSettings,
+        // isActive: false,
+        group: CUSTOMIZE_ROUTES.self.path,
+        sub: [
+          {
+            title: "General Settings",
+            to: CUSTOMIZE_ROUTES.child.GENERAL
+          },
+          {
+            title: "Accommodation",
+            to: CUSTOMIZE_ROUTES.child.ACCOMMODATION
+          },
+          { title: "Personalize" },
+          { title: "Site Settings" }
+        ]
+      },
+      { title: "Users", icon: mdiAccountGroupOutline }
+    ];
+    readonly dropDownMenu = [
+      { title: "Logout", icon: mdiLogout, action: () => this.logout() }
+    ];
+    isMini = false;
 
-  /* private beforeRouteEnter(to: any, from: any, next: any) {
+    /* private beforeRouteEnter(to: any, from: any, next: any) {
     console.log("BEFORE ROUTE DASHBOARD ENTER => ", to, from, next);
     next((vm: Vue) => console.log("vm => ", vm.$store));
   }
@@ -179,5 +177,5 @@ export default class Dashboard extends Vue {
       console.log(err);
     }
   } */
-}
+  }
 </script>
