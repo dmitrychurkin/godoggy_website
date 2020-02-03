@@ -3,14 +3,15 @@
 namespace App\Http\Middleware;
 
 use Tymon\JWTAuth\Http\Middleware\BaseMiddleware;
-use Tymon\JWTAuth\Exceptions\TokenExpiredException;
+// use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Closure;
-use Exception;
 use Illuminate\Support\Facades\Cookie;
+use App\Traits\RefreshCookie;
 
 class AuthenticateJWT extends BaseMiddleware
 {
+  use RefreshCookie;
   /**
    * Handle an incoming request.
    *
@@ -23,17 +24,9 @@ class AuthenticateJWT extends BaseMiddleware
     $cookie = null;
     try {
       $this->authenticate($request);
-      $payload = auth('api')->payload();
-      $token = isset($payload['r']) && ($payload['r'] === true) ?
-        auth('api')->setTTL(525960)->refresh(true) :
-        auth('api')->refresh(true);
-      $cookie = $token ?
-        cookie('token', $token, $payload['r'] ? 525960 : config('jwt.ttl'), null, null, false, true) :
-        Cookie::forget('token');
+      $cookie = $this->getRefreshedCookie();
     } catch (UnauthorizedHttpException $e) {
-      $cookie = Cookie::forget('token');
-    } finally {
-      return response(null, 401)->withCookie($cookie);
+      return response(null, 401)->withCookie(Cookie::forget('token'));
     }
 
     Cookie::queue($cookie);

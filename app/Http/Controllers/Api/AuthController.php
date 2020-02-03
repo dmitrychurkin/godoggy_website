@@ -30,7 +30,7 @@ class AuthController extends Controller
   {
     $validator = Validator::make($request->all(), [
       'email' => 'bail|required|email',
-      'password' => 'required|between:8,255'
+      'password' => 'bail|required|between:8,255'
     ]);
     $errors = [
       'errors' => [

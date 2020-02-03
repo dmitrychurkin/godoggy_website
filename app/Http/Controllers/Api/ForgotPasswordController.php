@@ -3,19 +3,19 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Traits\RefreshCookie;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Password;
-use Illuminate\Support\Facades\Cookie;
 use App\Http\Resources\User as UserResource;
 use Illuminate\Support\Facades\Validator;
 use Exception;
 
 class ForgotPasswordController extends Controller
 {
-  use SendsPasswordResetEmails;
+  use SendsPasswordResetEmails, RefreshCookie;
 
   public function sendResetLinkEmail(Request $request)
   {
@@ -23,13 +23,7 @@ class ForgotPasswordController extends Controller
     if ($user) {
       $cookie = null;
       try {
-        $payload = auth('api')->payload();
-        $token = isset($payload['r']) && ($payload['r'] === true) ?
-          auth('api')->setTTL(525960)->refresh(true) :
-          auth('api')->refresh(true);
-        $cookie = $token ?
-          cookie('token', $token, $payload['r'] ? 525960 : config('jwt.ttl'), null, null, false, true) :
-          Cookie::forget('token');
+        $cookie = $this->getRefreshedCookie();
       } catch (Exception $e) {
         $token = auth('api')->login($user);
         $cookie = cookie('token', $token, config('jwt.ttl'), null, null, false, true);
@@ -65,7 +59,7 @@ class ForgotPasswordController extends Controller
       }
     }
 
-    $this->validateEmail($request);
+    // $this->validateEmail($request);
 
     // We will send the password reset link to this user. Once we have attempted
     // to send the link, we will examine the response then see the message we

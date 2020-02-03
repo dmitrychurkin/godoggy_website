@@ -10,14 +10,15 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Cookie;
 use App\Http\Resources\User as UserResource;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use App\Traits\RefreshCookie;
 
 class ResetPasswordController extends Controller
 {
 
-  use ResetsPasswords;
+  use ResetsPasswords, RefreshCookie;
 
   public function reset(Request $request)
   {
@@ -30,13 +31,7 @@ class ResetPasswordController extends Controller
     if ($user) {
       $cookie = null;
       try {
-        $payload = auth('api')->payload();
-        $token = isset($payload['r']) && ($payload['r'] === true) ?
-          auth('api')->setTTL(525960)->refresh(true) :
-          auth('api')->refresh(true);
-        $cookie = $token ?
-          cookie('token', $token, $payload['r'] ? 525960 : config('jwt.ttl'), null, null, false, true) :
-          Cookie::forget('token');
+        $cookie = $this->getRefreshedCookie();
       } catch (Exception $e) {
         $token = auth('api')->login($user);
         $cookie = cookie('token', $token, config('jwt.ttl'), null, null, false, true);
@@ -49,18 +44,46 @@ class ResetPasswordController extends Controller
           ->withCookie($cookie);
       }
     }
-    // TODO: according to updated spec this should be redo
-    $request->validate($this->rules(), $this->validationErrorMessages());
+
+    $validator = Validator::make($request->all(), [
+      'token' => 'bail|required',
+      'email' => 'bail|required|email',
+      'password' => 'bail|required|confirmed|min:8',
+    ]);
+    if ($validator->fails()) {
+      return response()
+        ->json([
+          'errors' => [
+            // TODO: need to test a shape of returned object
+            /*
+            {
+              "errors": [
+                [
+                  "The token field is required.",
+                  "The email field is required.",
+                  "The password field is required."
+                ]
+              ]
+            }
+            */
+            $validator->errors()->all()
+          ]
+        ], 422);
+    }
+
+    // $request->validate($this->rules(), $this->validationErrorMessages());
 
     $token = null;
+    $authenticatedUser = null;
     // Here we will attempt to reset the user's password. If it is successful we
     // will update the password on an actual user model and persist it to the
     // database. Otherwise we will parse the error and return the response.
     $response = $this->broker()->reset(
       $this->credentials($request),
-      function ($user, $password) use (&$token) {
+      function ($user, $password) use (&$token, &$authenticatedUser) {
         $this->resetPassword($user, $password);
         $token = auth('api')->login($user);
+        $authenticatedUser = $user;
       }
     );
 
@@ -68,13 +91,13 @@ class ResetPasswordController extends Controller
     // the application's home authenticated view. If there is an error we can
     // redirect them back to where they came from with their error message.
     return $response == Password::PASSWORD_RESET
-      ? $this->sendResetResponse($request, $response, $token)
+      ? $this->sendResetResponse($request, $response, $token, $authenticatedUser)
       : $this->sendResetFailedResponse($request, $response);
   }
 
-  private function sendResetResponse(Request $request, $response, $token)
+  private function sendResetResponse(Request $request, $response, $token, $authenticatedUser)
   {
-    return response()
+    /* return response()
       ->json([
         'status' => trans($response)
       ])
@@ -83,13 +106,28 @@ class ResetPasswordController extends Controller
         'Cache-Control' => 'no-cache, no-store, must-revalidate',
         'Pragma' => 'no-cache',
         'Expires' => '0'
-      ] : []);
+      ] : []);*/
+    return (new UserResource($authenticatedUser))
+      ->additional([
+        'meta' => [
+          'messages' => [
+            trans($response)
+          ]
+        ]
+      ])
+      ->response()
+      ->cookie('token', $token, config('jwt.ttl'), null, null, false, true);
   }
 
   private function sendResetFailedResponse(Request $request, $response)
   {
     return response()->json([
-      'status' => trans($response)
+      'errors' => [
+        [
+          'status' => '400',
+          'detail' => trans($response)
+        ]
+      ]
     ], 400);
   }
 
