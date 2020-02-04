@@ -47,7 +47,7 @@
             :disabled='isFormElementDisabled'
           )
           v-text-field(
-            v-model.trim='password'
+            v-model='password'
             :id='passwordId'
             :rules='passwordValidators'
             :type="showPassword ? 'text' : 'password'"
@@ -88,69 +88,73 @@
         ) Forgot password?
 </template>
 <script lang="ts">
-  import { Component, Mixins } from "vue-property-decorator";
-  import { namespace } from "vuex-class";
-  import { mdiAccount, mdiEye, mdiEyeOff } from "@mdi/js";
-  import { RESET_PWD_EMAIL, DASHBOARD_ROUTE } from "admin/constants";
-  import { formFieldValidator } from "admin/lib/form-helpers";
-  import { LOGIN_USER } from "admin/store/modules/auth/action-types";
-  import { UPDATE_EMAIL } from "admin/store/modules/auth/mutation-types";
-  import AuthMixin from "../mixins/auth.mixin";
-  import { ILoginForm } from "./types";
-  import { UserResponse } from "admin/lib/api/schema/responses/auth";
+import { Component, Mixins } from "vue-property-decorator";
+import { namespace } from "vuex-class";
+import { mdiAccount, mdiEye, mdiEyeOff } from "@mdi/js";
+import { RESET_PWD_EMAIL, DASHBOARD_ROUTE } from "admin/constants";
+import { formFieldValidator } from "admin/lib/form-helpers";
+import { LOGIN_USER } from "admin/store/modules/auth/action-types";
+import { UPDATE_EMAIL } from "admin/store/modules/auth/mutation-types";
+import AuthMixin from "../mixins/auth.mixin";
+import { ILoginForm } from "./types";
+import { UserResponse } from "admin/lib/api/schema/responses/auth";
 
-  const Auth = namespace("auth");
+const Auth = namespace("auth");
 
-  @Component
-  export default class LoginRoute extends Mixins(AuthMixin) {
-    readonly passwordId = "password";
-    readonly mdiAccountIcon = mdiAccount;
-    readonly visibilityIcon = mdiEye;
-    readonly visibilityOffIcon = mdiEyeOff;
-    readonly resetPwdRoute = RESET_PWD_EMAIL;
+@Component
+export default class LoginRoute extends Mixins(AuthMixin) {
+  readonly passwordId = "password";
+  readonly mdiAccountIcon = mdiAccount;
+  readonly visibilityIcon = mdiEye;
+  readonly visibilityOffIcon = mdiEyeOff;
+  readonly resetPwdRoute = RESET_PWD_EMAIL;
 
-    showPassword = false;
+  showPassword = false;
 
-    get email() {
-      return this.userEmail;
+  get email() {
+    return this.userEmail;
+  }
+  set email(str: string) {
+    this.updateEmail(str);
+  }
+
+  password = "";
+  remember = false;
+
+  passwordValidators: Array<() => string | boolean> = [];
+
+  @Auth.Action(LOGIN_USER)
+  readonly loginUser!: (args: ILoginForm) => Promise<UserResponse>;
+  @Auth.Getter("email")
+  readonly userEmail!: string;
+  @Auth.Mutation(UPDATE_EMAIL)
+  readonly updateEmail!: (email: string) => void;
+  @Auth.Getter("redirect")
+  readonly redirect!: string;
+
+  mounted() {
+    this.passwordValidators = [formFieldValidator(this.passwordId)];
+    const email = document.getElementById(this.emailId);
+    if (email) {
+      email.focus();
     }
-    set email(str: string) {
-      this.updateEmail(str);
-    }
+  }
 
-    password = "";
-    remember = false;
-
-    passwordValidators: Array<() => string | boolean> = [];
-
-    @Auth.Action(LOGIN_USER)
-    readonly loginUser!: (args: ILoginForm) => Promise<UserResponse>;
-    @Auth.Getter("email")
-    readonly userEmail!: string;
-    @Auth.Mutation(UPDATE_EMAIL)
-    readonly updateEmail!: (email: string) => void;
-    @Auth.Getter("redirect")
-    readonly redirect!: string;
-
-    mounted() {
-      this.passwordValidators = [formFieldValidator(this.passwordId)];
-    }
-
-    async onLogin() {
-      if (!this.isSubmitDisabled) {
-        try {
-          await this.loginUser({
-            email: this.email,
-            password: this.password,
-            remember: this.remember
-          });
-          this.isSuccess = this.isNavigatedAway = true;
-          this.$router.replace(this.redirect || DASHBOARD_ROUTE);
-        } catch {
-        } finally {
-          this.form.reset();
-        }
+  async onLogin() {
+    if (!this.isSubmitDisabled) {
+      try {
+        await this.loginUser({
+          email: this.email,
+          password: this.password,
+          remember: this.remember
+        });
+        this.isSuccess = this.isNavigatedAway = true;
+        this.$router.replace(this.redirect || DASHBOARD_ROUTE);
+      } catch {
+      } finally {
+        this.form.reset();
       }
     }
   }
+}
 </script>

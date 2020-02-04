@@ -17,6 +17,9 @@ class ForgotPasswordController extends Controller
 {
   use SendsPasswordResetEmails, RefreshCookie;
 
+  // throttle resend email for 15min
+  const TIME_FRAME = 15;
+
   public function sendResetLinkEmail(Request $request)
   {
     $user = auth('api')->user();
@@ -40,14 +43,13 @@ class ForgotPasswordController extends Controller
       return $this->sendResetLinkFailedResponse($request, Password::INVALID_USER);
     }
 
-    $TIME_FRAME = 15;
     $table = config('auth.passwords.users.table');
     $email = $request->only('email');
     $record = (array) DB::table($table)->where('email', $email)->select('created_at')->first();
     if ($record) {
       $timeDiffMinutes = Carbon::parse($record['created_at'])->diffInMinutes(Carbon::now());
-      if ($timeDiffMinutes < $TIME_FRAME) {
-        $minutes = $TIME_FRAME - $timeDiffMinutes;
+      if ($timeDiffMinutes < self::TIME_FRAME) {
+        $minutes = self::TIME_FRAME - $timeDiffMinutes;
         return response()->json([
           'errors' => [
             [

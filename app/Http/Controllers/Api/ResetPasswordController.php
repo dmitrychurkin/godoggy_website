@@ -53,21 +53,12 @@ class ResetPasswordController extends Controller
     if ($validator->fails()) {
       return response()
         ->json([
-          'errors' => [
-            // TODO: need to test a shape of returned object
-            /*
-            {
-              "errors": [
-                [
-                  "The token field is required.",
-                  "The email field is required.",
-                  "The password field is required."
-                ]
-              ]
-            }
-            */
-            $validator->errors()->all()
-          ]
+          'errors' => array_map(function ($error) {
+            return [
+              'status' => '422',
+              'detail' => $error
+            ];
+          }, $validator->errors()->all())
         ], 422);
     }
 

@@ -85,7 +85,8 @@ export default {
     const res = await api<ResetPasswordResponse>({
       url: RESET_PWD_ROUTE.path,
       method: "POST",
-      data: passwordResetFormData
+      data: passwordResetFormData,
+      $notificationConfig: { type: NotificationLevel.SUCCESS }
     });
     commit(SET_SESSION, res?.data.data);
   },

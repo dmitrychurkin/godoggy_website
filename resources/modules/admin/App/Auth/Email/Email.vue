@@ -66,54 +66,61 @@
         ) Back to login
 </template>
 <script lang="ts">
-  import { Component, Mixins } from "vue-property-decorator";
-  import { mdiEmailNewsletter } from "@mdi/js";
-  import { namespace } from "vuex-class";
-  import { LOGIN_ROUTE } from "admin/constants";
-  import { UPDATE_EMAIL } from "admin/store/modules/auth/mutation-types";
-  import { EMAIL_PWD_RESET } from "admin/store/modules/auth/action-types";
-  // import {
-  //   NotificationLevel,
-  //   setNotification
-  // } from "admin/App/common/AppNotificator";
-  import AuthMixin from "../mixins/auth.mixin";
-  import { IPasswordResetEmailForm } from "./types";
-  import { EmailPasswordResponse } from "admin/lib/api/schema/responses/auth";
+import { Component, Mixins } from "vue-property-decorator";
+import { mdiEmailNewsletter } from "@mdi/js";
+import { namespace } from "vuex-class";
+import { LOGIN_ROUTE } from "admin/constants";
+import { UPDATE_EMAIL } from "admin/store/modules/auth/mutation-types";
+import { EMAIL_PWD_RESET } from "admin/store/modules/auth/action-types";
+// import {
+//   NotificationLevel,
+//   setNotification
+// } from "admin/App/common/AppNotificator";
+import AuthMixin from "../mixins/auth.mixin";
+import { IPasswordResetEmailForm } from "./types";
+import { EmailPasswordResponse } from "admin/lib/api/schema/responses/auth";
 
-  const Auth = namespace("auth");
+const Auth = namespace("auth");
 
-  @Component
-  export default class PasswordEmailRoute extends Mixins(AuthMixin) {
-    readonly mdiEmailNewsletterIcon = mdiEmailNewsletter;
-    readonly loginRoute = LOGIN_ROUTE;
+@Component
+export default class PasswordEmailRoute extends Mixins(AuthMixin) {
+  readonly mdiEmailNewsletterIcon = mdiEmailNewsletter;
+  readonly loginRoute = LOGIN_ROUTE;
 
-    get email() {
-      return this.userEmail;
+  get email() {
+    return this.userEmail;
+  }
+  set email(str: string) {
+    this.updateEmail(str);
+  }
+
+  @Auth.Action(EMAIL_PWD_RESET)
+  readonly emailPasswordReset!: (
+    args: IPasswordResetEmailForm
+  ) => Promise<EmailPasswordResponse>;
+  @Auth.Getter("email")
+  readonly userEmail!: string;
+  @Auth.Mutation(UPDATE_EMAIL)
+  readonly updateEmail!: (email: string) => void;
+
+  mounted() {
+    const email = document.getElementById(this.emailId);
+    if (email) {
+      email.focus();
     }
-    set email(str: string) {
-      this.updateEmail(str);
-    }
+  }
 
-    @Auth.Action(EMAIL_PWD_RESET)
-    readonly emailPasswordReset!: (
-      args: IPasswordResetEmailForm
-    ) => Promise<EmailPasswordResponse>;
-    @Auth.Getter("email")
-    readonly userEmail!: string;
-    @Auth.Mutation(UPDATE_EMAIL)
-    readonly updateEmail!: (email: string) => void;
-
-    async onSendPasswordEmail() {
-      if (!this.isSubmitDisabled) {
-        try {
-          await this.emailPasswordReset({ email: this.email });
-          this.isSuccess = this.isNavigatedAway = true;
-          this.$router.replace(LOGIN_ROUTE);
-        } catch {
-        } finally {
-          this.form.reset();
-        }
+  async onSendPasswordEmail() {
+    if (!this.isSubmitDisabled) {
+      try {
+        await this.emailPasswordReset({ email: this.email });
+        this.isSuccess = this.isNavigatedAway = true;
+        this.$router.replace(LOGIN_ROUTE);
+      } catch {
+      } finally {
+        this.form.reset();
       }
     }
   }
+}
 </script>
