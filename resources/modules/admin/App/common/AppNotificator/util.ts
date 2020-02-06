@@ -34,5 +34,7 @@ export function showNotification(
     for (const text of r.data?.meta?.messages ?? []) {
       show({ text, ...notification });
     }
+  } else {
+    show(notification);
   }
 }

@@ -1,6 +1,7 @@
 import { IPasswordResetEmailForm } from "admin/App/Auth/Email";
 import { ILoginForm } from "admin/App/Auth/Login";
 import { IPasswordResetForm } from "admin/App/Auth/Reset";
+import { showNotification } from "admin/App/common/AppNotificator";
 import {
   $LOGOUT_LOUTE,
   $VALIDATE_AUTH_ROUTE,
@@ -65,7 +66,9 @@ export default {
       data: loginFormData,
       $showNotification: true
     });
-    commit(SET_SESSION, res?.data.data);
+    if (res != null) {
+      commit(SET_SESSION, res.data.data);
+    }
   },
   [EMAIL_PWD_RESET]: (
     ...args: [ActionContext<App, App>, IPasswordResetEmailForm]
@@ -88,19 +91,22 @@ export default {
       data: passwordResetFormData,
       $notificationConfig: { type: NotificationLevel.SUCCESS }
     });
-    commit(SET_SESSION, res?.data.data);
+    if (res != null) {
+      commit(SET_SESSION, res.data.data);
+    }
   },
-  [LOGOUT_USER]: async ({ commit }: ActionContext<App, App>) => {
+  [LOGOUT_USER]: async (
+    { commit }: ActionContext<App, App>,
+    text = "Something went wrong, check your connection and try again"
+  ) => {
     try {
-      const res = await api<LogoutResponse>({
+      await api<LogoutResponse>({
         url: $LOGOUT_LOUTE,
         method: "HEAD"
       });
-      if (res != null) {
-        commit(UNSET_SESSION);
-      }
-    } catch {
       commit(UNSET_SESSION);
+    } catch {
+      showNotification({ text });
     }
   }
 };
