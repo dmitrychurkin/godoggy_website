@@ -100,7 +100,7 @@
                                       span(
                                         v-else
                                         key='1'
-                                      ) {{accommodationModel.category.value}}
+                                      ) {{category[locale].value}}
                             v-expansion-panel-content(
                               eager
                             )
@@ -110,10 +110,10 @@
                                 )
                                   v-text-field(
                                     id='category'
-                                    v-model.trim='accommodationModel.category.value'
-                                    :rules='accommodationModel.category.rules'
-                                    :maxlength='CATEGORY_MAX_LENGTH'
-                                    :counter='CATEGORY_MAX_LENGTH'
+                                    v-model.trim='category[locale].value'
+                                    :rules='category.rules'
+                                    :maxlength='category.schema.maxlength'
+                                    :counter='category.schema.maxlength'
                                     required
                                     placeholder='Superior Ocean View'
                                   )
@@ -152,7 +152,7 @@
                                       span(
                                         v-else
                                         key='1'
-                                      ) {{accommodationModel.description.value}}
+                                      ) {{description[locale].value}}
                             v-expansion-panel-content(
                               eager
                             )
@@ -161,11 +161,14 @@
                                   cols='12'
                                 )
                                   v-textarea(
-                                    v-model='accommodationModel.description.value'
-                                    :counter='DESCRIPTION_MAX_LENGTH'
+                                    id='description'
+                                    v-model.trim='description[locale].value'
+                                    :counter='description.schema.maxlength'
                                     auto-grow
                                     label='Description'
                                     rows='5'
+                                    :maxlength='description.schema.maxlength'
+                                    :rules='description.rules'
                                   )
                               v-row
                                 v-col(
@@ -202,7 +205,7 @@
                                       span(
                                         v-else
                                         key='1'
-                                      ) {{accommodationModel.count.value}}
+                                      ) {{count.value}}
                             v-expansion-panel-content(
                               eager
                             )
@@ -212,12 +215,12 @@
                                 )
                                   v-text-field(
                                     id='count'
-                                    v-model.number='accommodationModel.count.value'
-                                    :rules='accommodationModel.count.rules'
-                                    :max='MAX_COUNT'
+                                    v-model.number='count.value'
+                                    :rules='count.rules'
+                                    :max='count.schema.max'
+                                    :min='count.schema.min'
                                     label='Room count'
                                     type='number'
-                                    min='1'
                                     required
                                   )
                               v-row
@@ -255,7 +258,7 @@
                                       span(
                                         v-else
                                         key='1'
-                                      ) {{`${accommodationModel.size.value} ${unitSystem.text}`}}
+                                      ) {{`${size.value} ${unitSystem.items[unitSystem.value].text}`}}
                             v-expansion-panel-content(
                               eager
                             )
@@ -264,19 +267,19 @@
                                   cols='1'
                                 )
                                   v-text-field(
-                                    v-model.number='accommodationModel.size.value'
-                                    :max='MAX_COUNT'
+                                    v-model.number='size.value'
+                                    :max='size.schema.max'
+                                    :min='size.schema.min'
                                     label='Size'
                                     type='number'
-                                    min='1'
                                     required
                                   )
                                 v-col(
                                   cols='2'
                                 )
                                   v-select(
-                                    v-model='accommodationModel.size.unitSystem'
-                                    :items='unitSystemItems'
+                                    v-model='unitSystem.value'
+                                    :items='unitSystem.items'
                                     :prepend-icon='mdiRulerSquareCompassIcon'
                                     menu-props='auto'
                                     chips
@@ -316,7 +319,7 @@
                                       span(
                                         v-else
                                         key='1'
-                                      ) {{supportedBedTypes}}
+                                      ) {{bed[locale].value.join(' / ')}}
                             v-expansion-panel-content(
                               eager
                             )
@@ -326,9 +329,9 @@
                                 )
                                   v-combobox(
                                     id='bed'
-                                    v-model='accommodationModel.bed.value'
-                                    :items='[...bedTypeItems, ...accommodationModel.bed.value]'
-                                    :rules='accommodationModel.bed.rules'
+                                    v-model='bed[locale].value'
+                                    :items='[...bedTypeItems, ...bedTypeItems]'
+                                    :rules='bed.rules'
                                     label='Select possible bed types'
                                     multiple
                                     chips
@@ -379,7 +382,7 @@
                                       span(
                                         v-if='!open'
                                         key='0'
-                                      ) {{booleanMappings[Number(accommodationModel.extraBed.value)]}}
+                                      ) {{booleanItems[extraBed.value]}}
                             v-expansion-panel-content(
                               eager
                             )
@@ -388,8 +391,8 @@
                                   cols='1'
                                 )
                                   v-switch(
-                                    v-model='accommodationModel.extraBed.value'
-                                    :label='booleanMappings[Number(accommodationModel.extraBed.value)]'
+                                    v-model='extraBed.value'
+                                    :label='booleanItems[extraBed.value]'
                                     inset
                                   )
                               v-row
@@ -427,7 +430,7 @@
                                       span(
                                         v-else
                                         key='1'
-                                      ) {{maxOccupancy}}
+                                      ) {{occupancy.items[occupancy.value-1] || occupancy.value}}
                             v-expansion-panel-content(
                               eager
                             )
@@ -436,10 +439,10 @@
                                   cols='12'
                                 )
                                   v-slider.mt-7(
-                                    v-model='accommodationModel.occupancy.value'
-                                    :tick-labels='occupancyTypeItems'
-                                    min='1'
-                                    max='10'
+                                    v-model='occupancy.value'
+                                    :tick-labels='occupancy.items'
+                                    :min='occupancy.schema.min'
+                                    :max='occupancy.schema.max'
                                     step='1'
                                     ticks='always'
                                     tick-size='4'
@@ -480,7 +483,7 @@
                                       span(
                                         v-else
                                         key='1'
-                                      ) {{supportedMealPlans}}
+                                      ) {{meals[locale].value.join(' / ')}}
                             v-expansion-panel-content(
                               eager
                             )
@@ -490,9 +493,9 @@
                                 )
                                   v-combobox(
                                     id='meals'
-                                    v-model='accommodationModel.meals.value'
-                                    :items='[...mealTypeItems, ...accommodationModel.meals.value]'
-                                    :rules='accommodationModel.meals.rules'
+                                    v-model='meals[locale].value'
+                                    :items='[...mealTypeItems, ...meals[locale].value]'
+                                    :rules='meals.rules'
                                     label='Specify meal plans'
                                     multiple
                                     chips
@@ -549,7 +552,7 @@
                                       span(
                                         v-else
                                         key='1'
-                                      ) {{roomTypeMappings[Number(accommodationModel.roomType.value)]}}
+                                      ) {{roomType.items[roomType.value]}}
                             v-expansion-panel-content(
                               eager
                             )
@@ -558,16 +561,16 @@
                                   cols='auto'
                                 )
                                   v-radio-group(
-                                    v-model='accommodationModel.roomType.value'
+                                    v-model='roomType.value'
                                     row
                                   )
                                     v-radio(
-                                      :label='roomTypeMappings[0].toUpperCase()'
+                                      :label='roomType.items[0].toUpperCase()'
                                       :value='0'
                                       color='primary'
                                     )
                                     v-radio(
-                                      :label='roomTypeMappings[1].toUpperCase()'
+                                      :label='roomType.items[1].toUpperCase()'
                                       :value='1'
                                       color='primary'
                                     )
@@ -606,7 +609,7 @@
                                       span(
                                         v-else
                                         key='1'
-                                      ) {{roomViews}}
+                                      ) {{roomView[locale].value.join(", ")}}
                             v-expansion-panel-content(
                               eager
                             )
@@ -615,11 +618,11 @@
                                   cols='12'
                                 )
                                   v-combobox(
-                                    v-model='accommodationModel.roomView.value'
-                                    :items='accommodationModel.roomView.value'
+                                    v-model='roomView[locale].value'
                                     label='Room views'
                                     multiple
                                     chips
+                                    deletable-chips
                                   )
                               v-row
                                 v-col(
@@ -656,7 +659,7 @@
                                       span(
                                         v-else
                                         key='1'
-                                      ) {{accommodationModel.bathroom.value}}
+                                      ) {{bathroom[locale].value}}
                             v-expansion-panel-content(
                               eager
                             )
@@ -665,7 +668,7 @@
                                   cols='12'
                                 )
                                   v-combobox(
-                                    v-model='accommodationModel.bathroom.value'
+                                    v-model='bathroom[locale].value'
                                     label='Bathroom'
                                     chips
                                   )
@@ -698,7 +701,7 @@
                                       span(
                                         v-if='!open'
                                         key='0'
-                                      ) {{booleanMappings[Number(accommodationModel.wifi.value)]}}
+                                      ) {{booleanItems[wifi.value]}}
                             v-expansion-panel-content(
                               eager
                             )
@@ -707,8 +710,8 @@
                                   cols='12'
                                 )
                                   v-switch(
-                                    v-model='accommodationModel.wifi.value'
-                                    :label='booleanMappings[Number(accommodationModel.wifi.value)]'
+                                    v-model='wifi.value'
+                                    :label='booleanItems[wifi.value]'
                                     inset
                                   )
                           v-expansion-panel
@@ -727,7 +730,7 @@
                                       span(
                                         v-if='!open'
                                         key='0'
-                                      ) {{booleanMappings[Number(accommodationModel.minibar.value)]}}
+                                      ) {{booleanItems[minibar.value]}}
                             v-expansion-panel-content(
                               eager
                             )
@@ -736,8 +739,8 @@
                                   cols='12'
                                 )
                                   v-switch(
-                                    v-model='accommodationModel.minibar.value'
-                                    :label='booleanMappings[Number(accommodationModel.minibar.value)]'
+                                    v-model='minibar.value'
+                                    :label='booleanItems[minibar.value]'
                                     inset
                                   )
                           v-expansion-panel
@@ -756,7 +759,7 @@
                                       span(
                                         v-if='!open'
                                         key='0'
-                                      ) {{booleanMappings[Number(accommodationModel.safe.value)]}}
+                                      ) {{booleanItems[safe.value]}}
                             v-expansion-panel-content(
                               eager
                             )
@@ -765,8 +768,8 @@
                                   cols='12'
                                 )
                                   v-switch(
-                                    v-model='accommodationModel.safe.value'
-                                    :label='booleanMappings[Number(accommodationModel.safe.value)]'
+                                    v-model='safe.value'
+                                    :label='booleanItems[safe.value]'
                                     inset
                                   )
                           v-expansion-panel
@@ -785,7 +788,7 @@
                                       span(
                                         v-if='!open'
                                         key='0'
-                                      ) {{booleanMappings[Number(accommodationModel.phone.value)]}}
+                                      ) {{booleanItems[phone.value]}}
                             v-expansion-panel-content(
                               eager
                             )
@@ -794,8 +797,8 @@
                                   cols='12'
                                 )
                                   v-switch(
-                                    v-model='accommodationModel.phone.value'
-                                    :label='booleanMappings[Number(accommodationModel.phone.value)]'
+                                    v-model='phone.value'
+                                    :label='booleanItems[phone.value]'
                                     inset
                                   )
                           v-expansion-panel
@@ -814,7 +817,7 @@
                                       span(
                                         v-if='!open'
                                         key='0'
-                                      ) {{booleanMappings[Number(accommodationModel.balcony.value)]}}
+                                      ) {{booleanItems[balcony.value]}}
                             v-expansion-panel-content(
                               eager
                             )
@@ -823,8 +826,8 @@
                                   cols='12'
                                 )
                                   v-switch(
-                                    v-model='accommodationModel.balcony.value'
-                                    :label='booleanMappings[Number(accommodationModel.balcony.value)]'
+                                    v-model='balcony.value'
+                                    :label='booleanItems[balcony.value]'
                                     inset
                                   )
                           v-expansion-panel
@@ -843,7 +846,7 @@
                                       span(
                                         v-if='!open'
                                         key='0'
-                                      ) {{booleanMappings[Number(accommodationModel.jacuzzi.value)]}}
+                                      ) {{booleanItems[jacuzzi.value]}}
                             v-expansion-panel-content(
                               eager
                             )
@@ -852,8 +855,8 @@
                                   cols='12'
                                 )
                                   v-switch(
-                                    v-model='accommodationModel.jacuzzi.value'
-                                    :label='booleanMappings[Number(accommodationModel.jacuzzi.value)]'
+                                    v-model='jacuzzi.value'
+                                    :label='booleanItems[jacuzzi.value]'
                                     inset
                                   )
                           v-expansion-panel
@@ -872,7 +875,7 @@
                                       span(
                                         v-if='!open'
                                         key='0'
-                                      ) {{booleanMappings[Number(accommodationModel.satellite.value)]}}
+                                      ) {{booleanItems[satellite.value]}}
                             v-expansion-panel-content(
                               eager
                             )
@@ -881,8 +884,8 @@
                                   cols='12'
                                 )
                                   v-switch(
-                                    v-model='accommodationModel.satellite.value'
-                                    :label='booleanMappings[Number(accommodationModel.satellite.value)]'
+                                    v-model='satellite.value'
+                                    :label='booleanItems[satellite.value]'
                                     inset
                                   )
                           v-expansion-panel
@@ -907,7 +910,7 @@
                                       span(
                                         v-else
                                         key='1'
-                                      ) {{view}}
+                                      ) {{view[locale].value}}
                             v-expansion-panel-content(
                               eager
                             )
@@ -916,8 +919,8 @@
                                   cols='12'
                                 )
                                   v-combobox(
-                                    v-model='view'
-                                    :items='[...viewTypeItems, accommodationModel.view.value]'
+                                    v-model='view[locale].value'
+                                    :items='[...view.items, view[locale].value]'
                                     label='Room view'
                                     chips
                                   )
@@ -954,7 +957,7 @@
                                       span(
                                         v-if='!open'
                                         key='0'
-                                      ) {{(accommodationModel.features.value.length == 0) ? 'Specify additional features if any' : `${accommodationModel.features.value.length} features were added`}}
+                                      ) {{(features[locale].value.length == 0) ? 'Specify additional features if any' : `${features[locale].value.length} features were added`}}
                             v-expansion-panel-content(
                               eager
                             )
@@ -962,12 +965,12 @@
                                 align='center'
                               )
                                 v-item-group.shrink.mr-6(
-                                  v-model='accommodationModel.features.activeFeature[selectedLocale]'
+                                  v-model='features[locale].activeFeature'
                                   mandatory
                                   tag='v-flex'
                                 )
                                   v-item(
-                                    v-for='item in accommodationModel.features.value'
+                                    v-for='item in features[locale].value'
                                     :key='item'
                                     v-slot:default='{ active, toggle }'
                                   )
@@ -980,11 +983,11 @@
                                         v-icon {{mdiRecordIcon}}
                                 v-col
                                   v-window(
-                                    v-model='accommodationModel.features.activeFeature[selectedLocale]'
+                                    v-model='features[locale].activeFeature'
                                     vertical
                                   )
                                     v-window-item(
-                                      v-for='(item, index) in accommodationModel.features.value'
+                                      v-for='(item, index) in features[locale].value'
                                       :key='item'
                                     )
                                       v-banner {{item}}
@@ -994,7 +997,7 @@
                                           v-btn(
                                             text
                                             color='primary'
-                                            @click.stop='removeFeature(accommodationModel.features, index, dismiss)'
+                                            @click.stop='removeFeature(features[locale], index, dismiss)'
                                           ) remove
                               v-row
                                 v-col.d-flex.align-center(
@@ -1002,8 +1005,8 @@
                                 )
                                   v-textarea(
                                     v-model='feature'
-                                    :counter='FEATURE_MAX_LENGTH'
-                                    :maxlength='FEATURE_MAX_LENGTH'
+                                    :counter='features.schema.maxlength'
+                                    :maxlength='features.schema.maxlength'
                                     rows='1'
                                     clearable
                                     auto-grow
@@ -1016,7 +1019,7 @@
                                   cols='auto'
                                 )
                                   v-btn(
-                                    @click.stop='addFeature(accommodationModel.features)'
+                                    @click.stop='addFeature(features[locale])'
                                     color='success'
                                   ) add
                           v-expansion-panel(
@@ -1034,30 +1037,30 @@
                               eager
                             )
                               v-tabs(
-                                v-model='amenitiesTab'
+                                v-model='amenityTab'
                                 center-active
                               )
                                 v-tab(
-                                  v-for='amenity in amenities'
-                                  :key='amenity.type'
-                                ) {{amenity.text}}
+                                  v-for='amenity in amenities.items'
+                                  :key='amenity'
+                                ) {{amenity}}
                                 v-tabs-items(
-                                  v-model='amenitiesTab'
+                                  v-model='amenityTab'
                                 )
                                   v-tab-item(
-                                    v-for='amenity in amenities'
-                                    :key='amenity.type'
+                                    v-for='(_, index) in 5'
+                                    :key='amenities.items[index]'
                                   )
                                     v-row(
                                       align='center'
                                     )
                                       v-item-group.shrink.mr-6(
-                                        v-model='accommodationModel.amenities[amenity.type].activeFeature[selectedLocale]'
+                                        v-model='amenities[index][locale].activeFeature'
                                         mandatory
                                         tag='v-flex'
                                       )
                                         v-item(
-                                          v-for='item in accommodationModel.amenities[amenity.type].value'
+                                          v-for='item in amenities[index][locale].value'
                                           :key='item'
                                           v-slot:default='{ active, toggle }'
                                         )
@@ -1070,11 +1073,11 @@
                                               v-icon {{mdiRecordIcon}}
                                       v-col
                                         v-window(
-                                          v-model='accommodationModel.amenities[amenity.type].activeFeature[selectedLocale]'
+                                          v-model='amenities[index][locale].activeFeature'
                                           vertical
                                         )
                                           v-window-item(
-                                            v-for='(item, index) in accommodationModel.amenities[amenity.type].value'
+                                            v-for='(item, itemIndex) in amenities[index][locale].value'
                                             :key='item'
                                           )
                                             v-banner {{item}}
@@ -1084,7 +1087,7 @@
                                                 v-btn(
                                                   text
                                                   color='primary'
-                                                  @click.stop='removeFeature(accommodationModel.amenities[amenity.type], index, dismiss)'
+                                                  @click.stop='removeFeature(amenities[index][locale], itemIndex, dismiss)'
                                                 ) remove
                               v-row
                                 v-col.d-flex.align-center(
@@ -1092,9 +1095,9 @@
                                 )
                                   v-textarea(
                                     v-model='feature'
-                                    :label='amenities[amenitiesTab].text'
-                                    :counter='FEATURE_MAX_LENGTH'
-                                    :maxlength='FEATURE_MAX_LENGTH'
+                                    :label='amenities.items[amenityTab]'
+                                    :counter='amenities.schema.maxlength'
+                                    :maxlength='amenities.schema.maxlength'
                                     rows='1'
                                     clearable
                                     auto-grow
@@ -1106,185 +1109,363 @@
                                   cols='auto'
                                 )
                                   v-btn(
-                                    @click.stop='addFeature(accommodationModel.amenities[amenitiesTab])'
+                                    @click.stop='addFeature(amenities[amenityTab][locale])'
                                     color='success'
                                   ) add
 
 </template>
 <script lang="ts">
-  import { Component, Vue, Ref } from "vue-property-decorator";
-  import { mdiClose, mdiRulerSquareCompass, mdiRecord } from "@mdi/js";
-  import LanguageMenu, { Locales } from "admin/App/common/LanguageMenu";
-  import getAccommodationModel, {
-    BedTypes,
-    UnitSystems,
-    OccupancyTypes,
-    MealTypes,
-    IFeatureField,
-    Amenities
-  } from "./accommodation-model";
+import { Component, Vue, Ref } from "vue-property-decorator";
+import { mdiClose, mdiRulerSquareCompass, mdiRecord } from "@mdi/js";
+import LanguageMenu, { Locales } from "admin/App/common/LanguageMenu";
+import {
+  validationSchema,
+  fieldValidation,
+  IFeature,
+  Amenities
+} from "./model-with-helpers";
+// import { formFieldValidator } from "admin/lib/form-helpers";
+/* import getAccommodationModel, {
+  BedTypes,
+  UnitSystems,
+  OccupancyTypes,
+  MealTypes,
+  IFeatureField,
+  Amenities
+} from "./accommodation-model"; */
 
-  const CATEGORY_MAX_LENGTH = 1_000;
-  const DESCRIPTION_MAX_LENGTH = 100_000;
-  const MAX_COUNT = 1_000_000;
-  const FEATURE_MAX_LENGTH = 1_000;
+// const CATEGORY_MAX_LENGTH = 1_000;
+// const DESCRIPTION_MAX_LENGTH = 100_000;
+// const MAX_COUNT = 1_000_000;
+// const FEATURE_MAX_LENGTH = 1_000;
 
-  @Component({
-    components: {
-      LanguageMenu
-    }
-  })
-  export default class Accommodation extends Vue {
-    // Probably this from server as a general template data;
-    readonly CATEGORY_MAX_LENGTH = CATEGORY_MAX_LENGTH;
-    readonly DESCRIPTION_MAX_LENGTH = DESCRIPTION_MAX_LENGTH;
-    readonly MAX_COUNT = MAX_COUNT;
-    readonly FEATURE_MAX_LENGTH = FEATURE_MAX_LENGTH;
-    readonly mdiCloseIcon = mdiClose;
-    readonly mdiRulerSquareCompassIcon = mdiRulerSquareCompass;
-    readonly mdiRecordIcon = mdiRecord;
-    // todo: take value of locale from vuex
-    readonly locale = Locales.EN;
-    // this is used for flags
-    amendedLocalesCount = 0;
-    sLocale = this.locale;
-    get selectedLocale() {
-      return this.sLocale;
-    }
-    set selectedLocale(locale: Locales) {
-      this.sLocale = locale;
-      this.amendedLocalesCount += 1;
-      console.log("selectedLocale => ", locale);
-    }
-    isLanguageMenuOpen = false;
-    dialog = true;
-    contentLoaded = true;
-    expansionModel: number | null = null;
-    @Ref()
-    readonly accommodationFormRef!: HTMLFormElement;
-    readonly accommodationModel = getAccommodationModel(this.locale);
-    readonly booleanMappings = ["No", "Yes"];
-    readonly unitSystemItems = [
-      { text: "SQ FT", value: UnitSystems.SQ_FT },
-      { text: "SQ M", value: UnitSystems.SQ_M }
-    ];
-    readonly bedTypeItems = [
-      // --> translated
-      BedTypes.KING,
-      BedTypes.TWIN,
-      BedTypes.FRENCH
-    ];
-    readonly occupancyTypeItems = ["SGL", "DBL", "TPL", "QPL"];
-    readonly mealTypeItems = [
-      // --> translated
-      MealTypes.BB,
-      MealTypes.HB,
-      MealTypes.HB_Plus,
-      MealTypes.FB,
-      MealTypes.AI
-    ];
-    readonly roomTypeMappings = ["Room", "Suite"];
-    readonly viewTypeItems = [
-      "Ocean",
-      "Sea",
-      "Mountain",
-      "Lake",
-      "City",
-      "None"
-    ];
-    readonly amenities = [
-      {
-        type: Amenities.BATH_PERSONAL_CARE,
-        text: "Bath personal care"
-      },
-      {
-        type: Amenities.OFFICE_EQUIPMENT_STATIONERY,
-        text: "Office equipment stationery"
-      },
-      {
-        type: Amenities.MEDIA_ENTERTAINMENT,
-        text: "Media entertainment"
-      },
-      {
-        type: Amenities.REFRESHMENTS,
-        text: "Refreshments"
-      },
-      {
-        type: Amenities.OTHER,
-        text: "Other"
-      }
-    ];
-    get unitSystem() {
-      return this.unitSystemItems.find(
-        ({ value }) => value === this.accommodationModel.size.unitSystem
+@Component({
+  components: {
+    LanguageMenu
+  }
+})
+export default class Accommodation extends Vue {
+  // Probably this from server as a general template data;
+  // readonly CATEGORY_MAX_LENGTH = CATEGORY_MAX_LENGTH;
+  // readonly DESCRIPTION_MAX_LENGTH = DESCRIPTION_MAX_LENGTH;
+  // readonly MAX_COUNT = MAX_COUNT;
+  // readonly FEATURE_MAX_LENGTH = FEATURE_MAX_LENGTH;
+  readonly mdiCloseIcon = mdiClose;
+  readonly mdiRulerSquareCompassIcon = mdiRulerSquareCompass;
+  readonly mdiRecordIcon = mdiRecord;
+  // todo: take value of locale from vuex
+  locale = Locales.EN;
+  // this is used for flags
+  amendedLocalesCount = 0;
+  // sLocale = this.locale;
+  get selectedLocale() {
+    // return this.sLocale;
+    return this.locale;
+  }
+  set selectedLocale(locale: Locales) {
+    // this.sLocale = locale;
+    this.locale = locale;
+    this.amendedLocalesCount += 1;
+    console.log("selectedLocale => ", locale);
+  }
+  isLanguageMenuOpen = false;
+  dialog = true;
+  contentLoaded = true;
+  expansionModel: number | null = null;
+  @Ref()
+  readonly accommodationFormRef!: HTMLFormElement;
+  readonly booleanItems = {
+    true: "Yes",
+    false: "No"
+  };
+
+  readonly category = {
+    [this.locale]: {
+      value: ""
+    },
+    expansionIndex: 0,
+    schema: validationSchema.category,
+    rules: [fieldValidation("category", validationSchema.category)]
+  };
+
+  readonly description = {
+    [this.locale]: {
+      value: ""
+    },
+    expansionIndex: 1,
+    schema: validationSchema.description,
+    rules: [fieldValidation("description", validationSchema.description)]
+  };
+
+  readonly count = {
+    value: 0,
+    expansionIndex: 2,
+    schema: validationSchema.count,
+    rules: [fieldValidation("count", validationSchema.count)]
+  };
+
+  readonly size = {
+    value: 0,
+    expansionIndex: 3,
+    schema: validationSchema.size,
+    rules: [fieldValidation("size", validationSchema.size)]
+  };
+
+  readonly unitSystem = {
+    value: 0,
+    items: [
+      { text: "SQ M", value: 0 },
+      { text: "SQ FT", value: 1 }
+    ]
+  };
+
+  readonly bedTypeItems = ["KING", "TWIN", "FRENCH"];
+  readonly bed = {
+    [this.locale]: {
+      value: [...this.bedTypeItems.slice(0, 2)]
+    },
+    expansionIndex: 4,
+    schema: validationSchema.bed,
+    rules: [fieldValidation("bed", validationSchema.bed)]
+  };
+
+  readonly extraBed = {
+    value: true,
+    expansionIndex: 5
+  };
+
+  readonly occupancy = {
+    value: 3,
+    expansionIndex: 6,
+    schema: validationSchema.occupancy,
+    items: ["SGL", "DBL", "TPL", "QPL"]
+  };
+
+  readonly mealTypeItems = ["BB", "HB", "HB+", "FB", "AI"];
+  readonly meals = {
+    [this.locale]: {
+      value: [
+        this.mealTypeItems[0],
+        this.mealTypeItems[1],
+        this.mealTypeItems[3]
+      ]
+    },
+    expansionIndex: 7,
+    schema: validationSchema.meals,
+    rules: [fieldValidation("meals", validationSchema.meals)]
+  };
+
+  readonly roomType = {
+    value: 0,
+    expansionIndex: 8,
+    items: ["Room", "Suite"]
+  };
+
+  readonly roomView = {
+    [this.locale]: {
+      value: []
+    },
+    expansionIndex: 9
+  };
+
+  readonly bathroom = {
+    [this.locale]: {
+      value: ""
+    },
+    expansionIndex: 10
+  };
+
+  readonly wifi = {
+    value: true,
+    expansionIndex: 11
+  };
+
+  readonly minibar = {
+    value: true,
+    expansionIndex: 12
+  };
+
+  readonly safe = {
+    value: true,
+    expansionIndex: 13
+  };
+
+  readonly phone = {
+    value: true,
+    expansionIndex: 14
+  };
+
+  readonly balcony = {
+    value: false,
+    expansionIndex: 15
+  };
+
+  readonly jacuzzi = {
+    value: false,
+    expansionIndex: 16
+  };
+
+  readonly satellite = {
+    value: true,
+    expansionIndex: 17
+  };
+
+  readonly view = {
+    [this.locale]: {
+      value: ""
+    },
+    expansionIndex: 18,
+    items: ["Ocean", "Sea", "Mountain", "Lake", "City", "None"]
+  };
+
+  readonly features = {
+    [this.locale]: {
+      value: [],
+      activeFeature: 0
+    },
+    expansionIndex: 19,
+    schema: validationSchema.feature
+  };
+
+  feature = "";
+  addFeature(f: IFeature) {
+    if (this.feature && !f.value.includes(this.feature)) {
+      const length = f.value.push(
+        this.feature.trim().slice(0, this.features.schema.maxlength)
       );
-    }
-    get supportedBedTypes() {
-      return this.accommodationModel.bed.value.join(" / ");
-    }
-    get maxOccupancy() {
-      const { value } = this.accommodationModel.occupancy;
-      if (value <= OccupancyTypes.QPL) {
-        return this.occupancyTypeItems[value - 1];
-      }
-      return value;
-    }
-    get supportedMealPlans() {
-      return this.accommodationModel.meals.value.join(" / ");
-    }
-    get roomViews() {
-      return this.accommodationModel.roomView.value.join(", ");
-    }
-
-    get view() {
-      return (
-        this.accommodationModel.view.value || this.viewTypeItems.slice(-1)[0]
-      );
-    }
-    set view(value: string) {
-      this.accommodationModel.view.value = value;
-    }
-    feature = "";
-    addFeature(feature: IFeatureField) {
-      if (this.feature && !feature.value.includes(this.feature)) {
-        const length = feature.value.push(
-          this.feature.trim().slice(0, this.FEATURE_MAX_LENGTH)
-        );
-        this.feature = "";
-        this.$nextTick(() => {
-          feature.activeFeature[this.selectedLocale] = length - 1;
-        });
-      }
-    }
-    removeFeature(feature: IFeatureField, index: number, dismiss: Function) {
-      dismiss();
-      feature.value.splice(index, 1);
+      this.feature = "";
       this.$nextTick(() => {
-        feature.activeFeature[this.selectedLocale] = index - 1;
+        f.activeFeature = length - 1;
       });
     }
+  }
+  removeFeature(feature: IFeature, index: number, dismiss: Function) {
+    dismiss();
+    feature.value.splice(index, 1);
+    this.$nextTick(() => {
+      feature.activeFeature = index - 1;
+    });
+  }
 
-    amenitiesTab = 1;
-    toggleAmenitiesTab() {
-      this.feature = "";
-      if (this.amenitiesTab > 0) {
-        setTimeout(() => {
-          this.amenitiesTab = 0;
-        });
-      }
+  readonly amenities = {
+    ...[
+      Amenities.BATH_PERSONAL_CARE,
+      Amenities.OFFICE_EQUIPMENT_STATIONERY,
+      Amenities.MEDIA_ENTERTAINMENT,
+      Amenities.REFRESHMENTS,
+      Amenities.OTHER
+    ].reduce(
+      (acc, cur) => ({
+        ...acc,
+        [cur]: {
+          [this.locale]: {
+            value: [],
+            activeFeature: 0
+          }
+        }
+      }),
+      {}
+    ),
+    expansionIndex: 20,
+    schema: validationSchema.feature,
+    items: [
+      "Bath personal care",
+      "Office equipment stationery",
+      "Media entertainment",
+      "Refreshments",
+      "Other"
+    ]
+  };
+  amenityTab = 1;
+  toggleAmenitiesTab() {
+    this.feature = "";
+    if (this.amenityTab > 0) {
+      setImmediate(() => {
+        this.amenityTab = 0;
+      });
     }
+  }
+  // readonly accommodationModel = getAccommodationModel(this.locale);
+  // readonly unitSystemItems = [
+  //   { text: "SQ FT", value: UnitSystems.SQ_FT },
+  //   { text: "SQ M", value: UnitSystems.SQ_M }
+  // ];
 
-    onLocaleClick() {
-      console.log("Attempt to open");
-      this.expansionModel = this.validateForm();
-      if (this.expansionModel !== null) {
-        return;
-      }
-      this.isLanguageMenuOpen = true;
-      console.log(this.isLanguageMenuOpen, this.expansionModel);
-    }
+  // readonly occupancyTypeItems = ["SGL", "DBL", "TPL", "QPL"];
+  // readonly mealTypeItems = [
+  //   // --> translated
+  //   MealTypes.BB,
+  //   MealTypes.HB,
+  //   MealTypes.HB_Plus,
+  //   MealTypes.FB,
+  //   MealTypes.AI
+  // ];
 
-    /*{
+  // readonly viewTypeItems = ["Ocean", "Sea", "Mountain", "Lake", "City", "None"];
+  // readonly amenities = [
+  //   {
+  //     type: Amenities.BATH_PERSONAL_CARE,
+  //     text: "Bath personal care"
+  //   },
+  //   {
+  //     type: Amenities.OFFICE_EQUIPMENT_STATIONERY,
+  //     text: "Office equipment stationery"
+  //   },
+  //   {
+  //     type: Amenities.MEDIA_ENTERTAINMENT,
+  //     text: "Media entertainment"
+  //   },
+  //   {
+  //     type: Amenities.REFRESHMENTS,
+  //     text: "Refreshments"
+  //   },
+  //   {
+  //     type: Amenities.OTHER,
+  //     text: "Other"
+  //   }
+  // ];
+  // get unitSystem() {
+  //   return this.unitSystemItems.find(
+  //     ({ value }) => value === this.accommodationModel.size.unitSystem
+  //   );
+  // }
+  // get supportedBedTypes() {
+  //   return this.accommodationModel.bed.value.join(" / ");
+  // }
+  // get maxOccupancy() {
+  //   const { value } = this.accommodationModel.occupancy;
+  //   if (value <= OccupancyTypes.QPL) {
+  //     return this.occupancyTypeItems[value - 1];
+  //   }
+  //   return value;
+  // }
+  // get supportedMealPlans() {
+  //   return this.accommodationModel.meals.value.join(" / ");
+  // }
+  // get roomViews() {
+  //   return this.accommodationModel.roomView.value.join(", ");
+  // }
+
+  // get view() {
+  //   return (
+  //     this.accommodationModel.view.value || this.viewTypeItems.slice(-1)[0]
+  //   );
+  // }
+  // set view(value: string) {
+  //   this.accommodationModel.view.value = value;
+  // }
+
+  onLocaleClick() {
+    // console.log("Attempt to open");
+    // this.expansionModel = this.validateForm();
+    // if (this.expansionModel !== null) {
+    //   return;
+    // }
+    // this.isLanguageMenuOpen = true;
+    // console.log(this.isLanguageMenuOpen, this.expansionModel);
+  }
+
+  /*{
     categoryRoomCount: {
       order: 1,
       initialValue: 1,
@@ -1324,50 +1505,50 @@
       ]
     }
   };*/
-    // todo: need to take data from vuex
+  // todo: need to take data from vuex
 
-    // private categoryName = "";
-    // private categoryNameValidators: Array<() => string | boolean> = [];
+  // private categoryName = "";
+  // private categoryNameValidators: Array<() => string | boolean> = [];
 
-    // private categoryRoomCount = 1;
-    // private categoryRoomCountValidators: Array<() => string | boolean> = [];
-    mounted() {
-      console.log(Locales.RU, this.bedTypeItems);
-      // setTimeout(() => {
-      //   this.contentLoaded = true;
-      // }, 7000);
-      // this.categoryNameValidators = [
-      //   formFieldValidator(
-      //     () => document.getElementById("categoryNameField") as HTMLInputElement
-      //   )
-      // ];
-      // this.categoryRoomCountValidators = [
-      //   formFieldValidator(
-      //     () =>
-      //       document.getElementById("categoryRoomCountField") as HTMLInputElement
-      //   )
-      // ];
-    }
+  // private categoryRoomCount = 1;
+  // private categoryRoomCountValidators: Array<() => string | boolean> = [];
+  mounted() {
+    // console.log(Locales.RU, this.bedTypeItems);
+    // setTimeout(() => {
+    //   this.contentLoaded = true;
+    // }, 7000);
+    // this.categoryNameValidators = [
+    //   formFieldValidator(
+    //     () => document.getElementById("categoryNameField") as HTMLInputElement
+    //   )
+    // ];
+    // this.categoryRoomCountValidators = [
+    //   formFieldValidator(
+    //     () =>
+    //       document.getElementById("categoryRoomCountField") as HTMLInputElement
+    //   )
+    // ];
+  }
 
-    validateForm() {
-      if (!this.accommodationFormRef.validate()) {
-        const { category, count, bed, meals } = this.accommodationModel;
-        for (const { rules = [], expansionIndex = null } of [
-          category,
-          count,
-          bed,
-          meals
-        ]) {
-          for (const rule of rules) {
-            if (rule() !== true) {
-              return expansionIndex;
-            }
-          }
-        }
-      }
-      return null;
-    }
-    /* private validateForm() {
+  // validateForm() {
+  //   if (!this.accommodationFormRef.validate()) {
+  //     const { category, count, bed, meals } = this.accommodationModel;
+  //     for (const { rules = [], expansionIndex = null } of [
+  //       category,
+  //       count,
+  //       bed,
+  //       meals
+  //     ]) {
+  //       for (const rule of rules) {
+  //         if (rule() !== true) {
+  //           return expansionIndex;
+  //         }
+  //       }
+  //     }
+  //   }
+  //   return null;
+  // }
+  /* private validateForm() {
     console.log("validateForm", this.accommodationFormRef);
     if (this.accommodationFormRef && this.accommodationFormRef.validate()) {
       console.log("form valid", this.expansionModel);
@@ -1395,9 +1576,9 @@
       console.log("this.expansionModel => ", this.expansionModel);
     }
   } */
-    get isContentLoading() {
-      return !this.contentLoaded;
-    }
-    // private rooms = [];
+  get isContentLoading() {
+    return !this.contentLoaded;
   }
+  // private rooms = [];
+}
 </script>
