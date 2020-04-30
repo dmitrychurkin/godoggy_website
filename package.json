@@ -44,7 +44,7 @@
     "axios": "^0.19.1",
     "bootstrap": "^4.4.1",
     "font-awesome": "^4.7.0",
-    "jquery": "^3.4",
+    "jquery": "^3.5",
     "lodash": "^4.17.15",
     "materialize-css": "^1.0.0",
     "photoswipe": "^4.1.3",
